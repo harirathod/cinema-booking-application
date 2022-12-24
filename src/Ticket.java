@@ -42,7 +42,10 @@ public class Ticket
         + "Seat Number: " + seatNumber + "\n"
         + "Cost: " + cost + "\n"
         + "Date: " + date + "\n";
+        String dashes = "------------------------------";
+        System.out.println(dashes);
         System.out.println(details);
+        System.out.println(dashes);
     }
     
     /**
