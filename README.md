@@ -8,9 +8,6 @@ My continued learning of important programming principles including:
 
 - JUnits
 - Test-driven development
-- Documentation of methods
+- Documentation
 
 is demonstrated through this project.
-
-The application can be extended to include a GUI. 
-
