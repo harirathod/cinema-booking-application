@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
 public class TicketOfficeTest
 {
     TicketOffice ticketOffice = new TicketOffice();
-    Screen screen = new Screen(0, 10, 26);
-    Screen screen2 = new Screen(1, 12, 32);
+    Screen screen1 = new Screen(1, 13, 12);
+    Screen screen2 = new Screen(2, 31, 5);
     
     /**
      * Default constructor for test class TicketOfficeTest
@@ -31,8 +31,6 @@ public class TicketOfficeTest
     @BeforeEach
     public void setUp()
     {
-        ticketOffice.addScreen(screen);
-        ticketOffice.addScreen(screen2);
     }
 
     /**
@@ -44,15 +42,61 @@ public class TicketOfficeTest
     public void tearDown()
     {
     }
-    
+
     /**
-     * Test the find screen method.
+     * Test if the correct screen is found.
      */
     @Test
     public void testFindScreen()
     {
-        assertEquals(screen,ticketOffice.findScreen(0));
-        assertEquals(screen2, ticketOffice.findScreen(1));
-        assertEquals(null, ticketOffice.findScreen(2));
+        ticketOffice.addScreen(1, 21, 13);
+        
+        ticketOffice.addScreen(screen2);
+        assertEquals(screen2, ticketOffice.findScreen(2));
+        
+        Screen screen3 = new Screen(2, 13, 2);
+        ticketOffice.addScreen(screen2);
+        assertEquals(screen2, ticketOffice.findScreen(2));
+    }
+
+    /**
+     * Test if adding a movie to a screen works correctly.
+     */
+    @Test
+    public void testAddMovie()
+    {
+        assertEquals(false, ticketOffice.addNewMovie(1, "Who?", 900));
+        
+        ticketOffice.addScreen(1, 10, 10);
+        assertEquals(true, ticketOffice.addNewMovie(1, "Where?", 1000));
+    }
+    
+    /**
+     * Test if the add screen method works correctly.
+     */
+    @Test
+    public void testAddScreen()
+    {
+        assertEquals(false, ticketOffice.addScreen(null));
+        assertEquals(true, ticketOffice.addScreen(1, 21, 13));
+        assertEquals(false, ticketOffice.addScreen(1, 0, 13));
+        assertEquals(true, ticketOffice.addScreen(2, 0, 13));
+        
+        assertEquals(false, ticketOffice.addScreen(screen1));
+        assertEquals(false, ticketOffice.addScreen(screen2));
+    }
+    
+    /**
+     * Test if a ticket is correctly booked.
+     */
+    @Test
+    public void testBookTicket()
+    {
+        screen1.addNewMovie("Batman: Dark of the Moon", 2600);
+        ticketOffice.addScreen(screen1);
+        Ticket ticket = ticketOffice.bookTicket("Batman: Dark of the Moon", 7, 6);
+        assertEquals(ticket.getMovieTitle(), "Batman: Dark of the Moon");
+        assertEquals(ticket.getSeatNumber(), 7);
+        assertEquals(ticket.getRowNumber(), 6);
     }
 }
