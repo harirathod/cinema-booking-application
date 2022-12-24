@@ -156,14 +156,6 @@ public class Screen
         return new Ticket(id, movieTitle, seatNumber, rowNumber, ticketCost,
         LocalDateTime.now());
     }
-    /*
-     * Get a best ticket (a ticket closest to the centre of the room).
-     * @return A ticket closest to the centre of the room.
-     */
-    /*public Ticket getBestTicket()
-    {
-        
-    }*/
     
     /**
      * Get the title of the movie showing in a screen.
