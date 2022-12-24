@@ -78,7 +78,7 @@ public class Screen
      * @return True if the booking was successful, false if it was not (if
      * the seat was already booked).
      */
-    public boolean book(int seatNumber, int rowNumber)
+    protected boolean book(int seatNumber, int rowNumber)
     {
         // entering a value of 1 should access element 0 of the array
         seatNumber = seatNumber - 1;
@@ -146,6 +146,16 @@ public class Screen
         ticketCost, LocalDateTime.now());
     }
     
+    /**
+     * Get a specified seat.
+     * @return A ticket object if the seat is available, else return null.
+     */
+    public Ticket getTicket(int seatNumber, int rowNumber)
+    {
+        book(seatNumber, rowNumber);
+        return new Ticket(id, movieTitle, seatNumber, rowNumber, ticketCost,
+        LocalDateTime.now());
+    }
     /*
      * Get a best ticket (a ticket closest to the centre of the room).
      * @return A ticket closest to the centre of the room.
