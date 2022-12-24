@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class Ticket
 {
     private int screenId;    // the screen id in which the movie is being shown
-    private String nameOfMovie;
+    private String movieTitle;
     private int rowNumber;
     private int seatNumber;   // column number = seat number
     private int cost;
@@ -19,11 +19,11 @@ public class Ticket
     /**
      * Constructor for objects of class Ticket
      */
-    public Ticket(int screenId, String nameOfMovie, int seatNumber, int rowNumber,
+    public Ticket(int screenId, String movieTitle, int seatNumber, int rowNumber,
     int cost, LocalDateTime date)
     {
         this.screenId = screenId;
-        this.nameOfMovie = nameOfMovie;
+        this.movieTitle = movieTitle;
         this.rowNumber = rowNumber;
         this.seatNumber = seatNumber;
         this.cost = cost;
@@ -37,11 +37,38 @@ public class Ticket
     {
         String details = "";
         details += "Screen ID: " + screenId + "\n"
-        + "Movie Title: " + nameOfMovie + "\n"
+        + "Movie Title: " + movieTitle + "\n"
         + "Row Number: " + rowNumber + "\n"
         + "Seat Number: " + seatNumber + "\n"
         + "Cost: " + cost + "\n"
         + "Date: " + date + "\n";
         System.out.println(details);
+    }
+    
+    /**
+     * Get the name of the movie the ticket has been booked for.
+     * @return The name of the movie.
+     */
+    public String getMovieTitle()
+    {
+        return movieTitle;
+    }
+    
+    /**
+     * Get the row number the ticket has been booked for.
+     * @return The row number.
+     */
+    public int getRowNumber()
+    {
+        return rowNumber;
+    }
+    
+    /**
+     * Get the seat number the ticket has been booked for.
+     * @return The seat number.
+     */
+    public int getSeatNumber()
+    {
+        return seatNumber;
     }
 }
