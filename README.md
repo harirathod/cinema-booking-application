@@ -6,5 +6,5 @@ The project models a multiplex cinema, complete with a ticket office. In this ti
 
 My continued learning of these important programming principles is demonstrated through this project:
 
-- JUnits
+- JUnit
 - Test-driven development
