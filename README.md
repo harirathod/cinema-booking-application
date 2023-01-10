@@ -8,3 +8,7 @@ My continued learning of these important programming principles is demonstrated 
 
 - JUnit testing
 - Test-driven development
+
+___
+
+###### 🚨 Once the parser is completed, the user will be able to interact with the cinema model from the terminal.
