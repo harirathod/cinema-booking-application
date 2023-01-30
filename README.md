@@ -11,4 +11,4 @@ My continued learning of these important programming principles is demonstrated 
 
 ___
 
-###### 🚨 Once the parser is completed, the user will be able to interact with the cinema model from the terminal.
+###### Currently under development. GUI and Parser needs to be added.
