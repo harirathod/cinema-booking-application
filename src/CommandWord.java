@@ -7,7 +7,7 @@
 public enum CommandWord {
     HELP("help"), QUIT("quit"), UNKNOWN(null), BOOK("book");
 
-    private final String commandString;
+    private String commandString;
     CommandWord(String commandString)
     {
         this.commandString = commandString;

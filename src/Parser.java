@@ -4,32 +4,27 @@
  * @version 2023.01.31
  */
 
-import java.sql.SQLOutput;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Parser {
     private Scanner scanner;                // scanner to read input
     private CommandWordConverter commandWords;       // a list of all the command words
 
-
-    public static void main(String[] args) {
-        Parser parser = new Parser();
-        parser.readInput();
-    }
-
+    /**
+     * Constructor to initialise the fields.
+     */
     public Parser() {
         scanner = new Scanner(System.in);
     }
 
     /**
-     * Read the next line of input and reformat the 'String + String + ...' line as 'CommandWord + String + ...' instead.
-     * @return The next line, in the format 'CommandWord + String + String + ...' depending on how many words the Parser allows as input.
+     * Read the next line of input and convert the String input to a complete Command.
+     * @return The next line, in the format of a complete Command.
      */
     public Command readInput()
     {
-        String commandWord = null;
-        String secondWord = null;
+        String commandWord = null;               // first word defines the command
+        String secondWord = null;               // second word defines the object (or subject) of the command
 
         System.out.print("> ");
         String inputLine = scanner.nextLine().toLowerCase();      // process the next line
@@ -39,13 +34,12 @@ public class Parser {
         for(int i = 0; i < inputWords.length; i++) {
             inputWords[i] = inputWords[i].trim();
         }
-        if(inputWords.length > 0) {
-            commandWord = inputWords[0];        // first word defines the command
-            if(inputWords.length > 1) {
-                secondWord = inputWords[1];     // second word defines the object / subject of the command
+        if(inputWords.length > 0) {             // prevent IndexOutOfBoundsException, by checking how many words have been provided
+            commandWord = inputWords[0];
+            if (inputWords.length > 1) {
+                secondWord = inputWords[1];
             }
         }
-
         return new Command(CommandWordConverter.toCommandWord(commandWord), secondWord);
     }
 }
