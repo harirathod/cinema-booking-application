@@ -4,24 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1dc74fa9-c31d-4cd1-9a9f-dccd7e543f8b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cinema-v2.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/CommandWord.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Parser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Screen.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ScreenTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Seat.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SeatTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Ticket.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/TicketOffice.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/TicketOfficeTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="1dc74fa9-c31d-4cd1-9a9f-dccd7e543f8b" name="Changes" comment="Initial Commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -105,17 +88,92 @@
       <option name="presentableId" value="Default" />
       <updated>1675157602446</updated>
     </task>
+    <task id="LOCAL-00001" summary="Initial Commit">
+      <created>1675161495345</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1675161495345</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
+        <entry key="05a97e25-7c8b-41ac-98b3-e0b7c4521818">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="e0f1f612-b682-43e0-ae95-e49a91485b4c">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="ed5fdc85-87ad-490e-af71-3eb73d565b43">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial Commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial Commit" />
   </component>
 </project>
