@@ -1,3 +1,8 @@
+/**
+ * This enumeration class defines the command words available.
+ * @author Hari Rathod
+ * @version 2023.01.31
+ */
 
 public enum CommandWord {
     HELP("help"), QUIT("quit"), UNKNOWN(null), BOOK("book");

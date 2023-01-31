@@ -1,3 +1,9 @@
+/**
+ * This class processes individual lines of user input. It converts the input from a String into a Command, and returns it.
+ * @author Hari Rathod
+ * @version 2023.01.31
+ */
+
 import java.util.Scanner;
 
 public class Parser {
@@ -18,11 +24,12 @@ public class Parser {
      * Read the next line of input and reformat the 'String + String + ...' line as 'CommandWord + String + ...' instead.
      * @return The next line, in the format 'CommandWord + String + String + ...' depending on how many words the Parser allows as input.
      */
-    public CommandWord readInput()
+    public Command readInput()
     {
         System.out.print("> ");
         String input = scanner.nextLine();      // process the next line
-        Scanner readInput = new Scanner(input.toLowerCase());
+        input = input.toLowerCase();
+        Scanner readInput = new Scanner(input);
         String commandWord = null;              // first word defines the command
         String secondWord = null;               // second word defines the object / subject of the command
         if(readInput.hasNext()) {
@@ -31,6 +38,6 @@ public class Parser {
                 secondWord = readInput.next();
             }
         }
-        return CommandWordConverter.toCommandWord(commandWord) + " " + secondWord;
+        return new Command(CommandWordConverter.toCommandWord(commandWord), secondWord);
     }
 }
