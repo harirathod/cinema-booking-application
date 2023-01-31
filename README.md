@@ -12,5 +12,5 @@ My continued learning of these important programming principles is demonstrated 
 
 ___
 
-###### Currently under development. GUI and Parser needs to be added.
+###### Currently under development.
 
