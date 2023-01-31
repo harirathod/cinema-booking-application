@@ -12,7 +12,7 @@ public class Parser {
     {
         String commandWord = null;
         String secondWord = null;
-        if(scanner.hasNext()) {
+        if(scanner.hasNext()) {             //lol
             commandWord = scanner.next();
             if(scanner.hasNext()) {
                 secondWord = scanner.next();
