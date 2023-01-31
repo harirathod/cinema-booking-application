@@ -1,0 +1,19 @@
+
+public enum CommandWord {
+    HELP("help"), QUIT("quit"), UNKNOWN(null), BOOK("book");
+
+    private final String commandString;
+    CommandWord(String commandString)
+    {
+        this.commandString = commandString;
+    }
+
+    /**
+     * Get the command string associated with a command word.
+     * @return The command string associated with a command word.
+     */
+    public String toString()
+    {
+        return commandString;
+    }
+}
