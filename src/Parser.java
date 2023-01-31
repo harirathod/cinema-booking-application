@@ -5,13 +5,19 @@ public class Parser {
 
 
     public Parser() {
-        Scanner scanner = new Scanner(System.in);
+        scanner = new Scanner(System.in);
     }
 
     public String processInput()
     {
-        String word1 = null;
-        String word2 = null;
-        return null;
+        String commandWord = null;
+        String secondWord = null;
+        if(scanner.hasNext()) {
+            commandWord = scanner.next();
+            if(scanner.hasNext()) {
+                secondWord = scanner.next();
+            }
+        }
+        return commandWord + " " + secondWord;
     }
 }
