@@ -1,8 +1,8 @@
 /**
- * This class is the central class that links the parsing and screening classes together. It creates the parser and ticket office,
- * and defines the functionality of command words with respect to the ticket office.
+ * This class is the central class that links the parsing and screening classes together. It implements the functionality of
+ * commands and evaluates them, as the parser returns them.
  * @author Hari Rathod
- * @version 2023.01.31
+ * @version 2023.02.01
  */
 
 public class Booking {
@@ -19,13 +19,19 @@ public class Booking {
     }
 
     /**
-     *
+     * Start the booking, and continue to process user input until the user quits the application.
      */
     public void start()
     {
-
+        System.out.println("Welcome to Glacier Cinema!");
+        boolean notFinished = true;
+        while(notFinished) {
+            evaluateCommand(parser.readInput());            // while the user is not finished, get the next command and evaluate it
+        }
+        System.out.println("Thanks for visiting!");
     }
 
+    public void evaluateCommand(Command command);
     private void help();
     private void quit();
     private void book(Command command);
