@@ -19,7 +19,7 @@ public class Booking {
     }
 
     /**
-     * Start the booking, and continue to process user input until the user quits the application.
+     * Starts the booking, and continue to process user input until the user quits the application.
      */
     public void start()
     {
@@ -28,11 +28,37 @@ public class Booking {
         while(notFinished) {
             evaluateCommand(parser.readInput());            // while the user is not finished, get the next command and evaluate it
         }
-        System.out.println("Thanks for visiting!");
+        System.out.println("Thanks for visiting, and have a great time!");
     }
 
-    public void evaluateCommand(Command command);
-    private void help();
+    /**
+     * Evaluates the command entered. If null is entered, it evaluates the command as Command.UNKNOWN.
+     * @param command The command to evaluate.
+     */
+    public void evaluateCommand(Command command)
+    {
+        if(command == null) {
+            unknown();
+            return;
+        }
+        switch (command.getCommandWord()) {
+            case HELP -> help();
+            case BOOK -> book(command);
+            case QUIT -> quit();
+            default -> unknown();
+        }
+    }
+
+    /**
+     * Provide helpful information for the user.
+     */
+    private void help()
+    {
+        System.out.println("With our booking platform you can book movies, etc.");
+        System.out.println(parser.getAllCommands());
+    }
     private void quit();
     private void book(Command command);
+
+    private void unknown();
 }

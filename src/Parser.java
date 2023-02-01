@@ -42,4 +42,13 @@ public class Parser {
         }
         return new Command(CommandWordConverter.toCommandWord(commandWord), secondWord);
     }
+
+    /**
+     * Get a list of all valid commands, formatted as 'Commands: help, book, quit'
+     * @return A string that describes the valid commands.
+     */
+    public String getAllCommands()
+    {
+        return null;
+    }
 }
