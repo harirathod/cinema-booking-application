@@ -1,6 +1,7 @@
 /**
- * This class is the central class that links the parsing and screening classes together. It implements the functionality of
- * commands and evaluates them, as the parser returns them.
+ * This class is to be used when the customer is making a booking.
+ *
+ * This class implements the functionality of commands and evaluates them.
  * @author Hari Rathod
  * @version 2023.02.05
  */
@@ -26,7 +27,7 @@ public class CustomerBooking {
         System.out.println("Welcome to Glacier Cinema!");
         boolean finished = false;
         while(!finished) {
-            finished = evaluateCommand(parser.readInput());            // while the user is not finished, get the next command and evaluate it
+            finished = evaluateCommand(parser.readInput());     // while the user is not finished, get the next command and evaluate it
         }
         System.out.println("Thanks for visiting, and have a great time!");
         System.out.println(getSeparator());
@@ -48,6 +49,7 @@ public class CustomerBooking {
         switch (command.getCommandWord()) {
             case HELP -> help();
             case BOOK -> book(command);
+            case LIST -> list(command);
             case QUIT -> { return true; }
             default -> unknown();
         }
@@ -81,6 +83,17 @@ public class CustomerBooking {
         /* if a movie title has not been matched with the movie booking requested, only then will the bookError() line be
         reached. Otherwise, the method will return once a match is found. */
         bookError();
+    }
+
+    /**
+     * List all the movies currently available.
+     * @param command The command should have no second word. The purpose of the parameter being passed, is to
+     *               ensure the user is not expecting something different to be listed than what is programmed, if they
+     *                type 'list timings', for example.
+     */
+    private void list(Command command)
+    {
+
     }
 
     /**
