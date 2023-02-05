@@ -13,9 +13,9 @@ My continued learning of these important programming principles is demonstrated 
 
 # Room for Improvement
 - Add a customer booking with commands for the customer. Add manager booking for the manager, where the manager can input commands to add movies, change ticket prices etc. This could be 
-hooked up to a database, so changes made by the manager are saved.
+hooked up to a database, so changes made by the manager are saved. Use inheritance for CustomerBooking and ManagerControl?
 - Add list command that lists movies.
-
+- Add ManagerCommandWords and CustomerCommandWords. Use inheritance?
 ___
 
 ###### Currently under development.
