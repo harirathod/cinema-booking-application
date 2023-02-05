@@ -2,7 +2,7 @@
  * This class is the central class that links the parsing and screening classes together. It implements the functionality of
  * commands and evaluates them, as the parser returns them.
  * @author Hari Rathod
- * @version 2023.02.01
+ * @version 2023.02.05
  */
 
 public class Booking {
@@ -37,6 +37,7 @@ public class Booking {
      */
     public void evaluateCommand(Command command)
     {
+        System.out.println(getSeparator());
         if(command == null) {
             unknown();
             return;
@@ -47,6 +48,7 @@ public class Booking {
             //case QUIT -> quit();
             default -> unknown();
         }
+        System.out.println(getSeparator());
     }
 
     /**
@@ -54,8 +56,10 @@ public class Booking {
      */
     private void help()
     {
+        System.out.println(getSeparator());
         System.out.println("With our booking platform you can book movies, etc.");
         System.out.println(parser.getAllCommands());
+        System.out.println(getSeparator());
     }
     /*private void quit();
     private void book(Command command);*/
@@ -63,5 +67,14 @@ public class Booking {
     private void unknown()
     {
         System.out.println("Sorry, we didn't understand what you meant.\nPlease enter 'help' for more advice.");
+    }
+
+    /**
+     * Return a line of dashes, that can be used to separate sections of text. Use to increase readability.
+     * @return A line of dashes, to separate sections of text.
+     */
+    private String getSeparator()
+    {
+        return "     ----------------------------     ";
     }
 }
