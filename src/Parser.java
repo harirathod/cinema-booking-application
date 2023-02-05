@@ -10,6 +10,7 @@ public class Parser {
     private Scanner scanner;                // scanner to read input
     private CommandWordConverter commandWords;       // a list of all the command words
 
+
     /**
      * Constructor to initialise the fields.
      */
@@ -49,6 +50,12 @@ public class Parser {
      */
     public String getAllCommands()
     {
-        return null;
+        String formattedString = "Commands: ";
+        for(CommandWord command : CommandWord.values()) {
+            if(command.toString() != null) {
+                formattedString += command.toString() + ", ";
+            }
+        }
+        return formattedString;
     }
 }

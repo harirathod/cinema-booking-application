@@ -43,8 +43,8 @@ public class Booking {
         }
         switch (command.getCommandWord()) {
             case HELP -> help();
-            case BOOK -> book(command);
-            case QUIT -> quit();
+            //case BOOK -> book(command);
+            //case QUIT -> quit();
             default -> unknown();
         }
     }
@@ -57,8 +57,11 @@ public class Booking {
         System.out.println("With our booking platform you can book movies, etc.");
         System.out.println(parser.getAllCommands());
     }
-    private void quit();
-    private void book(Command command);
+    /*private void quit();
+    private void book(Command command);*/
 
-    private void unknown();
+    private void unknown()
+    {
+        System.out.println("Sorry, we didn't understand what you meant.\nPlease enter 'help' for more advice.");
+    }
 }
