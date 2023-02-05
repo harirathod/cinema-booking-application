@@ -1,4 +1,6 @@
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Class TicketOffice is manages the other class. It is through this class
@@ -134,5 +136,17 @@ public class TicketOffice
                 .map(screen -> screen.getTicket(seatNumber, rowNumber))
                 .findFirst()
                 .orElse(null);
+    }
+
+    /**
+     * Get a collection of all movies available.
+     */
+    public Set<String> getAllMovieTitles()
+    {
+        Set<String> allMovieTitles  = new HashSet<>();
+        for(Screen screen : screens.values()) {
+            allMovieTitles.add(screen.getMovieTitle());
+        }
+        return allMovieTitles;
     }
 }
