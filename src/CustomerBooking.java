@@ -86,7 +86,7 @@ public class CustomerBooking {
     }
 
     /**
-     * List all the movies currently available.
+     * List all the movies
      * @param command The command should have no second word. The purpose of the parameter being passed, is to
      *               ensure the user is not expecting something different to be listed than what is programmed, if they
      *                type 'list timings', for example.
