@@ -11,6 +11,11 @@ My continued learning of these important programming principles is demonstrated 
 - JUnit testing
 - Test-driven development
 
+# Room for Improvement
+- Add a customer booking with commands for the customer. Add manager booking for the manager, where the manager can input commands to add movies, change ticket prices etc. This could be 
+hooked up to a database, so changes made by the manager are saved.
+- Add list command that lists movies.
+
 ___
 
 ###### Currently under development.

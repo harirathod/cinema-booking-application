@@ -5,14 +5,14 @@
  * @version 2023.02.05
  */
 
-public class Booking {
+public class CustomerBooking {
     private Parser parser;
     private TicketOffice office;
 
     /**
      * Constructor to initialise fields.
      */
-    public Booking()
+    public CustomerBooking()
     {
         parser = new Parser();
         office = new TicketOffice();
