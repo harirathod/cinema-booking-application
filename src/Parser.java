@@ -1,7 +1,7 @@
 /**
  * This class processes individual lines of user input. It converts the input from a String into a Command, and returns it.
  * @author Hari Rathod
- * @version 2023.01.31
+ * @version 2023.02.05
  */
 
 import java.util.Scanner;
@@ -50,7 +50,7 @@ public class Parser {
      */
     public String getAllCommands()
     {
-        String formattedString = "Commands: ";
+        String formattedString = "Commands available: ";
         for(CommandWord command : CommandWord.values()) {
             if(command.toString() != null) {
                 formattedString += command.toString() + ", ";

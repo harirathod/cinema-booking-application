@@ -44,8 +44,8 @@ public class Booking {
         }
         switch (command.getCommandWord()) {
             case HELP -> help();
-            //case BOOK -> book(command);
-            //case QUIT -> quit();
+//            case BOOK -> book(command);
+//            case QUIT -> quit();
             default -> unknown();
         }
         System.out.println(getSeparator());
@@ -56,11 +56,10 @@ public class Booking {
      */
     private void help()
     {
-        System.out.println(getSeparator());
         System.out.println("With our booking platform you can book movies, etc.");
         System.out.println(parser.getAllCommands());
-        System.out.println(getSeparator());
     }
+
     /*private void quit();
     private void book(Command command);*/
 

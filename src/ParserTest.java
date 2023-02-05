@@ -1,6 +1,11 @@
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
+/**
+ * Test class for Parser.
+ * @author Hari Rathod
+ * @version 2023.02.05
+ */
 public class ParserTest {
     Parser parser = new Parser();
 
@@ -27,6 +32,6 @@ public class ParserTest {
     @Test
     public void testGetAllCommands()
     {
-        assertEquals("Commands: help, quit, book, ", parser.getAllCommands());
+        assertEquals("Commands available: help, quit, book, ", parser.getAllCommands());
     }
 }
