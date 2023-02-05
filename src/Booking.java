@@ -29,15 +29,17 @@ public class Booking {
             finished = evaluateCommand(parser.readInput());            // while the user is not finished, get the next command and evaluate it
         }
         System.out.println("Thanks for visiting, and have a great time!");
+        System.out.println(getSeparator());
     }
 
     /**
-     * Evaluates the command entered. If null is entered, it evaluates the command as Command.UNKNOWN.
+     * Process and evaluate the command entered by calling appropriate methods.
+     * If null is entered, it evaluates the command as Command.UNKNOWN.
      * @param command The command to evaluate.
+     * @return  True if the user wants to quit, false if not.
      */
     public boolean evaluateCommand(Command command)
     {
-        boolean haveFinished = false;
         System.out.println(getSeparator());
         if(command == null) {
             unknown();
@@ -45,12 +47,12 @@ public class Booking {
         }
         switch (command.getCommandWord()) {
             case HELP -> help();
-//            case BOOK -> book(command);
-            case QUIT -> haveFinished = true;
+            case BOOK -> book(command);
+            case QUIT -> { return true; }
             default -> unknown();
         }
         System.out.println(getSeparator());
-        return haveFinished;
+        return false;
     }
 
     /**
@@ -62,12 +64,39 @@ public class Booking {
         System.out.println(parser.getAllCommands());
     }
 
+    /**
+     * Books a random seat for given movie title. Parameter should be passed at 'BOOK movie', where 'movie' is allowed
+     * to consist of spaces. If the movie does not exist, nothing will be booked, and an error will be printed.
+     * Throws NullPointerException if 'null' is passed in.
+     * @param command The command should be entered as 'BOOK movie'.
+     */
+    private void book(Command command)
+    {
+        for (String movieTitle : office.getAllMovieTitles()) {
+            if(movieTitle.equals(command.getSecondWord())) {
+                office.bookRandomTicket(movieTitle);
+                return;
+            }
+        }
+        /* if a movie title has not been matched with the movie booking requested, only then will the bookError() line be
+        reached. Otherwise, the method will return once a match is found. */
+        bookError();
+    }
 
-    //private void book(Command command);
-
+    /**
+     * Print an error message, if the command is unrecognised.
+     */
     private void unknown()
     {
         System.out.println("Sorry, we didn't understand what you meant.\nPlease enter 'help' for more advice.");
+    }
+
+    /**
+     * Print an error message, if there is an error with booking a specific movie.
+     */
+    private void bookError()
+    {
+        System.out.println("Sorry, we couldn't find the movie you were looking for.");
     }
 
     /**
@@ -76,6 +105,6 @@ public class Booking {
      */
     private String getSeparator()
     {
-        return "     ----------------------------     ";
+        return "    ---------------------------------    ";
     }
 }
