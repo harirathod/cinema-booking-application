@@ -5,7 +5,7 @@
  */
 
 public enum CommandWord {
-    HELP("help"), QUIT("quit"), BOOK("book"), UNKNOWN(null);
+    HELP("help"), QUIT("quit"), BOOK("book"), LIST("list"), UNKNOWN(null);
 
     private String commandString;
     CommandWord(String commandString)
