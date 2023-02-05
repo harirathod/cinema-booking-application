@@ -24,9 +24,9 @@ public class Booking {
     public void start()
     {
         System.out.println("Welcome to Glacier Cinema!");
-        boolean notFinished = true;
-        while(notFinished) {
-            evaluateCommand(parser.readInput());            // while the user is not finished, get the next command and evaluate it
+        boolean finished = false;
+        while(!finished) {
+            finished = evaluateCommand(parser.readInput());            // while the user is not finished, get the next command and evaluate it
         }
         System.out.println("Thanks for visiting, and have a great time!");
     }
@@ -35,20 +35,22 @@ public class Booking {
      * Evaluates the command entered. If null is entered, it evaluates the command as Command.UNKNOWN.
      * @param command The command to evaluate.
      */
-    public void evaluateCommand(Command command)
+    public boolean evaluateCommand(Command command)
     {
+        boolean haveFinished = false;
         System.out.println(getSeparator());
         if(command == null) {
             unknown();
-            return;
+            return false;
         }
         switch (command.getCommandWord()) {
             case HELP -> help();
 //            case BOOK -> book(command);
-//            case QUIT -> quit();
+            case QUIT -> haveFinished = true;
             default -> unknown();
         }
         System.out.println(getSeparator());
+        return haveFinished;
     }
 
     /**
@@ -60,8 +62,8 @@ public class Booking {
         System.out.println(parser.getAllCommands());
     }
 
-    /*private void quit();
-    private void book(Command command);*/
+
+    //private void book(Command command);
 
     private void unknown()
     {
