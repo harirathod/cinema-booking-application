@@ -32,4 +32,13 @@ public class Command {
     {
         return secondWord;
     }
+
+    /**
+     * Check if the command has a second word.
+     * @return True if the command has a second word, false if it doesn't have a second word or if the second word is null.
+     */
+    public boolean hasSecondWord()
+    {
+        return !(secondWord == null || secondWord.isBlank());
+    }
 }
