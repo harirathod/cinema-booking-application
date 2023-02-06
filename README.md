@@ -1,4 +1,4 @@
-# Cinema
+# Cinema Booking App
 
 # Table of Contents
 1. **[Overview](#overview)**
