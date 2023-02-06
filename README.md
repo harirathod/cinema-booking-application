@@ -32,12 +32,12 @@ git clone https://github.com/harirathod/cinema-booking-application.git
 cd cinema-booking-application/src/
 ```
 
-3. Run the application with the following commands:
+2. Start the application with the following commands:
 ```shell
 javac Main.java
 java Main
 ```
-
+    Make sure you have the JRE (Java Runtime Environment) installed.
 And you're done! You can now try out the cinema booking application via the terminal!
 
 ## Project Status
