@@ -5,9 +5,8 @@
 - **[Technologies Used](#technologies-used)**
 - **[Purpose of Project](#purpose-of-project)**
 - **[Using the Project Yourself](#using-the-project-yourself)**
-- **[Room for Improvement](#room-for-improvement)**
 - **[Project Status](#project-status)**
-
+- **[Room for Improvement](#room-for-improvement)**
 # Overview
 
 This is a cinema booking application that can be interacted with, via the terminal.
