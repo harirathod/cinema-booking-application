@@ -9,12 +9,14 @@
 - **[Room for Improvement](#room-for-improvement)**
 ## Overview
 
-This is a cinema booking application that can be interacted with, via the terminal.
+This is a cinema booking application that runs in the terminal. 
 
 ## Technologies Used
 - Java 18
 
 ## Purpose of Project
+
+The project was created alongside my studies of 1st Year Computer Science.
 
 This project demonstrates my continued learning of programming principles, including:
 - **JUnit testing**
@@ -46,8 +48,9 @@ And you're done! You can now try out the cinema booking application via the term
 This project is actively under development.
 
 ## Room for Improvement
-- Add a customer booking with commands for the customer. Add manager booking for the manager, where the manager can input commands to add movies, change ticket prices etc. This could be 
-hooked up to a database, so changes made by the manager are saved. Use inheritance for CustomerBooking and ManagerControl?
-- Add ManagerCommandWords and CustomerCommandWords. Use inheritance?
+- Separate the booking into two, so there's two views of the application: one for the customer, when booking tickets; and one for the manager, when adding screens, movies, ticket prices.
+This could be hooked up to a database, so changes made by the manager are saved.
+
+- Use inheritance to create **separate CommandWord enum classes** defining separate functionality for when the manager and customer need to use the application.
 
 
