@@ -7,13 +7,16 @@ import java.util.List;
  */
 
 public enum CommandWord {
-    HELP("help"), QUIT("quit"), BOOK("book"), LIST("list"), UNKNOWN(null);
+    HELP("help", null), QUIT("quit", null), BOOK("book", "<movie title>"),
+    LIST("list", null), BASKET("basket", null),UNKNOWN(null, null);
 
     private String commandString;
     private String placeholder;
-    CommandWord(String commandString)
+    CommandWord(String commandString, String placeholder)
     {
+
         this.commandString = commandString;
+        this.placeholder = placeholder;
     }
 
     /**
@@ -25,19 +28,12 @@ public enum CommandWord {
         return commandString;
     }
 
-
-    private void addPlaceholdersToEnum()
+    /**
+     * Get the placeholder associated with an enum constant.
+     */
+    public String getPlaceholder()
     {
-        HELP.addPlaceholder(null);
-        QUIT.addPlaceholder(null);
-        BOOK.addPlaceholder("<movie title>");
-        LIST.addPlaceholder(null);
-        UNKNOWN.addPlaceholder(null);
-
-    }
-    private void addPlaceholder(String placeholder)
-    {
-        this.placeholder = placeholder;
+        return placeholder;
     }
 
 }
