@@ -13,7 +13,7 @@
 This is a cinema booking application that can be interacted with, via the terminal.
 
 # Technologies Used
-- Java
+- Java 18
 
 # Purpose of Project
 
