@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class Screen
 {
     private String movieTitle;
+    private boolean hasMovieScreening;
     private int ticketCost;
     private int availableSeats;
     private Seat[][] seats;
@@ -22,10 +23,13 @@ public class Screen
      * If the number of seats for a screen is 5, then the screen will contain
      * 1 row, with 20 seats. If the number of seats provided is 21, the screen
      * will contain 2 rows, each with 20 seats (40 seats total).
-     * @param numberOfSeats The minimum number of seats the screen should have.
+     * @param id The id of the screen.
+     * @param numberOfColumns The number of columns the screen should have.
+     * @param numberOfRows The number of rows the screen should have.
      */
     public Screen(int id, int numberOfColumns, int numberOfRows)
     {
+        hasMovieScreening = false;
         this.id = id;
         if(numberOfColumns < 1 || numberOfRows < 1) {
             this.seats = new Seat[0][0];
@@ -104,8 +108,19 @@ public class Screen
     public void addNewMovie(String newMovieTitle, int ticketCost)
     {
         movieTitle = newMovieTitle;
+        hasMovieScreening = true;
         this.ticketCost = ticketCost;
         emptyScreen();
+    }
+
+    /**
+     * Stop screening a movie.
+     */
+    public void removeMovie()
+    {
+        movieTitle = null;
+        hasMovieScreening = false;
+        ticketCost = 0;
     }
 
     /**
@@ -118,7 +133,7 @@ public class Screen
         String details = "";
         details += "ID: " + id + "\n";
         details += "Current Movie: " + movieTitle + "\n";
-        details += "Ticket Cost: " + ticketCost + "\n";
+        details += "Ticket Cost: " + ticketCost;
         return details;
     }
 
@@ -173,6 +188,15 @@ public class Screen
     public int getId()
     {
         return id;
+    }
+
+    /**
+     * Check whether the screen is currently showing any movies.
+     * @return True if the screen is showing any movies, false if it isn't showing movies.
+     */
+    public boolean hasMovieScreening()
+    {
+        return hasMovieScreening;
     }
 
     /**
