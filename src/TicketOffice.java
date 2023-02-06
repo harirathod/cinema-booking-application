@@ -1,6 +1,7 @@
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Class TicketOffice is manages the other class. It is through this class
@@ -12,13 +13,13 @@ import java.util.Set;
 public class TicketOffice
 {
 
-    private HashMap<Integer, Screen> screens;
+    private Set<Screen> screens;
     /**
      * Constructor for objects of class TicketOffice.
      */
     public TicketOffice()
     {
-        screens = new HashMap<>();
+        screens = new HashSet<>();
     }
 
     /**
@@ -32,22 +33,29 @@ public class TicketOffice
      */
     public boolean addScreen(int id, int numberOfColumns, int numberOfRows)
     {
-        if(numberOfColumns < 1 || numberOfRows < 1 || screens.get(id) != null || id == 0) {
+        if (numberOfColumns < 1 || numberOfRows < 1 || id == 0) {
             return false;
         }
-        screens.put(id, new Screen(id, numberOfColumns, numberOfRows));
+        for (Screen screen : screens) {
+            if(screen.getId() == id) {
+                return false;
+            }
+        }
+        screens.add(new Screen(id, numberOfColumns, numberOfRows));
         return true;
     }
 
     /**
      * Remove screen from the cinema. If the screen is not in the cinema, nothing will happen.
      * @param id The id of the screen to be removed.
+     * @return True if the screen was successfully removed, false otherwise.
      */
     public boolean removeScreen(int id)
     {
-        for(Screen screen : screens.values()) {
-            if(id == screen.getId()) {
-                screens.remove(1);
+        Iterator<Screen> it = screens.iterator();
+        while(it.hasNext()) {
+            if(it.next().getId() == id) {
+                it.remove();
                 return true;
             }
         }
@@ -62,21 +70,29 @@ public class TicketOffice
      */
     public boolean addScreen(Screen screen)
     {
-        if(screen == null || screens.get(screen.getId()) != null) {
+        if(screen == null) {
             return false;
         }
-        screens.put(screen.getId(), screen);
+        Iterator<Screen> it = screens.iterator();
+        while(it.hasNext()) {
+            if(it.next().getId() == screen.getId()) {
+                return false;
+            }
+        }
+        screens.add(screen);
         return true;
     }
 
     /**
      * Get a screen using the provided id.
-     * @param The id of the screen that we want.
+     * @param id The id of the screen that we want.
      * @return The screen that matches the id, or null if not found.
      */
     public Screen findScreen(int id)
     {
-        return screens.get(id);
+        return screens.stream()
+                .filter(screen -> screen.getId() == id)
+                .findFirst().orElse(null);
     }
 
     /**
@@ -89,11 +105,14 @@ public class TicketOffice
      */
     public boolean addNewMovie(int id, String movieTitle, int ticketCost)
     {
-        if(screens.get(id) != null) {
-            screens.get(id).addNewMovie(movieTitle, ticketCost);
-            return true;
-        }
-        return false;
+        Screen screen = screens.stream()
+                .filter(x -> x.getId() == id)
+                .findFirst().orElse(null);
+
+        if(screen == null) return false;
+        else screen.addNewMovie(movieTitle, ticketCost);
+
+        return true;
     }
 
     /**
@@ -101,8 +120,10 @@ public class TicketOffice
      */
     public void showMovies()
     {
-        screens.keySet().stream()
-                .map(id -> screens.get(id).getDetails())
+
+        screens.stream()
+                .filter(Screen::hasMovieScreening)
+                .map(Screen::getDetails)
                 .forEach(System.out::println);
     }
 
@@ -113,12 +134,10 @@ public class TicketOffice
      */
     public Ticket bookRandomTicket(String movieTitle)
     {
-        return screens.keySet().stream()
-                .map(id -> screens.get(id))
+        return screens.stream()
                 .filter(screen -> movieTitle.equals(screen.getMovieTitle()))
                 .map(Screen::getRandomTicket)
-                .findFirst()
-                .orElse(null);
+                .findFirst().orElse(null);
     }
 
     /**
@@ -130,12 +149,10 @@ public class TicketOffice
      */
     public Ticket bookTicket(String movieTitle, int seatNumber, int rowNumber)
     {
-        return screens.keySet().stream()
-                .map(id -> screens.get(id))
+        return screens.stream()
                 .filter(screen -> movieTitle.equals(screen.getMovieTitle()))
                 .map(screen -> screen.getTicket(seatNumber, rowNumber))
-                .findFirst()
-                .orElse(null);
+                .findFirst().orElse(null);
     }
 
     /**
@@ -143,10 +160,8 @@ public class TicketOffice
      */
     public Set<String> getAllMovieTitles()
     {
-        Set<String> allMovieTitles  = new HashSet<>();
-        for(Screen screen : screens.values()) {
-            allMovieTitles.add(screen.getMovieTitle());
-        }
-        return allMovieTitles;
+        return screens.stream()
+                .map(Screen::getMovieTitle)
+                .collect(Collectors.toSet());
     }
 }
