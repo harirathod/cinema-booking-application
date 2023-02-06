@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  * This enumeration class defines the command words available.
  * @author Hari Rathod
@@ -21,6 +23,21 @@ public enum CommandWord {
     public String toString()
     {
         return commandString;
+    }
+
+
+    private void addPlaceholdersToEnum()
+    {
+        HELP.addPlaceholder(null);
+        QUIT.addPlaceholder(null);
+        BOOK.addPlaceholder("<movie title>");
+        LIST.addPlaceholder(null);
+        UNKNOWN.addPlaceholder(null);
+
+    }
+    private void addPlaceholder(String placeholder)
+    {
+        this.placeholder = placeholder;
     }
 
 }
