@@ -1,8 +1,26 @@
 # Cinema
 
-## Overview
+# Overview
 
 This is a cinema booking application that can be interacted with via the terminal.
+
+# Setup
+
+1. Clone the repository to your local machine, by entering the following command into your terminal:
+```
+git clone https://github.com/harirathod/cinema-booking-application.git
+```
+
+2. Navigate to the project directory:
+```html
+cd cinema-booking-application/src/
+```
+
+3. Run the application with the following command:
+```
+javac Main.java
+java Main
+```
 
 My continued learning of these important programming principles is demonstrated through this project:
 
