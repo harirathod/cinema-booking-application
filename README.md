@@ -38,6 +38,7 @@ javac Main.java
 java Main
 ```
 > **Note:** Please make sure you have the JRE (Java Runtime Environment) installed.
+
 And you're done! You can now try out the cinema booking application via the terminal!
 
 ## Project Status
