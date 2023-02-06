@@ -9,8 +9,6 @@
       <change beforePath="$PROJECT_DIR$/src/Command.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CommandTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CommandTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CommandWord.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/CommandWord.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CommandWord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CommandWord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CustomerBooking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CustomerBooking.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Parser.class" afterDir="false" />
