@@ -32,6 +32,6 @@ public class ParserTest {
     @Test
     public void testGetAllCommands()
     {
-        assertEquals("Commands available: help, quit, book, list, ", parser.getAllCommands());
+        assertEquals("Commands available:\nhelp\nquit\nbook <movie title>\nlist", parser.getAllCommands());
     }
 }

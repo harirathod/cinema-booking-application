@@ -120,7 +120,6 @@ public class TicketOffice
      */
     public void showMovies()
     {
-
         screens.stream()
                 .filter(Screen::hasMovieScreening)
                 .map(Screen::getDetails)

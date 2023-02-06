@@ -30,8 +30,8 @@ public class CommandTest {
     @Test
     public void testCommand()
     {
-        Command command = new Command(CommandWord.BOOK, "Avatar");
+        Command command = new Command(CommandWord.BOOK, "Avatar 3 - 2023");
         assertEquals(CommandWord.BOOK, command.getCommandWord());
-        assertEquals("Avatar", command.getSecondWord());
+        assertEquals("Avatar 3 - 2023", command.getSecondWord());
     }
 }

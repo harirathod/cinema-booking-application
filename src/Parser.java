@@ -50,10 +50,13 @@ public class Parser {
      */
     public String getAllCommands()
     {
-        String formattedString = "Commands available: ";
+        String formattedString = "Commands available:";
         for(CommandWord command : CommandWord.values()) {
             if(command.toString() != null) {
-                formattedString += command.toString() + ", ";
+                formattedString += "\n" + command.toString();
+                if(command.getPlaceholder() != null) {
+                    formattedString += " " + command.getPlaceholder();
+                }
             }
         }
         return formattedString;

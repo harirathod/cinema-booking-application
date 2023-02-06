@@ -33,7 +33,7 @@ import java.time.LocalDateTime;
         /**
          * Print the details of a ticket.
          */
-        public void printDetails()
+        public String getDetails()
         {
             String details = "";
             details += "Screen ID: " + screenId + "\n"
@@ -41,11 +41,9 @@ import java.time.LocalDateTime;
                     + "Row Number: " + rowNumber + "\n"
                     + "Seat Number: " + seatNumber + "\n"
                     + "Cost: " + cost + "\n"
-                    + "Date: " + date + "\n";
-            String dashes = "------------------------------";
-            System.out.println(dashes);
-            System.out.println(details);
-            System.out.println(dashes);
+                    + "Date: " + date;
+            String dashes = "==============================";
+            return dashes + "\n" + details + "\n" + dashes;
         }
 
         /**

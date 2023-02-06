@@ -140,12 +140,6 @@ public class ScreenTest
         screen4.emptyScreen();
         assertEquals(60, screen4.getNumberOfAvailableSeats());
     }
-
-
-
-    /**
-     * Test that the screening status is correctly updated.
-     */
 }
 
 
