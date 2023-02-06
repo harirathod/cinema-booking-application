@@ -106,6 +106,27 @@ public class ScreenTest
     }
 
     /**
+     * Test that a movie is correctly removed from a screen.
+     */
+    @Test
+    public void testRemoveMovie()
+    {
+        assertFalse(screen3.hasMovieScreening());
+        assertNull(screen3.getMovieTitle());
+        assertEquals(0, screen3.getTicketCost());
+
+        screen3.addNewMovie("Shazam | Light of Thunder", 2700);
+        assertTrue(screen3.hasMovieScreening());
+        assertNotNull(screen3.getMovieTitle());
+        assertEquals(2700, screen3.getTicketCost());
+
+        screen3.removeMovie();
+        assertFalse(screen3.hasMovieScreening());
+        assertNull(screen3.getMovieTitle());
+        assertEquals(0, screen3.getTicketCost());
+    }
+
+    /**
      * Test if the empty screen method works correctly (should free up all seats).
      */
     @Test
@@ -119,6 +140,12 @@ public class ScreenTest
         screen4.emptyScreen();
         assertEquals(60, screen4.getNumberOfAvailableSeats());
     }
+
+
+
+    /**
+     * Test that the screening status is correctly updated.
+     */
 }
 
 
