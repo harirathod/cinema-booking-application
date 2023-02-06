@@ -1,20 +1,20 @@
 # Cinema Booking App
 
-# Contents
+## Contents
 - **[Overview](#overview)**
 - **[Technologies Used](#technologies-used)**
 - **[Purpose of Project](#purpose-of-project)**
 - **[Using the Project Yourself](#using-the-project-yourself)**
 - **[Project Status](#project-status)**
 - **[Room for Improvement](#room-for-improvement)**
-# Overview
+## Overview
 
 This is a cinema booking application that can be interacted with, via the terminal.
 
-# Technologies Used
+## Technologies Used
 - Java 18
 
-# Purpose of Project
+## Purpose of Project
 
 This project demonstrates my continued learning of programming principles, including:
 - **JUnit testing**
@@ -24,7 +24,7 @@ This project demonstrates my continued learning of programming principles, inclu
 - Coupling
 - Maintainability
 
-# Using the Project Yourself
+## Using the Project Yourself
 
 1. Clone the repository to your local machine and navigate to the project directory:
 ```shell
