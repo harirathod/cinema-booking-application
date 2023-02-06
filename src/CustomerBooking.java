@@ -24,6 +24,8 @@ public class CustomerBooking {
      */
     public void start()
     {
+        populateCinema();
+
         System.out.println("Welcome to Glacier Cinema!");
         boolean finished = false;
         while(!finished) {
@@ -75,8 +77,9 @@ public class CustomerBooking {
     private void book(Command command)
     {
         for (String movieTitle : office.getAllMovieTitles()) {
-            if(movieTitle.equals(command.getSecondWord())) {
-                office.bookRandomTicket(movieTitle);
+            if(movieTitle.toLowerCase().equals(command.getSecondWord())) {
+                Ticket ticket = office.bookRandomTicket(movieTitle);
+                System.out.println(ticket.getDetails());
                 return;
             }
         }
@@ -86,14 +89,18 @@ public class CustomerBooking {
     }
 
     /**
-     * List all the movies
+     * List all the movies being shown at the cinema.
      * @param command The command should have no second word. The purpose of the parameter being passed, is to
      *               ensure the user is not expecting something different to be listed than what is programmed, if they
      *                type 'list timings', for example.
      */
     private void list(Command command)
     {
-
+        if(command.hasSecondWord()) {
+            System.out.println("Please do not enter any arguments after 'list'.");
+            return;
+        }
+        office.showMovies();
     }
 
     /**
@@ -119,5 +126,17 @@ public class CustomerBooking {
     private String getSeparator()
     {
         return "    ---------------------------------    ";
+    }
+
+    /**
+     * Populate the cinema with movies and screens.
+     */
+    private void populateCinema()
+    {
+        office.addScreen(1, 12, 26);
+        office.addScreen(2, 20, 20);
+
+        office.addNewMovie(1, "Black Panther 3", 1395);
+        office.addNewMovie(2, "Batman - Dark of the Moon", 1300);
     }
 }
