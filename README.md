@@ -28,6 +28,8 @@ This project demonstrates my continued learning of programming principles, inclu
 
 ## Using the Project Yourself
 
+###### _Paste the following commands into your terminal._
+
 1. Clone the repository to your local machine and navigate to the project directory:
 ```shell
 git clone https://github.com/harirathod/cinema-booking-application.git
