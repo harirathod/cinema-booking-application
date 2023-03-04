@@ -16,7 +16,7 @@ This is a cinema booking application that runs in the terminal.
 
 ## Purpose of Project
 
-The project was created alongside my studies of 1st Year Computer Science.
+The project was created alongside my studies of Year 1 Computer Science.
 
 This project demonstrates my continued learning of programming principles, including:
 - **JUnit testing**
@@ -41,7 +41,7 @@ cd cinema-booking-application/src/
 javac Main.java
 java Main
 ```
-> **Note:** Please make sure you have the JRE (Java Runtime Environment) installed.
+> **Note:** Please make sure you have the JDK (Java Development Kit) installed.
 
 And you're done! You can now try out the cinema booking application via the terminal!
 
