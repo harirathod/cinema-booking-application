@@ -39,7 +39,7 @@ public class CustomerBooking {
      * Process and evaluate the command entered by calling appropriate methods.
      * If null is entered, it evaluates the command as Command.UNKNOWN.
      * @param command The command to evaluate.
-     * @return  True if the user wants to quit, false if not.
+     * @return True if the user wants to quit, false if not.
      */
     public boolean evaluateCommand(Command command)
     {

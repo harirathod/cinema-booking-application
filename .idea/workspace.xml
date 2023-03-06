@@ -6,20 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1dc74fa9-c31d-4cd1-9a9f-dccd7e543f8b" name="Changes" comment="Initial Commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Command.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CommandTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CommandTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CommandWord.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/CommandWord.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Parser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ParserTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Screen.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Screen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ScreenTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ScreenTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Ticket.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Ticket.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Ticket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TicketOffice.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/TicketOffice.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TicketOffice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TicketOffice.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
