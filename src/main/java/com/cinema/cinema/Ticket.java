@@ -3,22 +3,25 @@ package com.cinema.cinema;
 import java.time.LocalDateTime;
 
     /**
-     * Class main.cinema.Ticket defines a ticket that is associated with the showing of a movie
+     * Ticket defines a ticket that is associated with the showing of a movie
      * at a specific screen.
      *
-     * @author Hari Rathod k22002783
-     * @version 2022.12.10
+     * @author Hari Rathod
+     * @version 2023.03.28
      */
     public class Ticket
     {
-        private int screenId;    // the screen id in which the movie is being shown
+        // The screen id in which the movie is being shown.
+        private int screenId;
         private String movieTitle;
         private int rowNumber;
-        private int seatNumber;   // column number = seat number
+        // Column number is the same as the seat number.
+        private int seatNumber;
         private int cost;
         private LocalDateTime date;
+
         /**
-         * Constructor for objects of class main.cinema.Ticket
+         * Initialise fields.
          */
         public Ticket(int screenId, String movieTitle, int seatNumber, int rowNumber,
                       int cost, LocalDateTime date)
@@ -32,18 +35,22 @@ import java.time.LocalDateTime;
         }
 
         /**
-         * Print the details of a ticket.
+         * Return the details of the ticket, as a formatted string.
+         * @return The details of the ticket, as a formatted string.
          */
         public String getDetails()
         {
+            // Line of dashes to mark edges of the ticket.
+            String dashes = "==============================";
+
             String details = "";
-            details += "main.cinema.Screen ID: " + screenId + "\n"
+            details += "Screen ID: " + screenId + "\n"
                     + "Movie Title: " + movieTitle + "\n"
                     + "Row Number: " + rowNumber + "\n"
-                    + "main.cinema.Seat Number: " + seatNumber + "\n"
+                    + "Seat Number: " + seatNumber + "\n"
                     + "Cost: " + cost + "\n"
                     + "Date: " + date;
-            String dashes = "==============================";
+
             return dashes + "\n" + details + "\n" + dashes;
         }
 
