@@ -1,17 +1,18 @@
 package com.cinema.cinema;
 
 /**
- * Class main.cinema.Seat defines a single seat in a cinema.
+ * Class Seat defines a single seat in a cinema.
  *
  * @author Hari Rathod k22002783
- * @version 2022.12.08
+ * @version 2023.03.28
  */
 public class Seat
 {
+    // Whether the seat is available or not.
     private boolean available;
 
     /**
-     * Constructor for objects of class main.cinema.Seat
+     * Initialise fields. Seat is available by default.
      */
     public Seat()
     {
@@ -20,7 +21,7 @@ public class Seat
 
     /**
      * Check whether a seat is available or not.
-     * @return True is the seat is available, false if unavailable (booked).
+     * @return True is the seat is available, false if unavailable (i.e., booked).
      */
     public boolean isAvailable()
     {
@@ -28,7 +29,7 @@ public class Seat
     }
 
     /**
-     * Change the seat to available.
+     * Make the seat available.
      */
     public void setAvailable()
     {
@@ -36,7 +37,7 @@ public class Seat
     }
 
     /**
-     * Change the seat to unavailable (booked).
+     * Make the seat unavailable (booked).
      */
     public void setUnavailable()
     {
