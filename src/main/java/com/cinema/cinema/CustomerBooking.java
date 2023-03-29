@@ -1,5 +1,7 @@
 package com.cinema.cinema;
 
+import java.io.IOException;
+
 /**
  * This class is to be used when the customer is making a booking.
  *
@@ -11,6 +13,7 @@ package com.cinema.cinema;
 public class CustomerBooking {
     private Parser parser;
     private TicketOffice office;
+    private ConsoleHistoryRecorder consoleHistoryRecorder;
 
     /**
      * Constructor to initialise fields.
@@ -19,6 +22,7 @@ public class CustomerBooking {
     {
         parser = new Parser();
         office = new TicketOffice();
+        consoleHistoryRecorder = new ConsoleHistoryRecorder();
     }
 
     /**
@@ -30,12 +34,26 @@ public class CustomerBooking {
 
         System.out.println("Welcome to Glacier Cinema!");
         boolean finished = false;
+
+        // While the user is not finished, get the next command and evaluate it.
         while(!finished) {
-            // While the user is not finished, get the next command and evaluate it.
-            finished = evaluateCommand(parser.readInput());
+
+            String input = parser.readInput();
+            recordInputString(input);
+
+            finished = evaluateCommand(CommandConverter.convertToCommand(input));
         }
         System.out.println("Thanks for visiting, and have a great time!");
         System.out.println(getSeparator());
+    }
+
+    private void recordInputString(String inputString)
+    {
+        try {
+            consoleHistoryRecorder.writeStringToFile(inputString.toString());
+        } catch (IOException e) {
+            System.out.println("Error writing to file" + e.getMessage());
+        }
     }
 
     /**
