@@ -42,10 +42,10 @@ public class CommandWordConverterTest {
     @Test
     public void testToCommandWord()
     {
-        assertSame(CommandWord.HELP, CommandWordConverter.toCommandWord("hElp"));
-        assertSame(CommandWord.BOOK, CommandWordConverter.toCommandWord("boOk"));
-        assertSame(CommandWord.QUIT, CommandWordConverter.toCommandWord("finiSheD"));
-        assertSame(CommandWord.UNKNOWN, CommandWordConverter.toCommandWord("null"));
-        assertSame(CommandWord.UNKNOWN, CommandWordConverter.toCommandWord("0k"));
+        assertSame(CommandWord.HELP, CommandConverter.convertToCommandWord("hElp"));
+        assertSame(CommandWord.BOOK, CommandConverter.convertToCommandWord("boOk"));
+        assertSame(CommandWord.QUIT, CommandConverter.convertToCommandWord("finiSheD"));
+        assertSame(CommandWord.UNKNOWN, CommandConverter.convertToCommandWord("null"));
+        assertSame(CommandWord.UNKNOWN, CommandConverter.convertToCommandWord("0k"));
     }
 }
