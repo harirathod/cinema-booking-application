@@ -16,7 +16,6 @@ public class Screen
     // Whether the screen is currently showing a movie.
     private boolean hasMovieScreening;
     private int ticketCost;
-    private int availableSeats;
 
     // The seats in the screen.
     private Seat[][] seats;
@@ -61,15 +60,23 @@ public class Screen
                 seat.setAvailable();
             }
         }
-        availableSeats = getNumberOfSeats();
     }
 
     /**
-     * Get number of available seats.
+     * Get the number of available seats for this Screen.
+     * @return The number of available seats.
      */
     public int getNumberOfAvailableSeats()
     {
-        return availableSeats;
+        int availableSeatsCount = 0;
+        for (Seat[] seatColumn : seats) {
+            for (Seat seat : seatColumn) {
+                if (seat.isAvailable()) {
+                    availableSeatsCount++;
+                }
+            }
+        }
+        return availableSeatsCount;
     }
 
     /**
@@ -82,34 +89,32 @@ public class Screen
     }
 
     /**
-     * Take the seat's seat and row number, and mark that seat as booked.
-     * Return false if the seat was already booked. Return true if the seat
-     * was not already booked, to show the booking has been confirmed.
-     * @return True if the booking was successful, false if it was not (if
-     * the seat was already booked).
+     * Take the seat and row number, and mark that seat as booked.
+     * @param columnNumber The column number of the seat to book. 1 is the number of the first column.
+     * @param rowNumber The row number of the seat to book. 1 is the number of the first row.
+     * @throws IllegalArgumentException If the seat numbers are invalid.
+     * @throws UnavailableSeatException If the seat is unavailable (booked).
      */
-    protected boolean book(int seatNumber, int rowNumber)
-    {
-        // entering a value of 1 should access element 0 of the array
-        seatNumber = seatNumber - 1;
+    protected void book(int columnNumber, int rowNumber) throws UnavailableSeatException {
+        if (columnNumber < 1 || columnNumber > seats.length || rowNumber < 1 || rowNumber > seats[0].length) {
+            throw new IllegalArgumentException("Parameters out of range for number of available seats.");
+        }
+
+        // Entering a value of 1 should access element 0 of the grid of seats.
+        columnNumber = columnNumber - 1;
         rowNumber = rowNumber - 1;
 
-        if(seatNumber < 0 || seatNumber > seats.length - 1
-                || rowNumber < 0 || rowNumber > seats[0].length - 1) {
-            return false;
+        if(!seats[columnNumber][rowNumber].isAvailable()) {
+            throw new UnavailableSeatException("Seat position unavailable.");
         }
-        if(!seats[seatNumber][rowNumber].isAvailable()) {
-            return false;
-        }
-        seats[seatNumber][rowNumber].setUnavailable();
-        availableSeats--;
-        return true;
+
+        seats[columnNumber][rowNumber].setUnavailable();
     }
 
     /**
      * Change the screen to show a new movie, with a new ticket cost.
      * @param newMovieTitle The new title of the movie.
-     * @param ticketCost The cost of a ticket (in cents) to see this movie.
+     * @param ticketCost The cost of a ticket (in cents), to see this movie.
      */
     public void addNewMovie(String newMovieTitle, int ticketCost)
     {
@@ -120,7 +125,7 @@ public class Screen
     }
 
     /**
-     * Stop screening a movie.
+     * Remove a movie from this Screen.
      */
     public void removeMovie()
     {
@@ -140,31 +145,51 @@ public class Screen
         details += "ID: " + id + "\n";
         details += "Current Movie: " + movieTitle + "\n";
         details += "main.cinema.Ticket Cost: " + ticketCost;
+
         return details;
     }
 
     /**
-     * Get a random ticket.
-     * @return A ticket object if there is at least one available seat,
-     * otherwise return null.
+     * Book a random ticket.
+     * @return A ticket object if there is at least one available seat.
      */
-    public Ticket getRandomTicket()
+    public Ticket bookRandomTicket() throws NoAvailableSeatException
     {
-        if(seats == null) {
-            return null;
-        }
-        int randomRowNumber = 0;
-        int randomSeatNumber = 0;
+        // Check that at least 1 seat is available.
+        checkSeatAvailability();
 
+        int randomColumnNumber;
+        int randomRowNumber;
+        // TODO: Need to optimise this `do-while try-catch` block. Use Random random = new Random() ––> random.nextInt(...)
         do {
-            randomRowNumber = new Random().nextInt(seats[0].length);
-            randomSeatNumber = new Random().nextInt(seats.length);
-        } while(!seats[randomSeatNumber][randomRowNumber].isAvailable());
+            randomColumnNumber = new Random().nextInt(seats.length) + 1;
+            randomRowNumber = new Random().nextInt(seats[0].length) + 1;
 
-        book(randomSeatNumber + 1, randomRowNumber + 1);
+            try {
+                book(randomColumnNumber, randomRowNumber);
+                break;
+            } catch (UnavailableSeatException e) {
+                /*
+                 TODO: This catch block is not optimal. I do not want to print here. Move the do-while to the
+                 TODO: user interface? That way the getRandomTicket only runs once, and the client must call
+                 TODO: multiple times. So, I must remove the do while, and attempt a random book only one.
+                 */
+            }
+        } while (seats[randomColumnNumber][randomRowNumber].isAvailable());
 
-        return new Ticket(id, movieTitle, randomSeatNumber + 1, randomRowNumber + 1,
+        return new Ticket(id, movieTitle, randomColumnNumber, randomRowNumber,
                 ticketCost, LocalDateTime.now());
+    }
+
+    /**
+     * Check if there are any available seats.
+     * @throws NoAvailableSeatException If there is no available seat.
+     */
+    private void checkSeatAvailability() throws NoAvailableSeatException
+    {
+        if (getNumberOfAvailableSeats() == 0) {
+            throw new NoAvailableSeatException("No available seats. All seats are booked for this screen.");
+        }
     }
 
     /**
