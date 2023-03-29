@@ -8,8 +8,6 @@ import java.util.Scanner;
 
 public class Parser {
     private Scanner scanner;                // scanner to read input
-    private CommandWordConverter commandWords;       // a list of all the command words
-
 
     /**
      * Constructor to initialise the fields.
