@@ -4,56 +4,61 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 /**
- * Class main.cinema.Screen represents a screen in a multiplex cinema.
+ * Class Screen represents a screen (i.e., a movie room) in a multiplex cinema.
  *
- * @author Hari Rathod k22002783
- * @version 2022.12.08
+ * @author Hari Rathod
+ * @version 2023.03.28
  */
 public class Screen
 {
     private String movieTitle;
+
+    // Whether the screen is currently showing a movie.
     private boolean hasMovieScreening;
     private int ticketCost;
     private int availableSeats;
+
+    // The seats in the screen.
     private Seat[][] seats;
+
+    // The id of the screen.
     private int id;
 
     /**
-     * Constructor for objects of class main.cinema.Screen. Each row has a fixed length of
-     * 20 seats.
-     * If the number of seats for a screen is 5, then the screen will contain
-     * 1 row, with 20 seats. If the number of seats provided is 21, the screen
-     * will contain 2 rows, each with 20 seats (40 seats total).
+     * Initialise fields.
      * @param id The id of the screen.
      * @param numberOfColumns The number of columns the screen should have.
      * @param numberOfRows The number of rows the screen should have.
+     * @throws IllegalArgumentException If the number of columns or rows is less than 1.
      */
     public Screen(int id, int numberOfColumns, int numberOfRows)
     {
-        hasMovieScreening = false;
-        this.id = id;
         if(numberOfColumns < 1 || numberOfRows < 1) {
-            this.seats = new Seat[0][0];
-            return;
+            throw new IllegalArgumentException("Number of columns and rows must be greater than 0.");
         }
+
+        // No movie is being shown by default.
+        hasMovieScreening = false;
+
+        this.id = id;
+
+        // Create a grid of seats.
         seats = new Seat[numberOfColumns][numberOfRows];
         for(int i = 0; i < seats.length; i++) {
             for(int  j = 0; j < seats[i].length; j++) {
                 seats[i][j] = new Seat();
             }
         }
-
-        emptyScreen();
     }
 
     /**
-     * Empty the screen - make every seat available.
+     * Empty the screen, i.e., make every seat available.
      */
     public void emptyScreen()
     {
-        for(int i = 0; i < seats.length; i++) {
-            for(int  j = 0; j < seats[i].length; j++) {
-                seats[i][j].setAvailable();
+        for (Seat[] rowOfSeats : seats) {
+            for (Seat seat : rowOfSeats) {
+                seat.setAvailable();
             }
         }
         availableSeats = getNumberOfSeats();
