@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Class main.cinema.TicketOffice is manages the other class. It is through this class
+ * TicketOffice is manages the other class. It is through this class
  * that screens and movies can be added, and tickets can be bought.
  *
  * @author Hari Rathod
