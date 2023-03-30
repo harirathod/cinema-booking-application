@@ -50,8 +50,13 @@ And you're done! You can now try out the cinema booking application via the term
 This project is actively under development.
 
 ## Room for Improvement
+- Improving code to use checked exceptions.
+- Improving code to write history of user input to text file.
 - Separate the booking into two, so there's two views of the application: one for the customer, when booking tickets; and one for the manager, when adding screens, movies, ticket prices.
   This could be hooked up to a database, so changes made by the manager are saved.
+- Make a class for Movies.
+  > NB: Use ObjectOutputStream and ObjectInputStream to record listed movies.
+  
 
 - Use inheritance to create **separate main.cinema.CommandWord enum classes** defining separate functionality for when the manager and customer need to use the application.
 
