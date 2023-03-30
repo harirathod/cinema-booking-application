@@ -9,15 +9,21 @@ import java.util.stream.Collectors;
  * TicketOffice is manages the other class. It is through this class
  * that screens and movies can be added, and tickets can be bought.
  *
+ * TODO: Review class to:
+ *              1. Validate the creation of a new Screen, and
+ *              2. Use screen.validateSeatNumber before booking, and
+ *              3. Make sure to handle exceptions / pass them upwards to CustomerBooking.
+ *
  * @author Hari Rathod
  * @version 2022.12.08
  */
 public class TicketOffice
 {
-
+    // All screens in the Cinema.
     private Set<Screen> screens;
+
     /**
-     * Constructor for objects of class main.cinema.TicketOffice.
+     * Initialise fields.
      */
     public TicketOffice()
     {
@@ -33,9 +39,11 @@ public class TicketOffice
      * @param numberOfRows The number of rows for the screen. Must be a positive number.
      * @return True if the screen was successfully added, else false.
      */
-    public boolean addScreen(int id, int numberOfColumns, int numberOfRows)
+    public void addScreen(int id, int numberOfColumns, int numberOfRows)
     {
-        if (numberOfColumns < 1 || numberOfRows < 1 || id == 0) {
+        Screen screen = new Screen(id, numberOfColumns, numberOfRows);
+
+        if (numberOfColumns < 1 || numberOfRows < 1 || id < 0) {
             return false;
         }
         for (Screen screen : screens) {
@@ -44,7 +52,7 @@ public class TicketOffice
             }
         }
         screens.add(new Screen(id, numberOfColumns, numberOfRows));
-        return true;
+
     }
 
     /**
@@ -137,7 +145,7 @@ public class TicketOffice
     {
         return screens.stream()
                 .filter(screen -> movieTitle.equals(screen.getMovieTitle()))
-                .map(Screen::getRandomTicket)
+                .map(Screen::bookRandomTicket)
                 .findFirst().orElse(null);
     }
 
@@ -152,7 +160,7 @@ public class TicketOffice
     {
         return screens.stream()
                 .filter(screen -> movieTitle.equals(screen.getMovieTitle()))
-                .map(screen -> screen.getTicket(seatNumber, rowNumber))
+                .map(screen -> screen.get(seatNumber, rowNumber))
                 .findFirst().orElse(null);
     }
 
@@ -164,5 +172,14 @@ public class TicketOffice
         return screens.stream()
                 .map(Screen::getMovieTitle)
                 .collect(Collectors.toSet());
+    }
+
+
+    /**
+     * Validate the parameters (seat numbers and row numbers) that are used in the construction of a new Screen.
+     */
+    private void validateScreenParameters()
+    {
+
     }
 }
