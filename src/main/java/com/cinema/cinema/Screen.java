@@ -1,5 +1,6 @@
 package com.cinema.cinema;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Random;
 
@@ -32,7 +33,7 @@ public class Screen
      */
     public Screen(int id, int numberOfColumns, int numberOfRows)
     {
-        if(numberOfColumns < 1 || numberOfRows < 1) {
+        if (numberOfColumns < 1 || numberOfRows < 1) {
             throw new IllegalArgumentException("Number of columns and rows must be greater than 0.");
         }
 
@@ -92,22 +93,16 @@ public class Screen
      * Take the seat and row number, and mark that seat as booked.
      * @param columnNumber The column number of the seat to book. 1 is the number of the first column.
      * @param rowNumber The row number of the seat to book. 1 is the number of the first row.
-     * @throws IllegalArgumentException If the seat numbers are invalid.
      * @throws UnavailableSeatException If the seat is unavailable (booked).
      */
     protected void book(int columnNumber, int rowNumber) throws UnavailableSeatException {
-        if (columnNumber < 1 || columnNumber > seats.length || rowNumber < 1 || rowNumber > seats[0].length) {
-            throw new IllegalArgumentException("Parameters out of range for number of available seats.");
-        }
-
         // Entering a value of 1 should access element 0 of the grid of seats.
         columnNumber = columnNumber - 1;
         rowNumber = rowNumber - 1;
 
-        if(!seats[columnNumber][rowNumber].isAvailable()) {
-            throw new UnavailableSeatException("Seat position unavailable.");
+        if (!seats[columnNumber][rowNumber].isAvailable()) {
+            throw new UnavailableSeatException("Seat is unavailable.");
         }
-
         seats[columnNumber][rowNumber].setUnavailable();
     }
 
@@ -125,7 +120,7 @@ public class Screen
     }
 
     /**
-     * Remove a movie from this Screen.
+     * Remove the movie from the Screen.
      */
     public void removeMovie()
     {
@@ -135,7 +130,7 @@ public class Screen
     }
 
     /**
-     * Get the details of the screen, including id, current movie, and ticket
+     * Get the details of the Screen, including id, current movie, and ticket
      * cost.
      * @return The details of the screen.
      */
@@ -152,30 +147,19 @@ public class Screen
     /**
      * Book a random ticket.
      * @return A ticket object if there is at least one available seat.
+     * @throws NoAvailableSeatException If there are no seats available.
+     * @throws UnavailableSeatException If the seat randomly chosen to book is unavailable.
      */
-    public Ticket bookRandomTicket() throws NoAvailableSeatException
-    {
+    public Ticket bookRandomTicket() throws NoAvailableSeatException, UnavailableSeatException {
+
         // Check that at least 1 seat is available.
         checkSeatAvailability();
 
-        int randomColumnNumber;
-        int randomRowNumber;
-        // TODO: Need to optimise this `do-while try-catch` block. Use Random random = new Random() ––> random.nextInt(...)
-        do {
-            randomColumnNumber = new Random().nextInt(seats.length) + 1;
-            randomRowNumber = new Random().nextInt(seats[0].length) + 1;
+        Random random = new Random();
+        int randomColumnNumber = random.nextInt(seats.length) + 1;
+        int randomRowNumber = random.nextInt(seats[0].length) + 1;
 
-            try {
-                book(randomColumnNumber, randomRowNumber);
-                break;
-            } catch (UnavailableSeatException e) {
-                /*
-                 TODO: This catch block is not optimal. I do not want to print here. Move the do-while to the
-                 TODO: user interface? That way the getRandomTicket only runs once, and the client must call
-                 TODO: multiple times. So, I must remove the do while, and attempt a random book only one.
-                 */
-            }
-        } while (seats[randomColumnNumber][randomRowNumber].isAvailable());
+        book(randomColumnNumber, randomRowNumber);
 
         return new Ticket(id, movieTitle, randomColumnNumber, randomRowNumber,
                 ticketCost, LocalDateTime.now());
@@ -195,17 +179,35 @@ public class Screen
     /**
      * Get a specified seat.
      * @return A ticket object if the seat is available, else return null.
+     * @throws UnavailableSeatException If the seat chosen to book is unavailable.
      */
-    public Ticket getTicket(int seatNumber, int rowNumber)
+    public Ticket getTicket(int columnNumber, int rowNumber) throws UnavailableSeatException
     {
-        book(seatNumber, rowNumber);
-        return new Ticket(id, movieTitle, seatNumber, rowNumber, ticketCost,
+        book(columnNumber, rowNumber);
+        return new Ticket(id, movieTitle, columnNumber, rowNumber, ticketCost,
                 LocalDateTime.now());
     }
 
     /**
-     * Get the title of the movie showing in a screen.
-     * @return The title of the movie being shown.
+     * Validate the seat numbers.
+     * @param columnNumber The column number of the seat.
+     * @param rowNumber The row number of the seat.
+     * @throws InvalidSeatException If the seat is an invalid position in this Screen.
+     */
+    public void validateSeatNumbers(int columnNumber, int rowNumber) throws InvalidSeatException
+    {
+        if (columnNumber < 1 || columnNumber > seats.length || rowNumber < 1 || rowNumber > seats[0].length) {
+            String error = "Seat position (" + columnNumber + ", " + rowNumber + ") out of range for "
+                    + "available seats " + seats.length + seats[0].length;
+            throw new InvalidSeatException(error);
+        }
+    }
+
+    /**
+
+    /**
+     * Get the title of the movie being shown.
+     * @return The title of the movie.
      */
     public String getMovieTitle()
     {
@@ -214,7 +216,7 @@ public class Screen
 
     /**
      * Get the id of the screen.
-     * @return The id of the screen.
+     * @return The id.
      */
     public int getId()
     {
@@ -222,8 +224,8 @@ public class Screen
     }
 
     /**
-     * Check whether the screen is currently showing any movies.
-     * @return True if the screen is showing any movies, false if it isn't showing movies.
+     * Check whether the screen is currently showing a movie.
+     * @return True if the screen is showing a movie, false if it isn't showing a movie.
      */
     public boolean hasMovieScreening()
     {
