@@ -24,7 +24,7 @@ public class Parser {
      */
     public String readInput()
     {
-        System.out.println("> ");
+        System.out.print("> ");
         return scanner.nextLine();
     }
 
