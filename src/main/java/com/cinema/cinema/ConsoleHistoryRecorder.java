@@ -13,6 +13,12 @@ import java.util.Scanner;
 public class ConsoleHistoryRecorder {
     private static final String FILENAME = "user_input_history.txt";
 
+    public ConsoleHistoryRecorder() throws IOException
+    {
+        try (BufferedWriter writer = Files.newBufferedWriter(Path.of(FILENAME))) {
+            // File is opened in write mode, automatically clearing it.
+        }
+    }
     /**
      * Write a string to the file storing user input history.
      * @param string The string to write to the history.
