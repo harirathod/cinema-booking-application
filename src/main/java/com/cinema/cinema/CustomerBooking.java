@@ -22,7 +22,12 @@ public class CustomerBooking {
     {
         parser = new Parser();
         office = new TicketOffice();
-        consoleHistoryRecorder = new ConsoleHistoryRecorder();
+        try {
+            consoleHistoryRecorder = new ConsoleHistoryRecorder();
+        }
+        catch (IOException e) {
+            System.out.println("Error writing to " + e.getMessage());
+        }
     }
 
     /**
@@ -52,7 +57,7 @@ public class CustomerBooking {
         try {
             consoleHistoryRecorder.writeStringToFile(inputString.toString());
         } catch (IOException e) {
-            System.out.println("Error writing to file" + e.getMessage());
+            System.out.println("Error writing to file " + e.getMessage());
         }
     }
 
@@ -102,6 +107,7 @@ public class CustomerBooking {
      */
     private void book(Command command)
     {
+        /* TODO
         for (String movieTitle : office.getAllMovieTitles()) {
             if(movieTitle.toLowerCase().equals(command.getSecondWord())) {
                 Ticket ticket = office.bookRandomTicket(movieTitle);
@@ -158,11 +164,11 @@ public class CustomerBooking {
      * Populate the cinema with movies and screens.
      */
     private void populateCinema()
-    {
+    {/* TODO:
         office.addScreen(1, 12, 26);
         office.addScreen(2, 20, 20);
 
         office.addNewMovie(1, "Black Panther 3", 1395);
-        office.addNewMovie(2, "Batman - Dark of the Moon", 1300);
+        office.addNewMovie(2, "Batman - Dark of the Moon", 1300);*/
     }
 }
