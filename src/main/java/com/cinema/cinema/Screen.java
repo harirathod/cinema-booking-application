@@ -95,7 +95,9 @@ public class Screen
      * @param rowNumber The row number of the seat to book. 1 is the number of the first row.
      * @throws UnavailableSeatException If the seat is unavailable (booked).
      */
-    private void book(int columnNumber, int rowNumber) throws UnavailableSeatException {
+    protected void book(int columnNumber, int rowNumber) throws UnavailableSeatException {
+
+
         // Entering a value of 1 should access element 0 of the grid of seats.
         columnNumber = columnNumber - 1;
         rowNumber = rowNumber - 1;
