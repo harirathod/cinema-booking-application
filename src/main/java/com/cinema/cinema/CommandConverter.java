@@ -20,7 +20,7 @@ public class CommandConverter {
         }
         word = word.toLowerCase();
         for(CommandWord command : CommandWord.values()) {
-            if(word.equals(command.toString())) {
+            if(word.equals(command.getCommandString())) {
                 return command;
             }
         }
