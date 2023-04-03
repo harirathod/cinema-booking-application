@@ -42,6 +42,7 @@ public class CommandWordConverterTest {
     @Test
     public void testToCommandWord()
     {
+        System.out.println(CommandConverter.convertToCommandWord("boOk"));
         assertSame(CommandWord.HELP, CommandConverter.convertToCommandWord("hElp"));
         assertSame(CommandWord.BOOK, CommandConverter.convertToCommandWord("boOk"));
         assertSame(CommandWord.QUIT, CommandConverter.convertToCommandWord("finiSheD"));
