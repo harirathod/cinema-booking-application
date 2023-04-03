@@ -27,8 +27,8 @@ public class Screen
     /**
      * Initialise fields.
      * @param id The id of the screen.
-     * @param numberOfColumns The number of columns the screen should have.
-     * @param numberOfRows The number of rows the screen should have.
+     * @param numberOfColumns The number of columns the screen should have. Must be >= 1.
+     * @param numberOfRows The number of rows the screen should have. Must be >= 1.
      * @throws IllegalArgumentException If the number of columns or rows is less than 1.
      */
     public Screen(int id, int numberOfColumns, int numberOfRows)
@@ -95,7 +95,7 @@ public class Screen
      * @param rowNumber The row number of the seat to book. 1 is the number of the first row.
      * @throws UnavailableSeatException If the seat is unavailable (booked).
      */
-    protected void book(int columnNumber, int rowNumber) throws UnavailableSeatException {
+    private void book(int columnNumber, int rowNumber) throws UnavailableSeatException {
         // Entering a value of 1 should access element 0 of the grid of seats.
         columnNumber = columnNumber - 1;
         rowNumber = rowNumber - 1;
@@ -181,7 +181,7 @@ public class Screen
      * @return A ticket object if the seat is available, else return null.
      * @throws UnavailableSeatException If the seat chosen to book is unavailable.
      */
-    public Ticket getTicket(int columnNumber, int rowNumber) throws UnavailableSeatException
+    public Ticket bookTicket(int columnNumber, int rowNumber) throws UnavailableSeatException
     {
         book(columnNumber, rowNumber);
         return new Ticket(id, movieTitle, columnNumber, rowNumber, ticketCost,
