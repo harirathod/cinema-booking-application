@@ -6,7 +6,9 @@ package com.cinema.cinema;
  * @version 2023.03.30
  */
 
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Parser {
     private Scanner scanner;
@@ -29,12 +31,21 @@ public class Parser {
     }
 
     /**
-     * Get a list of all valid commands, formatted as 'Commands: help, book, quit'
+     * Get the next line of input as an array of tokens.
+     */
+    public String[] readInputAsArray()
+    {
+        String input = readInput();
+        return Pattern.compile("[\\p{Punct}\\s]+").split(input);
+    }
+
+    /**
+     * Get a list of all valid commands, formatted as 'help, book, quit'
      * @return A string that describes the valid commands.
      */
     public String getAllCommands()
     {
-        String formattedString = "Commands available:";
+        String formattedString = "";
 
         for(CommandWord command : CommandWord.values()) {
             if(command.getCommandString() != null) {
