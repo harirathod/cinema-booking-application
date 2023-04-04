@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,8 +84,7 @@ public class TicketWriter {
      */
     private void removeAllTickets() throws IOException {
         Path path = Path.of(FILENAME);
-        if (Files.exists(path))
-        {
+        if (Files.exists(path)) {
             try (ObjectOutputStream outputStream = new ObjectOutputStream(
                     Files.newOutputStream(path, StandardOpenOption.TRUNCATE_EXISTING))) {
                 // Nothing to do here.
@@ -92,14 +92,5 @@ public class TicketWriter {
         } else {
             Files.createFile(path);
         }
-    }
-
-
-    public static void main(String[] args) throws TicketsNotFoundException, IOException {
-        TicketWriter writer = new TicketWriter("tickets.ser");
-
-        //writer.writeToFile(new Ticket(4, "Yoho", 5, 1, 2900, LocalDateTime.MIN));
-
-        writer.removeAllTickets();
     }
 }
