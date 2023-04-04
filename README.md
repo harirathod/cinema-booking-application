@@ -22,8 +22,9 @@ This is a cinema booking application that runs in the terminal.
 The project was created alongside my studies of Year 1 Computer Science.
 
 This project demonstrates my continued learning of programming principles, including:
-- **JUnit testing**
-- **Test-driven development**
+- Exception Handling
+- JUnit testing
+- Test-driven development
 - Responsibility-driven design
 - Cohesion
 - Coupling
