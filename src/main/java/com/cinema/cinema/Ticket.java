@@ -1,15 +1,17 @@
 package com.cinema.cinema;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
-    /**
+/**
      * Ticket defines a ticket that is associated with the showing of a movie
      * at a specific screen.
      *
      * @author Hari Rathod
      * @version 2023.03.28
      */
-    public class Ticket
+    public class Ticket implements Serializable
     {
         // The screen id in which the movie is being shown.
         private int screenId;
@@ -41,7 +43,7 @@ import java.time.LocalDateTime;
         public String getDetails()
         {
             // Line of dashes to mark edges of the ticket.
-            String dashes = "==============================";
+            String dashes = "===============================";
 
             String details = "";
             details += "Screen ID: " + screenId + "\n"
@@ -49,7 +51,7 @@ import java.time.LocalDateTime;
                     + "Row Number: " + rowNumber + "\n"
                     + "Seat Number: " + seatNumber + "\n"
                     + "Cost: " + cost + "\n"
-                    + "Date: " + date;
+                    + "Date: " + getFormattedDate();
 
             return dashes + "\n" + details + "\n" + dashes;
         }
@@ -79,6 +81,14 @@ import java.time.LocalDateTime;
         public int getSeatNumber()
         {
             return seatNumber;
+        }
+
+        private String getFormattedDate()
+        {
+            String date = this.date.toLocalDate() + " : ";
+            LocalTime time = this.date.toLocalTime();
+            date += time.minusNanos(time.getNano());
+            return date;
         }
     }
 
