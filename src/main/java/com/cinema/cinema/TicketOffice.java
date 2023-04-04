@@ -7,11 +7,11 @@ import java.util.stream.Collectors;
 /**
  * TicketOffice is manages the other class. It is through this class
  * that screens and movies can be added, and tickets can be bought.
- *
+ * <p>
  * TODO: Review class to:
  *              1. Validate the creation of a new Screen, and
  *              2. Use screen.validateSeatNumber before booking, and
- *              3. Make sure to handle exceptions / pass them upwards to CustomerBooking.
+ *              3. Make sure to handle exceptions / pass them upwards to TextInterface.
  *
  * @author Hari Rathod
  * @version 2022.12.08
@@ -33,11 +33,12 @@ public class TicketOffice
      * Add a screen to the cinema. If the number of columns or row for the
      * screen is invalid (< 0), no screen will be added. If the screen already
      * exists, another screen cannot be added.
-     * @param id The id of the screen. Must be a positive number.
+     *
+     * @param id              The id of the screen. Must be a positive number.
      * @param numberOfColumns The number of columns for the screen. Must be a positive number.
-     * @param numberOfRows The number of rows for the screen. Must be a positive number.
+     * @param numberOfRows    The number of rows for the screen. Must be a positive number.
      * @throws InvalidScreenParameterException If any of the parameters for the construction of a Screen object are invalid.
-     * @throws ScreenIdAlreadyExistsException If a Screen object, with an id matching the id parameter provided, already exists in this TicketOffice.
+     * @throws ScreenIdAlreadyExistsException  If a Screen object, with an id matching the id parameter provided, already exists in this TicketOffice.
      */
     public void addScreen(int id, int numberOfColumns, int numberOfRows) throws InvalidScreenParameterException, ScreenIdAlreadyExistsException {
         Screen screen;
@@ -52,11 +53,12 @@ public class TicketOffice
         if (screens.containsKey(id)) {
             throw new ScreenIdAlreadyExistsException("Screen with id " + id + " already exists.");
         }
-        screens.put(id, new Screen(id, numberOfColumns, numberOfRows));
+        screens.put(id, screen);
     }
 
     /**
      * Remove screen from the cinema. If the screen is not in the cinema, nothing will happen.
+     *
      * @param id The id of the screen to be removed.
      * @return True if the screen was successfully removed, false otherwise.
      */
@@ -75,9 +77,9 @@ public class TicketOffice
     /**
      * Add a screen to the cinema. If the screen id has already been added,
      * adding another screen with the same id will have no effect.
+     *
      * @param screen The screen to be added.
      * @throws ScreenIdAlreadyExistsException If the id of the screen that we are trying to add is already present.
-     *
      */
     public void addScreen(Screen screen) throws ScreenIdAlreadyExistsException
     {
@@ -93,6 +95,7 @@ public class TicketOffice
 
     /**
      * Get a screen using the provided id.
+     *
      * @param id The id of the screen to get.
      * @return The screen that matches the id, or null if the screen is not found.
      */
@@ -104,7 +107,8 @@ public class TicketOffice
     /**
      * Show a new movie at a specific screen. No movie is added if there
      * is no screen with the provided id.
-     * @param id The id of the screen we want to add the movie to.
+     *
+     * @param id         The id of the screen we want to add the movie to.
      * @param movieTitle The title of the movie.
      * @param ticketCost The cost of a ticket (in cents).
      * @throws ScreenIdDoesNotExistException If the screen with the id parameter provided does not exist.
@@ -132,9 +136,10 @@ public class TicketOffice
 
     /**
      * Book a random ticket for a movie.
+     *
      * @param movieTitle The movie to book a random ticket for.
      * @return A ticket to the movie, chosen at random.
-     * @throws NoAvailableSeatException If there are no available seats for the screening of the movie.
+     * @throws NoAvailableSeatException   If there are no available seats for the screening of the movie.
      * @throws MovieDoesNotExistException If the movie is not being screened.
      */
     public Ticket bookRandomTicket(String movieTitle) throws NoAvailableSeatException, MovieDoesNotExistException
@@ -166,13 +171,15 @@ public class TicketOffice
     }
 
     /**
-     * Validate that a certain movie is being screened.
-     * @param movie The movie to be validated.
+     * Get the Screen that is screening a movie.
+     *
+     * @param movie The movie to search for.
+     * @return The Screen that is screening the movie.
      * @throws MovieDoesNotExistException If there is no screening of this movie.
      */
-    private void validateMovieTitle(String movie) throws MovieDoesNotExistException
+    public Screen validateMovieTitle(String movie) throws MovieDoesNotExistException
     {
-        screens.values().stream()
+        return screens.values().stream()
                 .filter(x -> x.getMovieTitle().equals(movie))
                 .findFirst().orElseThrow(() -> new MovieDoesNotExistException("Movie " + movie + " is not being screened."));
     }
@@ -194,16 +201,5 @@ public class TicketOffice
         return screens.values().stream()
                     .filter(x -> movieTitle.equals(x.getMovieTitle()))
                     .findFirst().get().bookTicket(seatNumber, rowNumber);
-    }
-
-    /**
-     * Get a collection of all movies available.
-     * @return A set of all movies available.
-     */
-    public Set<String> getAllMovieTitles()
-    {
-        return screens.values().stream()
-                .map(Screen::getMovieTitle)
-                .collect(Collectors.toSet());
     }
 }
