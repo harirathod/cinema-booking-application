@@ -10,7 +10,7 @@ import java.io.IOException;
  * @version 2023.02.05
  */
 
-public class CustomerBooking {
+public class TextInterface {
     private Parser parser;
     private TicketOffice office;
     private ConsoleHistoryRecorder consoleHistoryRecorder;
@@ -18,10 +18,16 @@ public class CustomerBooking {
     /**
      * Constructor to initialise fields.
      */
-    public CustomerBooking()
+    public TextInterface(TicketOffice office)
     {
         parser = new Parser();
-        office = new TicketOffice();
+        if (office != null) {
+            this.office = office;
+        }
+        else {
+            this.office = new TicketOffice();
+        }
+
         try {
             consoleHistoryRecorder = new ConsoleHistoryRecorder();
         }
@@ -35,23 +41,27 @@ public class CustomerBooking {
      */
     public void start()
     {
-        populateCinema();
-
         System.out.println("Welcome to Glacier Cinema!");
-        boolean finished = false;
 
         // While the user is not finished, get the next command and evaluate it.
-        while(!finished) {
-
+        Command command = null;
+        do {
             String input = parser.readInput();
             recordInputString(input);
-
-            finished = evaluateCommand(CommandConverter.convertToCommand(input));
+            command = CommandConverter.convertToCommand(input);
+            System.out.println(getSeparator());
+            evaluateCommand(command);
+            System.out.println(getSeparator());
         }
+        while (command.getCommandWord() != CommandWord.QUIT);
+
         System.out.println("Thanks for visiting, and have a great time!");
-        System.out.println(getSeparator());
     }
 
+    /**
+     * Write this string to a text file.
+     * @param inputString The string to be written.
+     */
     private void recordInputString(String inputString)
     {
         try {
@@ -63,31 +73,20 @@ public class CustomerBooking {
 
     /**
      * Process and evaluate the command entered by calling appropriate methods.
-     * If null is entered, it evaluates the command as main.cinema.Command.UNKNOWN.
+     * If null is entered, it evaluates the command as Command.UNKNOWN.
+     *
      * @param command The command to evaluate.
-     * @return True if the user wants to quit, false if not.
      */
-    public boolean evaluateCommand(Command command)
+    public void evaluateCommand(Command command)
     {
-        // Print a line of dashes for readability.
-        System.out.println(getSeparator());
-
         // Evaluate the command.
-        if(command == null) {
-            unknown();
-            return false;
-        }
         switch (command.getCommandWord()) {
             case HELP -> help();
             case BOOK -> book(command);
             case LIST -> list(command);
-            case QUIT -> { return true; }
+            case QUIT -> {}
             default -> unknown();
         }
-
-        // Print a line of dashes for readability.
-        System.out.println(getSeparator());
-        return false;
     }
 
     /**
@@ -95,8 +94,10 @@ public class CustomerBooking {
      */
     private void help()
     {
-        System.out.println("With our booking platform you can book movies, etc.");
-        System.out.println(parser.getAllCommands());
+        System.out.println("""
+                With our booking platform you can book tickets to movies.
+                These are the available commands:
+                """ + parser.getAllCommands());
     }
 
     /**
@@ -107,7 +108,33 @@ public class CustomerBooking {
      */
     private void book(Command command)
     {
-        /* TODO
+        System.out.println("Which movie would you like to book a ticket for?");
+        String movie = parser.readInput();
+
+        Screen screen;
+        try{
+            screen = office.validateMovieTitle(movie);
+        }
+        catch (MovieDoesNotExistException e) {
+            bookingError(e.getMessage());
+            return;
+        }
+        System.out.println("Current screening of the movie:\n" + screen.getDetails());
+        System.out.println("Which seat would you like to book?");
+        String[] seatPosition;
+        do {
+            System.out.println("Please provide the seat as '<column>, <row>'. Example: 3, 4");
+            seatPosition = parser.readInputAsArray();
+        } while (seatPosition.length < 2);
+        /* TODO: Fix this method.
+        screen.validateSeatNumbers(seatPosition[0], seatPosition[1]);
+        try {
+            Ticket ticket = office.bookTicket(movie, Integer.parseInt(seatPosition[0]), Integer.parseInt(seatPosition[1]));
+        } catch (MovieDoesNotExistException | UnavailableSeatException e) {
+            throw new RuntimeException(e);
+        }
+
+        /* TODO: Is this method needed?
         for (String movieTitle : office.getAllMovieTitles()) {
             if(movieTitle.toLowerCase().equals(command.getSecondWord())) {
                 Ticket ticket = office.bookRandomTicket(movieTitle);
@@ -117,7 +144,6 @@ public class CustomerBooking {
         }
         /* if a movie title has not been matched with the movie booking requested, only then will the bookError() line be
         reached. Otherwise, the method will return once a match is found. */
-        bookError();
     }
 
     /**
@@ -146,9 +172,9 @@ public class CustomerBooking {
     /**
      * Print an error message, if there is an error with booking a specific movie.
      */
-    private void bookError()
+    private void bookingError(String message)
     {
-        System.out.println("Sorry, we couldn't find the movie you were looking for.");
+        System.out.println("## " + message + " ##");
     }
 
     /**
