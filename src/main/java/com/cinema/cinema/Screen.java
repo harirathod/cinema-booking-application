@@ -140,8 +140,9 @@ public class Screen
     {
         String details = "";
         details += "ID: " + id + "\n";
-        details += "Current Movie: " + movieTitle + "\n";
-        details += "main.cinema.Ticket Cost: " + ticketCost;
+        details += "Current Movie: '" + movieTitle + "'\n";
+        details += "Seat capacity: " + seats.length + " columns, by " + seats[0].length + " rows.\n";
+        details += "Ticket Cost: £" + (ticketCost / 100 );
 
         return details;
     }
