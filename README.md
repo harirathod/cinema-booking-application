@@ -52,9 +52,9 @@ And you're done! You can now try out the cinema booking application via the term
 
 (As of now), the main method of class **com.cinema.cinema.SetUpDatabase** creates some Screens and writes them to a file "screens.ser".
 
-When the main method of class **com.cinema.cinema.Main** is run, the cinema booking application starts, and the Screens in "screens.ser" are loaded into the application.
+When the main method of class **com.cinema.cinema.Main** is run to start the cinema booking application, and the Screens in "screens.ser" are loaded into the application.
 
-Any tickets booked by the user are written to "tickets.ser", so are stored persistently.
+Any tickets booked by the user are written to "tickets.ser", so are stored persistently. These tickets can be viewed with the 'basket' command. 
 
 ## Project Status
 
