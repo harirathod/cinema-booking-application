@@ -140,7 +140,7 @@ public class Screen implements Serializable
     public String getDetails()
     {
         String details = "";
-        details += "ID: " + id + "\n";
+        details += "Screen: " + id + "\n";
         details += "Current Movie: '" + movieTitle + "'\n";
         details += "Seat capacity: " + seats.length + " columns, by " + seats[0].length + " rows.\n";
         details += "Ticket Cost: £" + (ticketCost / 100 ) + "\n";
@@ -202,7 +202,7 @@ public class Screen implements Serializable
     {
         if (columnNumber < 1 || columnNumber > seats.length || rowNumber < 1 || rowNumber > seats[0].length) {
             String error = "Seat position (" + columnNumber + ", " + rowNumber + ") out of range for "
-                    + "available seats " + seats.length + seats[0].length;
+                    + "available seats (" + seats.length + ", " + seats[0].length + ")";
             throw new InvalidSeatException(error);
         }
     }
