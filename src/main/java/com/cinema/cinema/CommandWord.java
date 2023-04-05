@@ -8,7 +8,7 @@ package com.cinema.cinema;
 
 public enum CommandWord {
     HELP("help", null), QUIT("finished", null), BOOK("book", "movie title"),
-    LIST("list", "movies"), BASKET("basket", null),UNKNOWN(null, null);
+    LIST("list", "movies"), BASKET("basket", null), UNKNOWN(null, null);
 
     private String commandString;
     private String placeholder;
