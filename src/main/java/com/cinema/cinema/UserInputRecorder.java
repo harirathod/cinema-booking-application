@@ -3,17 +3,15 @@ package com.cinema.cinema;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.Scanner;
 
 /**
  * This class records the history of user input in a file.
  */
-public class ConsoleHistoryRecorder {
+public class UserInputRecorder {
     private static final String FILENAME = "user_input_history.txt";
 
-    public ConsoleHistoryRecorder() throws IOException
+    public UserInputRecorder() throws IOException
     {
         try (BufferedWriter writer = Files.newBufferedWriter(Path.of(FILENAME))) {
             // File is opened in write mode, automatically clearing it.
