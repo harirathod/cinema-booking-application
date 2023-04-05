@@ -5,6 +5,7 @@
 - **[Technologies Used](#technologies-used)**
 - **[Purpose of Project](#purpose-of-project)**
 - **[Using the Project Yourself](#using-the-project-yourself)**
+- **[How the Project Works](#how-the-project-works)
 - **[Project Status](#project-status)**
 - **[Room for Improvement](#room-for-improvement)**
 ## Overview
@@ -14,7 +15,6 @@ This is a cinema booking application that runs in the terminal.
 ## Technologies Used
 - Java 18
   - File I/O
-  - Exception Handling
   - JUnit 5
 
 ## Purpose of Project
@@ -22,12 +22,11 @@ This is a cinema booking application that runs in the terminal.
 The project was created alongside my studies of Year 1 Computer Science.
 
 This project demonstrates my continued learning of programming principles, including:
+- File I/O
 - Exception Handling
 - JUnit testing
-- Test-driven development
 - Responsibility-driven design
-- Cohesion
-- Coupling
+- Cohesion & Coupling
 - Maintainability
 
 ## Using the Project Yourself
@@ -49,19 +48,18 @@ java main.cinema.Main
 
 And you're done! You can now try out the cinema booking application via the terminal!
 
+## How the Project Works
+
+(As of now), the main method of class **com.cinema.cinema.SetUpDatabase** creates some Screens and writes them to a file "screens.ser".
+
+When the main method of class **com.cinema.cinema.Main** is run, the cinema booking application starts, and the Screens in "screens.ser" are loaded into the application.
+
+Any tickets booked by the user are written to "tickets.ser", so are stored persistently.
+
 ## Project Status
 
 This project is actively under development.
 
 ## Room for Improvement
-- Improving code to use checked exceptions.
-- Improving code to write history of user input to text file.
-- Separate the booking into two, so there's two views of the application: one for the customer, when booking tickets; and one for the manager, when adding screens, movies, ticket prices.
-  This could be hooked up to a database, so changes made by the manager are saved.
-- Make a class for Movies.
-  > NB: Use ObjectOutputStream and ObjectInputStream to record listed movies.
-  
 
-- Use inheritance to create **separate main.cinema.CommandWord enum classes** defining separate functionality for when the manager and customer need to use the application.
-
-
+- todo 
