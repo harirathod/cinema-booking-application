@@ -143,6 +143,7 @@ public class TextInterface {
             screen.validateSeatNumbers(columnNumber, rowNumber);
         } catch (InvalidSeatException e) {
             System.out.println(e.getMessage());
+            return;
         }
 
         try {
