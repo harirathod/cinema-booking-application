@@ -127,7 +127,7 @@ public class TicketOffice
         screens.values().stream()
                 .filter(Screen::hasMovieScreening)
                 .map(Screen::getDetails)
-                .forEach(details::append);
+                .forEach(x -> details.append(x).append("\n"));
         return details.toString();
     }
 
