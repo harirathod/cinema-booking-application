@@ -2,17 +2,11 @@ package com.cinema.cinema;
 
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 /**
  * TicketOffice is manages the other class. It is through this class
  * that screens and movies can be added, and tickets can be bought.
- * <p>
- * TODO: Review class to:
- *              1. Validate the creation of a new Screen, and
- *              2. Use screen.validateSeatNumber before booking, and
- *              3. Make sure to handle exceptions / pass them upwards to TextInterface.
- *
+
  * @author Hari Rathod
  * @version 2022.12.08
  */
@@ -124,14 +118,17 @@ public class TicketOffice
     }
 
     /**
-     * Show all the movies currently showing at the cinema.
+     * Get the details of all the movies currently showing at the cinema, formatted as a String.
+     * @return The details of all movies, formatted as a String.
      */
-    public void showMovies()
+    public String getAllMoviesDetails()
     {
+        StringBuilder details = new StringBuilder();
         screens.values().stream()
                 .filter(Screen::hasMovieScreening)
                 .map(Screen::getDetails)
-                .forEach(System.out::println);
+                .forEach(details::append);
+        return details.toString();
     }
 
     /**
@@ -180,7 +177,7 @@ public class TicketOffice
     public Screen validateMovieTitle(String movie) throws MovieDoesNotExistException
     {
         return screens.values().stream()
-                .filter(x -> x.getMovieTitle().equals(movie))
+                .filter(x -> movie.equals(x.getMovieTitle()))
                 .findFirst().orElseThrow(() -> new MovieDoesNotExistException("Movie " + movie + " is not being screened."));
     }
 
