@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class TextInterface {
     private Parser parser;
     private final TicketOffice office;
-    private ConsoleHistoryRecorder consoleHistoryRecorder;
+    private UserInputRecorder userInputRecorder;
     private final ObjectDataRecorder<Ticket> ticketDataRecorder = new ObjectDataRecorder<>(Filename.TICKET, Ticket.class);
     private final ObjectDataRecorder<Screen> screenDataRecorder = new ObjectDataRecorder<>(Filename.SCREEN, Screen.class);
 
@@ -28,9 +28,15 @@ public class TextInterface {
         this.office = new TicketOffice();
 
         try {
-            consoleHistoryRecorder = new ConsoleHistoryRecorder();
+            ticketDataRecorder.resetFile();
         } catch (IOException e) {
-            System.out.println("Error writing to " + e.getMessage());
+            System.out.println("There was an error resetting ticket history." + e.getMessage());
+        }
+
+        try {
+            userInputRecorder = new UserInputRecorder();
+        } catch (IOException e) {
+            System.out.println("There was an error writing to " + e.getMessage());
         }
 
         populateScreens();
@@ -65,7 +71,7 @@ public class TextInterface {
     private void recordInputString(String inputString)
     {
         try {
-            consoleHistoryRecorder.writeStringToFile(inputString.toString());
+            userInputRecorder.writeStringToFile(inputString.toString());
         } catch (IOException e) {
             System.out.println("Error writing to file " + e.getMessage());
         }
@@ -181,10 +187,18 @@ public class TextInterface {
     }
 
     /**
-     * Print all tickets that the user has stored
+     * Print details of all tickets that the user has booked.
      */
     private void showTickets()
     {
+        try {
+            List<Ticket> list = ticketDataRecorder.readListOfObjectsFromFile();
+            for (Ticket ticket : list) {
+                System.out.println(ticket.getDetails());
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error getting tickets from basket.");
+        }
     }
 
     /**
