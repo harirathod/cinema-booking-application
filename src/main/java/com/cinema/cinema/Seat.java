@@ -1,12 +1,14 @@
 package com.cinema.cinema;
 
+import java.io.Serializable;
+
 /**
  * Class Seat defines a single seat in a cinema.
  *
  * @author Hari Rathod k22002783
  * @version 2023.03.28
  */
-public class Seat
+public class Seat implements Serializable
 {
     // Whether the seat is available or not.
     private boolean available;
