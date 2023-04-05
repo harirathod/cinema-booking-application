@@ -5,7 +5,7 @@
 - **[Technologies Used](#technologies-used)**
 - **[Purpose of Project](#purpose-of-project)**
 - **[Using the Project Yourself](#using-the-project-yourself)**
-- **[How the Project Works](#how-the-project-works)
+- **[How the Project Works](#how-the-project-works)**
 - **[Project Status](#project-status)**
 - **[Room for Improvement](#room-for-improvement)**
 ## Overview
