@@ -5,16 +5,14 @@ import java.io.IOException;
 /**
  * This class is used to ensure the ticket and screen files are set up appropriately.
  */
-public class DatabaseManipulator {
-    private final ObjectDataRecorder<Ticket> ticketDataRecorder = new ObjectDataRecorder<>(Filename.TICKET, Ticket.class);
+public class ScreenDataManipulator {
     private final ObjectDataRecorder<Screen> screenDataRecorder = new ObjectDataRecorder<>(Filename.SCREEN, Screen.class);
 
     /**
      * Initialise fields. Ensure the ticket and screen files are reset.
      * @throws IOException If there was an error handling the files.
      */
-    public DatabaseManipulator() throws IOException {
-        ticketDataRecorder.resetFile();
+    public ScreenDataManipulator() throws IOException {
         screenDataRecorder.resetFile();
     }
 
