@@ -1,5 +1,6 @@
 package com.cinema.cinema;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Random;
@@ -10,7 +11,7 @@ import java.util.Random;
  * @author Hari Rathod
  * @version 2023.03.28
  */
-public class Screen
+public class Screen implements Serializable
 {
     private String movieTitle;
 
@@ -142,7 +143,7 @@ public class Screen
         details += "ID: " + id + "\n";
         details += "Current Movie: '" + movieTitle + "'\n";
         details += "Seat capacity: " + seats.length + " columns, by " + seats[0].length + " rows.\n";
-        details += "Ticket Cost: £" + (ticketCost / 100 );
+        details += "Ticket Cost: £" + (ticketCost / 100 ) + "\n";
 
         return details;
     }
