@@ -41,8 +41,7 @@ cd cinema-booking-application/src/
 
 2. Start the application with the following commands:
 ```shell
-javac main.cinema.Main.java
-java main.cinema.Main
+TODO
 ```
 > **Note:** Please make sure you have the JDK (Java Development Kit) installed.
 
