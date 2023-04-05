@@ -1,6 +1,8 @@
 package com.cinema.cinema;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * This class is to be used when the customer is making a booking.
@@ -12,28 +14,26 @@ import java.io.IOException;
 
 public class TextInterface {
     private Parser parser;
-    private TicketOffice office;
+    private final TicketOffice office;
     private ConsoleHistoryRecorder consoleHistoryRecorder;
+    private final ObjectDataRecorder<Ticket> ticketDataRecorder = new ObjectDataRecorder<>(Filename.TICKET, Ticket.class);
+    private final ObjectDataRecorder<Screen> screenDataRecorder = new ObjectDataRecorder<>(Filename.SCREEN, Screen.class);
 
     /**
      * Constructor to initialise fields.
      */
-    public TextInterface(TicketOffice office)
+    public TextInterface()
     {
         parser = new Parser();
-        if (office != null) {
-            this.office = office;
-        }
-        else {
-            this.office = new TicketOffice();
-        }
+        this.office = new TicketOffice();
 
         try {
             consoleHistoryRecorder = new ConsoleHistoryRecorder();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Error writing to " + e.getMessage());
         }
+
+        populateScreens();
     }
 
     /**
@@ -82,8 +82,9 @@ public class TextInterface {
         // Evaluate the command.
         switch (command.getCommandWord()) {
             case HELP -> help();
-            case BOOK -> book(command);
+            case BOOK -> book();
             case LIST -> list(command);
+            case BASKET -> showTickets();
             case QUIT -> {}
             default -> unknown();
         }
@@ -101,49 +102,62 @@ public class TextInterface {
     }
 
     /**
-     * Books a random seat for given movie title. Parameter should be passed at 'BOOK movie', where 'movie' is allowed
-     * to consist of spaces. If the movie does not exist, nothing will be booked, and an error will be printed.
-     * Throws NullPointerException if 'null' is passed in.
-     * @param command The command should be entered as 'BOOK movie'.
+     * Allows the user to book a seat for a movie, by prompting them to enter the name of the movie, then the
+     * seat numbers.
      */
-    private void book(Command command)
+    private void book()
     {
         System.out.println("Which movie would you like to book a ticket for?");
         String movie = parser.readInput();
 
         Screen screen;
-        try{
+        try {
+            // Get the screen that is screening the movie.
             screen = office.validateMovieTitle(movie);
-        }
-        catch (MovieDoesNotExistException e) {
+        } catch (MovieDoesNotExistException e) {
             bookingError(e.getMessage());
             return;
         }
+
         System.out.println("Current screening of the movie:\n" + screen.getDetails());
         System.out.println("Which seat would you like to book?");
         String[] seatPosition;
+
+        // Use regex to check the row and column values entered are parsable integers.
+        Pattern numberPattern = Pattern.compile("\\d+");
         do {
             System.out.println("Please provide the seat as '<column>, <row>'. Example: 3, 4");
             seatPosition = parser.readInputAsArray();
-        } while (seatPosition.length < 2);
-        /* TODO: Fix this method.
-        screen.validateSeatNumbers(seatPosition[0], seatPosition[1]);
+        } while (seatPosition.length < 2 || (!(numberPattern.matcher(seatPosition[0]).matches() && numberPattern.matcher(seatPosition[1]).matches())));
+
+        int columnNumber = Integer.parseInt(seatPosition[0]);
+        int rowNumber = Integer.parseInt(seatPosition[1]);
         try {
-            Ticket ticket = office.bookTicket(movie, Integer.parseInt(seatPosition[0]), Integer.parseInt(seatPosition[1]));
-        } catch (MovieDoesNotExistException | UnavailableSeatException e) {
-            throw new RuntimeException(e);
+            // Check that the seat numbers are a valid position for that screen.
+            screen.validateSeatNumbers(columnNumber, rowNumber);
+        } catch (InvalidSeatException e) {
+            System.out.println(e.getMessage());
         }
 
-        /* TODO: Is this method needed?
-        for (String movieTitle : office.getAllMovieTitles()) {
-            if(movieTitle.toLowerCase().equals(command.getSecondWord())) {
-                Ticket ticket = office.bookRandomTicket(movieTitle);
-                System.out.println(ticket.getDetails());
-                return;
+        try {
+            Ticket ticket = office.bookTicket(movie, columnNumber, rowNumber);
+            try {
+                // Store the ticket in the ticket data file.
+                ticketDataRecorder.writeToFile(ticket);
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("There was an error saving your ticket.");;
             }
+        } catch (UnavailableSeatException | MovieDoesNotExistException e) {
+            System.out.println(e.getMessage());
         }
-        /* if a movie title has not been matched with the movie booking requested, only then will the bookError() line be
-        reached. Otherwise, the method will return once a match is found. */
+    }
+
+    /**
+     * Print an error message, if there is an error with booking.
+     */
+    private void bookingError(String message)
+    {
+        System.out.println("## " + message + " ##");
     }
 
     /**
@@ -158,7 +172,19 @@ public class TextInterface {
             System.out.println("Please do not enter any arguments after 'list'.");
             return;
         }
-        office.showMovies();
+        String detailsOfMovies = office.getAllMoviesDetails();
+        if (detailsOfMovies.isEmpty()) {
+            System.out.println("No movies currently showing.");
+        } else {
+            System.out.print(detailsOfMovies);
+        }
+    }
+
+    /**
+     * Print all tickets that the user has stored
+     */
+    private void showTickets()
+    {
     }
 
     /**
@@ -167,14 +193,6 @@ public class TextInterface {
     private void unknown()
     {
         System.out.println("Sorry, we didn't understand what you meant.\nPlease enter 'help' for more advice.");
-    }
-
-    /**
-     * Print an error message, if there is an error with booking a specific movie.
-     */
-    private void bookingError(String message)
-    {
-        System.out.println("## " + message + " ##");
     }
 
     /**
@@ -187,14 +205,22 @@ public class TextInterface {
     }
 
     /**
-     * Populate the cinema with movies and screens.
+     * Populate the cinema with screens.
      */
-    private void populateCinema()
-    {/* TODO:
-        office.addScreen(1, 12, 26);
-        office.addScreen(2, 20, 20);
-
-        office.addNewMovie(1, "Black Panther 3", 1395);
-        office.addNewMovie(2, "Batman - Dark of the Moon", 1300);*/
+    private void populateScreens() {
+        try {
+            List<Screen> screens = screenDataRecorder.readListOfObjectsFromFile();
+            for (Screen screen : screens) {
+                try {
+                    office.addScreen(screen);
+                } catch (ScreenIdAlreadyExistsException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        } catch (ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error handling file " + screenDataRecorder.getFILENAME() + " " + e.getMessage());
+        }
     }
 }
