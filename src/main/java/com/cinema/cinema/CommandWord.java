@@ -52,4 +52,23 @@ public enum CommandWord {
         return placeholder != null;
     }
 
+    /**
+     * Get a list of all valid commands, formatted as 'help, book, quit'
+     * @return A string that describes the valid commands.
+     */
+    public static String getAllCommands()
+    {
+        String formattedString = "";
+
+        for(CommandWord command : CommandWord.values()) {
+            if(command.getCommandString() != null) {
+                formattedString += "\n" + command.getCommandString();
+                if(command.hasPlaceholder()) {
+                    formattedString += " <" + command.getPlaceholder() + ">";
+                }
+            }
+        }
+
+        return formattedString;
+    }
 }
