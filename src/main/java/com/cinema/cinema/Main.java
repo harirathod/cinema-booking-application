@@ -11,7 +11,7 @@ public class Main {
      * @param args Leave empty.
      */
     public static void main(String[] args) {
-        TextInterface textInterface = new TextInterface();
-        textInterface.start();
+        CustomerBooking customerBooking = new CustomerBooking();
+        customerBooking.start();
     }
 }
