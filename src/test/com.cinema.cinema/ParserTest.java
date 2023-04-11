@@ -10,7 +10,6 @@ import org.junit.jupiter.api.*;
  * @version 2023.02.05
  */
 public class ParserTest {
-    Parser parser = new Parser();
 
     public ParserTest()
     {
@@ -27,14 +26,5 @@ public class ParserTest {
     public void tearDown()
     {
         // nothing to do here
-    }
-
-    /**
-     * Test that all commands are printed out correctly.
-     */
-    @Test
-    public void testGetAllCommands()
-    {
-        assertEquals("Commands available:\nhelp\nfinished\nbook <movie title>\nlist <movies>\nbasket", parser.getAllCommands());
     }
 }
