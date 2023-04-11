@@ -13,4 +13,13 @@ class CommandWordTest {
     @Test
     void getPlaceholder() {
     }
+
+    /**
+     * Test that all commands are printed out correctly.
+     */
+    @Test
+    public void testGetAllCommands()
+    {
+        assertEquals("\nhelp\nfinished\nbook <movie title>\nlist <movies>\nbasket", CommandWord.getAllCommands());
+    }
 }
