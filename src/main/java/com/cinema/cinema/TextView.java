@@ -1,5 +1,10 @@
 package com.cinema.cinema;
 
+/**
+ * A console / terminal view for the cinema booking application.
+ * @author hari_rathod
+ * @version 2023.04.12
+ */
 public class TextView implements View {
 
     /**
@@ -41,14 +46,5 @@ public class TextView implements View {
     public void displayError(String message)
     {
         display("## " + message + " ##");
-    }
-
-    /**
-     * Return a line of dashes, that can be used to separate sections of text. Use to increase readability.
-     * @return A line of dashes, to separate sections of text.
-     */
-    private String getSeparator()
-    {
-        return "    ---------------------------------    ";
     }
 }
