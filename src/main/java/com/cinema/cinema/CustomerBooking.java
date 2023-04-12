@@ -16,6 +16,7 @@ public class CustomerBooking {
     private Parser parser;
     private final TicketOffice office;
     private UserInputRecorder userInputRecorder;
+    private View view;
     private final ObjectDataRecorder<Ticket> ticketDataRecorder = new ObjectDataRecorder<>(Filename.TICKET, Ticket.class);
     private final ObjectDataRecorder<Screen> screenDataRecorder = new ObjectDataRecorder<>(Filename.SCREEN, Screen.class);
 
@@ -25,18 +26,19 @@ public class CustomerBooking {
     public CustomerBooking()
     {
         parser = new Parser();
-        this.office = new TicketOffice();
+        office = new TicketOffice();
+        view = new TextView();
 
         try {
             ticketDataRecorder.resetFile();
         } catch (IOException e) {
-            System.out.println("There was an error resetting ticket history." + e.getMessage());
+            view.displayError("There was an error resetting ticket history." + e.getMessage());
         }
 
         try {
             userInputRecorder = new UserInputRecorder();
         } catch (IOException e) {
-            System.out.println("There was an error writing to " + e.getMessage());
+            view.displayError("There was an error writing to " + e.getMessage());
         }
 
         populateScreens();
@@ -47,7 +49,7 @@ public class CustomerBooking {
      */
     public void start()
     {
-        System.out.println("Welcome to Glacier Cinema!");
+        view.display("Welcome to Glacier Cinema!");
 
         // While the user is not finished, get the next command and evaluate it.
         Command command = null;
@@ -55,13 +57,11 @@ public class CustomerBooking {
             String input = parser.readInput();
             recordInputString(input);
             command = CommandConverter.convertToCommand(input);
-            System.out.println(getSeparator());
             evaluateCommand(command);
-            System.out.println(getSeparator());
         }
         while (command.getCommandWord() != CommandWord.QUIT);
 
-        System.out.println("Thanks for visiting, and have a great time!");
+        view.displayWithFormatting("Thanks for visiting, and have a great time!");
     }
 
     /**
@@ -73,7 +73,7 @@ public class CustomerBooking {
         try {
             userInputRecorder.writeStringToFile(inputString.toString());
         } catch (IOException e) {
-            System.out.println("Error writing to file " + e.getMessage());
+            view.displayError("Error writing to file " + e.getMessage());
         }
     }
 
@@ -101,10 +101,9 @@ public class CustomerBooking {
      */
     private void help()
     {
-        System.out.println("""
+        view.displayWithFormatting("""
                 With our booking platform you can book tickets to movies.
-                These are the available commands:
-                """ + CommandWord.getAllCommands());
+                These are the available commands:""" + CommandWord.getAllCommands());
     }
 
     /**
@@ -113,7 +112,7 @@ public class CustomerBooking {
      */
     private void book()
     {
-        System.out.println("Which movie would you like to book a ticket for?");
+        view.display("Which movie would you like to book a ticket for?");
         String movie = parser.readInput();
 
         Screen screen;
@@ -121,18 +120,18 @@ public class CustomerBooking {
             // Get the screen that is screening the movie.
             screen = office.validateMovieTitle(movie);
         } catch (MovieDoesNotExistException e) {
-            bookingError(e.getMessage());
+            view.displayError(e.getMessage());
             return;
         }
 
-        System.out.println("Current screening of the movie:\n" + screen.getDetails());
-        System.out.println("Which seat would you like to book?");
+        view.display("Current screening of the movie:\n" + screen.getDetails());
+        view.display("Which seat would you like to book?");
         String[] seatPosition;
 
         // Use regex to check the row and column values entered are parsable integers.
         Pattern numberPattern = Pattern.compile("\\d+");
         do {
-            System.out.println("Please provide the seat as '<column>, <row>'. Example: 3, 4");
+            view.display("Please provide the seat as '<column>, <row>'. Example: 3, 4");
             seatPosition = parser.readInputAsArray();
         } while (seatPosition.length < 2 || (!(numberPattern.matcher(seatPosition[0]).matches() && numberPattern.matcher(seatPosition[1]).matches())));
 
@@ -142,7 +141,7 @@ public class CustomerBooking {
             // Check that the seat numbers are a valid position for that screen.
             screen.validateSeatNumbers(columnNumber, rowNumber);
         } catch (InvalidSeatException e) {
-            System.out.println(e.getMessage());
+            view.displayError(e.getMessage());
             return;
         }
 
@@ -151,22 +150,14 @@ public class CustomerBooking {
             try {
                 // Store the ticket in the tickets data file.
                 ticketDataRecorder.writeToFile(ticket);
-                System.out.println("Ticket successfully added to basket.");
-                System.out.printf("You have %d tickets in your basket.\n".formatted(ticketDataRecorder.getNumberOfObjects()));
+                view.displayWithFormatting("Ticket successfully added to basket."
+                        + "\nYou have %d tickets in your basket.".formatted(ticketDataRecorder.getNumberOfObjects()));
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("There was an error saving your ticket.");;
+                view.displayError("There was an error saving your ticket.");;
             }
         } catch (UnavailableSeatException | MovieDoesNotExistException e) {
-            System.out.println(e.getMessage());
+            view.displayError(e.getMessage());
         }
-    }
-
-    /**
-     * Print an error message, if there is an error with booking.
-     */
-    private void bookingError(String message)
-    {
-        System.out.println("## " + message + " ##");
     }
 
     /**
@@ -178,14 +169,14 @@ public class CustomerBooking {
     private void list(Command command)
     {
         if(command.hasSecondWord()) {
-            System.out.println("Please do not enter any arguments after 'list'.");
+            view.displayWithFormatting("Please do not enter any arguments after 'list'.");
             return;
         }
         String detailsOfMovies = office.getAllMoviesDetails();
         if (detailsOfMovies.isEmpty()) {
-            System.out.println("No movies currently showing.");
+            view.displayWithFormatting("No movies currently showing.");
         } else {
-            System.out.print(detailsOfMovies);
+            view.displayWithFormatting(detailsOfMovies);
         }
     }
 
@@ -197,13 +188,17 @@ public class CustomerBooking {
         try {
             List<Ticket> list = ticketDataRecorder.readListOfObjectsFromFile();
             if (list.isEmpty()) {
-                System.out.println("No tickets in your basket.");
+                view.displayWithFormatting("No tickets in your basket.");
             }
-            for (Ticket ticket : list) {
-                System.out.println(ticket.getDetails());
+            else {
+                String details = "";
+                for (Ticket ticket : list) {
+                    details += ticket.getDetails();
+                }
+                view.displayWithFormatting(details);
             }
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error getting tickets from basket.");
+            view.displayError("Error getting tickets from basket.");
         }
     }
 
@@ -212,7 +207,7 @@ public class CustomerBooking {
      */
     private void unknown()
     {
-        System.out.println("Sorry, we didn't understand what you meant.\nPlease enter 'help' for more advice.");
+        view.displayWithFormatting("Sorry, we didn't understand what you meant.\nPlease enter 'help' for more advice.");
     }
 
     /**
@@ -225,13 +220,13 @@ public class CustomerBooking {
                 try {
                     office.addScreen(screen);
                 } catch (ScreenIdAlreadyExistsException e) {
-                    System.out.println(e.getMessage());
+                    view.displayError(e.getMessage());
                 }
             }
         } catch (ClassNotFoundException e) {
-            System.out.println(e.getMessage());
+            view.displayError(e.getMessage());
         } catch (IOException e) {
-            System.out.println("Error handling file " + screenDataRecorder.getFILENAME() + " " + e.getMessage());
+            view.displayError("Error handling file " + screenDataRecorder.getFILENAME() + " " + e.getMessage());
         }
     }
 }
