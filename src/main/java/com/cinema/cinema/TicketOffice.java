@@ -127,7 +127,7 @@ public class TicketOffice
         screens.values().stream()
                 .filter(Screen::hasMovieScreening)
                 .map(Screen::getDetails)
-                .forEach(x -> details.append(x).append("\n"));
+                .forEach(x -> details.append("\n").append(x));
         return details.toString();
     }
 
@@ -178,7 +178,7 @@ public class TicketOffice
     {
         return screens.values().stream()
                 .filter(x -> movie.equals(x.getMovieTitle()))
-                .findFirst().orElseThrow(() -> new MovieDoesNotExistException("Movie " + movie + " is not being screened."));
+                .findFirst().orElseThrow(() -> new MovieDoesNotExistException("Movie '" + movie + "' is not being screened."));
     }
 
     /**
