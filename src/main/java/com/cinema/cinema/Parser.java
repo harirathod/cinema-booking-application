@@ -6,6 +6,7 @@ package com.cinema.cinema;
  * @version 2023.03.30
  */
 
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -16,8 +17,8 @@ public class Parser {
     /**
      * Initialise fields.
      */
-    public Parser() {
-        scanner = new Scanner(System.in);
+    public Parser(InputStream inputStream) {
+        scanner = new Scanner(inputStream);
     }
 
     /**
