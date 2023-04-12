@@ -25,7 +25,7 @@ public class CustomerBooking {
      */
     public CustomerBooking()
     {
-        parser = new Parser();
+        parser = new Parser(System.in);
         office = new TicketOffice();
         view = new TextView();
 
@@ -52,7 +52,7 @@ public class CustomerBooking {
         view.display("Welcome to Glacier Cinema!");
 
         // While the user is not finished, get the next command and evaluate it.
-        Command command = null;
+        Command command;
         do {
             String input = parser.readInput();
             recordInputString(input);
