@@ -90,6 +90,17 @@ public class ObjectDataRecorder<E> {
         }
     }
 
+    /**
+     * Get number of objects that are stored in the file.
+     *
+     * @throws IOException            If there was an error handling the file.
+     * @throws ClassNotFoundException If the objects in the file are not of the same type as the ObjectDataRecorder's type.
+     */
+    public int getNumberOfObjects() throws IOException, ClassNotFoundException {
+        List<E> list = readListOfObjectsFromFile();
+        return list.size();
+    }
+
 
     /**
      * Creates a new file if it doesn't exist, otherwise, this method clears the existing file.
