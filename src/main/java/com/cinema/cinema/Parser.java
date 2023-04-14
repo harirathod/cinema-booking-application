@@ -6,10 +6,12 @@ package com.cinema.cinema;
  * @version 2023.03.30
  */
 
+import java.io.BufferedReader;
 import java.io.InputStream;
-import java.util.Arrays;
+import java.io.InputStreamReader;
 import java.util.Scanner;
-import java.util.regex.Pattern;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Parser {
     private Scanner scanner;
@@ -34,9 +36,9 @@ public class Parser {
     /**
      * Get the next line of input as an array of tokens.
      */
-    public String[] readInputAsArray()
+    /**public String[] readInputAsArray()
     {
         String input = readInput();
-        return Pattern.compile("[\\p{Punct}\\s]+").split(input);
-    }
+        return StringSplitter.splitByPunctuation(input);
+    }*/
 }
