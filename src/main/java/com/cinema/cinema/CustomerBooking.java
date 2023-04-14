@@ -1,19 +1,25 @@
 package com.cinema.cinema;
 
+import javafx.application.Platform;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.regex.Pattern;
 
 /**
  * This class is to be used when the customer is making a booking.
- *
  * This class implements the functionality of commands and evaluates them.
  * @author Hari Rathod
  * @version 2023.02.05
  */
 
 public class CustomerBooking {
-    private Parser parser;
+
+    private BlockingQueue<String> blockingQueue;
     private final TicketOffice office;
     private UserInputRecorder userInputRecorder;
     private View view;
@@ -23,11 +29,12 @@ public class CustomerBooking {
     /**
      * Constructor to initialise fields.
      */
-    public CustomerBooking()
-    {
-        parser = new Parser(System.in);
+    public CustomerBooking() throws InterruptedException {
+
         office = new TicketOffice();
         view = new TextView();
+        view.start();
+        blockingQueue = view.getBlockingQueue();
 
         try {
             ticketDataRecorder.resetFile();
@@ -40,12 +47,16 @@ public class CustomerBooking {
         } catch (IOException e) {
             view.displayError("There was an error writing to " + e.getMessage());
         }
-
+        // Populate the ticket office with screens from "screens.ser".
         populateScreens();
+
     }
 
+
+
     /**
-     * Starts the booking, and continue to process user input until the user quits the application.
+     * Take input from the View (UI) and continues to process input until the user enters the String
+     * equivalent of CommandWord.QUIT.
      */
     public void start()
     {
@@ -54,8 +65,16 @@ public class CustomerBooking {
         // While the user is not finished, get the next command and evaluate it.
         Command command;
         do {
-            String input = parser.readInput();
-            recordInputString(input);
+            String input = null;
+            try {
+                // Get the user input from the 'View' (i.e., the user interface), and record it in a file.
+                view.setWaitingForInput();
+                input = blockingQueue.take();
+                recordInputString(input);
+            } catch (InterruptedException e) {
+                e.printStackTrace(); // TODO: To be removed. This line only for testing.
+                input = "";
+            }
             command = CommandConverter.convertToCommand(input);
             evaluateCommand(command);
         }
@@ -73,7 +92,7 @@ public class CustomerBooking {
         try {
             userInputRecorder.writeStringToFile(inputString.toString());
         } catch (IOException e) {
-            view.displayError("Error writing to file " + e.getMessage());
+            view.displayError("Error writing user history to file " + e.getMessage());
         }
     }
 
@@ -88,7 +107,13 @@ public class CustomerBooking {
         // Evaluate the command.
         switch (command.getCommandWord()) {
             case HELP -> help();
-            case BOOK -> book();
+            case BOOK -> {
+                try {
+                    book();
+                } catch (InterruptedException e) {
+                    view.displayError("There was an error with your booking.", "Apologies, this is on our side not yours..");
+                }
+            }
             case LIST -> list(command);
             case BASKET -> showTickets();
             case QUIT -> {}
@@ -97,7 +122,7 @@ public class CustomerBooking {
     }
 
     /**
-     * Provide helpful information for the user.
+     * Display helpful information for the user, such as what the application does and a list of all commands.
      */
     private void help()
     {
@@ -107,13 +132,17 @@ public class CustomerBooking {
     }
 
     /**
-     * Allows the user to book a seat for a movie, by prompting them to enter the name of the movie, then the
-     * seat numbers.
+     * Starts asking the user a series of questions for booking a seat to a movie. First, this method asks
+     * the user for the name of the movie, and waits for the user response. Second, the user asks for the seat
+     * position.
+     * If there is an error with any of the stages, view.displayError(...) is called, to display the message in
+     * a user-friendly way.
+     * @throws InterruptedException If this thread was interrupted whilst waiting for the user input to be provided
+     * by the View (UI).
      */
-    private void book()
-    {
+    private void book() throws InterruptedException {
         view.display("Which movie would you like to book a ticket for?");
-        String movie = parser.readInput();
+        String movie = blockingQueue.take();
 
         Screen screen;
         try {
@@ -132,7 +161,7 @@ public class CustomerBooking {
         Pattern numberPattern = Pattern.compile("\\d+");
         do {
             view.display("Please provide the seat as '<column>, <row>'. Example: 3, 4");
-            seatPosition = parser.readInputAsArray();
+            seatPosition = StringSplitter.splitByPunctuation(blockingQueue.take());
         } while (seatPosition.length < 2 || (!(numberPattern.matcher(seatPosition[0]).matches() && numberPattern.matcher(seatPosition[1]).matches())));
 
         int columnNumber = Integer.parseInt(seatPosition[0]);
@@ -153,7 +182,7 @@ public class CustomerBooking {
                 view.displayWithFormatting("Ticket successfully added to basket."
                         + "\nYou have %d tickets in your basket.".formatted(ticketDataRecorder.getNumberOfObjects()));
             } catch (IOException | ClassNotFoundException e) {
-                view.displayError("There was an error saving your ticket.");;
+                view.displayError("There was an error saving your ticket.");
             }
         } catch (UnavailableSeatException | MovieDoesNotExistException e) {
             view.displayError(e.getMessage());
