@@ -116,6 +116,7 @@ public class ObjectDataRecorder<E> {
             }
         } else {
             Files.createFile(path);
+            resetFile();
         }
     }
 
