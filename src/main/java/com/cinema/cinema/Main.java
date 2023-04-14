@@ -10,7 +10,7 @@ public class Main {
      * The main method that starts the application.
      * @param args Leave empty.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         CustomerBooking customerBooking = new CustomerBooking();
         customerBooking.start();
     }
