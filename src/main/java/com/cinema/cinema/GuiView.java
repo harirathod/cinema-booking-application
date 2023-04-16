@@ -35,16 +35,13 @@ public class GuiView extends Application implements View {
     }
 
     /**
-     * Get the BlockingQueue in use by this View (UI).
-     * This blocking queue is necessary to correctly pass user input between the View and the
-     * 'controller' (MVC) class.
-     * @return The BlockingQueue that will be used by the 'controller' (MVC) class to take user input.
+     * Get the input from the user.
+     * @return The user input.
      */
-    @Override
-    public BlockingQueue<String> getBlockingQueue() {
-        return blockingQueue;
+    public String getInput()
+    {
+        return null; //TODO
     }
-
 
     /**
      * The method that starts the GUI application.
@@ -136,14 +133,5 @@ public class GuiView extends Application implements View {
     public void display(String text)
     {
         output.setText(output.getText() + "\n" + text);
-    }
-
-    /**
-     * Display a prompt to the user.
-     */
-    @Override
-    public void setWaitingForInput()
-    {
-        submitButton.setDisable(false);
     }
 }
