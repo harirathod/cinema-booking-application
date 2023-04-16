@@ -19,7 +19,6 @@ import java.util.regex.Pattern;
 
 public class CustomerBooking {
 
-    private BlockingQueue<String> blockingQueue;
     private final TicketOffice office;
     private UserInputRecorder userInputRecorder;
     private View view;
@@ -34,7 +33,6 @@ public class CustomerBooking {
         office = new TicketOffice();
         view = new TextView();
         view.start();
-        blockingQueue = view.getBlockingQueue();
 
         try {
             ticketDataRecorder.resetFile();
@@ -65,16 +63,9 @@ public class CustomerBooking {
         // While the user is not finished, get the next command and evaluate it.
         Command command;
         do {
-            String input = null;
-            try {
-                // Get the user input from the 'View' (i.e., the user interface), and record it in a file.
-                view.setWaitingForInput();
-                input = blockingQueue.take();
-                recordInputString(input);
-            } catch (InterruptedException e) {
-                e.printStackTrace(); // TODO: To be removed. This line only for testing.
-                input = "";
-            }
+            // Get the user input from the 'View' (i.e., the user interface), and record it in a file.
+            String input = view.getInput();
+            recordInputString(input);
             command = CommandConverter.convertToCommand(input);
             evaluateCommand(command);
         }
@@ -142,7 +133,7 @@ public class CustomerBooking {
      */
     private void book() throws InterruptedException {
         view.display("Which movie would you like to book a ticket for?");
-        String movie = blockingQueue.take();
+        String movie = view.getInput();
 
         Screen screen;
         try {
@@ -161,7 +152,7 @@ public class CustomerBooking {
         Pattern numberPattern = Pattern.compile("\\d+");
         do {
             view.display("Please provide the seat as '<column>, <row>'. Example: 3, 4");
-            seatPosition = StringSplitter.splitByPunctuation(blockingQueue.take());
+            seatPosition = StringSplitter.splitByPunctuation(view.getInput());
         } while (seatPosition.length < 2 || (!(numberPattern.matcher(seatPosition[0]).matches() && numberPattern.matcher(seatPosition[1]).matches())));
 
         int columnNumber = Integer.parseInt(seatPosition[0]);
