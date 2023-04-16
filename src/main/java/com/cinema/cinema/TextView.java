@@ -1,10 +1,6 @@
 package com.cinema.cinema;
 
-import java.io.InputStream;
 import java.util.Scanner;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.regex.Pattern;
 
 /**
  * A console / terminal view for the cinema booking application.
@@ -13,46 +9,24 @@ import java.util.regex.Pattern;
  */
 public class TextView implements View {
     private Scanner scanner;
-    private boolean waitingForInput;
-    private BlockingQueue<String> blockingQueue;
 
     /**
      * Sets up the view.
      */
     public void start()
     {
-        waitingForInput = false;
-        blockingQueue = new LinkedBlockingQueue<>();
         scanner = new Scanner(System.in);
 
-        Thread inputThread = new Thread(() -> {
-            while(true) {
-                try {
-                    Thread.sleep(0);
-                } catch (InterruptedException e) {
-                    continue;
-                }
-                if (waitingForInput) {
-                    System.out.print("> ");
-                    String line = scanner.nextLine();
-                    blockingQueue.offer(line);
-                    waitingForInput = false;
-                }
-            }
-        });
-        inputThread.setDaemon(true);
-        inputThread.start();
     }
 
     /**
-     * Get the BlockingQueue in use by this View (UI).
-     * This blocking queue is necessary to correctly pass user input between the View and the
-     * 'controller' (MVC) class.
-     * @return The BlockingQueue that will be used by the 'controller' (MVC) class to take user input.
+     * Get the input from the user.
+     * @return The user input.
      */
-    @Override
-    public BlockingQueue<String> getBlockingQueue() {
-        return blockingQueue;
+    public String getInput()
+    {
+        System.out.print("> ");
+        return scanner.nextLine();
     }
 
     /**
@@ -75,15 +49,6 @@ public class TextView implements View {
     public void display(String text)
     {
         System.out.println(text);
-    }
-
-    /**
-     * Make the view ready to receive user input.
-     */
-    @Override
-    public void setWaitingForInput()
-    {
-        this.waitingForInput = true;
     }
 
     /**
