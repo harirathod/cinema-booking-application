@@ -22,7 +22,13 @@ public interface View {
      * 'controller' (MVC) class.
      * @return The BlockingQueue that will be used by the 'controller' (MVC) class to take user input.
      */
-    BlockingQueue<String> getBlockingQueue();
+    //BlockingQueue<String> getBlockingQueue();
+
+    /**
+     * Get the input from the user.
+     * @return The user input.
+     */
+    String getInput()
 
     /**
      * Display some formatted text to the user.
@@ -58,8 +64,4 @@ public interface View {
         return "    ---------------------------------    ";
     }
 
-    /**
-     * Set the View as ready to receive input.
-     */
-    void setWaitingForInput();
 }
