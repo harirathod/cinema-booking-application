@@ -1,13 +1,7 @@
 package com.cinema.cinema;
 
-import javafx.application.Platform;
-import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.regex.Pattern;
 
 /**
@@ -28,11 +22,14 @@ public class CustomerBooking {
     /**
      * Constructor to initialise fields.
      */
-    public CustomerBooking() throws InterruptedException {
+    public CustomerBooking() {
 
         office = new TicketOffice();
-        view = new TextView();
+
+        view = new JavaFXController();
+
         view.start();
+
 
         try {
             ticketDataRecorder.resetFile();
@@ -58,6 +55,7 @@ public class CustomerBooking {
      */
     public void start()
     {
+        System.out.println("trying to display in view");
         view.display("Welcome to Glacier Cinema!");
 
         // While the user is not finished, get the next command and evaluate it.
