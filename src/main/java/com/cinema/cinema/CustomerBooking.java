@@ -21,12 +21,13 @@ public class CustomerBooking {
 
     /**
      * Constructor to initialise fields.
+     * @param v The view that we want to run the customer booking with. Null must not be passed.
      */
-    public CustomerBooking() {
+    public CustomerBooking(View v) {
 
         office = new TicketOffice();
 
-        view = new JavaFXController();
+        view = v;
 
         view.start();
 
@@ -154,7 +155,12 @@ public class CustomerBooking {
         Pattern numberPattern = Pattern.compile("\\d+");
         do {
             view.display("Please provide the seat as '<column>, <row>'. Example: 3, 4");
-            seatPosition = StringSplitter.splitByPunctuation(view.getInput());
+            String input = view.getInput();
+            seatPosition = StringSplitter.splitByPunctuation(input);
+            if (input.equals(CommandWord.QUIT.getCommandString())) {
+                view.display("Booking cancelled.");
+                return;
+            }
         } while (seatPosition.length < 2 || (!(numberPattern.matcher(seatPosition[0]).matches() && numberPattern.matcher(seatPosition[1]).matches())));
 
         int columnNumber = Integer.parseInt(seatPosition[0]);
