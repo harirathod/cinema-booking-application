@@ -14,8 +14,6 @@ This is a cinema booking application that runs in the terminal.
 
 ## Technologies Used
 - Java 18
-  - File I/O
-  - JUnit 5
 
 ## Purpose of Project
 
