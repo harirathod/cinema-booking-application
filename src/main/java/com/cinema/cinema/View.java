@@ -16,19 +16,12 @@ public interface View {
      */
     void start();
 
-    /**
-     * Get the BlockingQueue in use by this View (UI).
-     * This blocking queue is necessary to correctly pass user input between the View and the
-     * 'controller' (MVC) class.
-     * @return The BlockingQueue that will be used by the 'controller' (MVC) class to take user input.
-     */
-    //BlockingQueue<String> getBlockingQueue();
-
+    
     /**
      * Get the input from the user.
      * @return The user input.
      */
-    String getInput()
+    String getInput();
 
     /**
      * Display some formatted text to the user.
