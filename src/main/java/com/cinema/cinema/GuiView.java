@@ -1,6 +1,7 @@
 package com.cinema.cinema;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -35,7 +36,6 @@ public class GuiView extends Application implements View {
      */
     public GuiView() {
         thisGuiView = this;
-        countDownLatch.countDown();
     }
 
     /**
@@ -66,7 +66,6 @@ public class GuiView extends Application implements View {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         //blockingQueue = new LinkedBlockingQueue<>();
 
         output = new Label();
@@ -99,6 +98,7 @@ public class GuiView extends Application implements View {
         primaryStage.setTitle("Cinema Booking Application");
         primaryStage.setScene(scene);
         primaryStage.show();
+        countDownLatch.countDown();
     }
 
     /**
