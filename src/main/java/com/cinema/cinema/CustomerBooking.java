@@ -55,8 +55,12 @@ public class CustomerBooking {
      */
     public void start()
     {
-        System.out.println("trying to display in view");
-        view.display("Welcome to Glacier Cinema!");
+        view.displayWithFormatting("""
+                Welcome to Glacier Cinema!
+                We're the brand new cinema on the scene,
+                and we've got all the popular movies in screen!
+                Trust, you won't go wrong with us.
+                """);
 
         // While the user is not finished, get the next command and evaluate it.
         Command command;
