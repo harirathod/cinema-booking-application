@@ -54,7 +54,7 @@ public interface View {
      */
     default String getSeparator()
     {
-        return "    ---------------------------------    ";
+        return "---------------------------------";
     }
 
 }
