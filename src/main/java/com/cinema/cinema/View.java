@@ -1,9 +1,6 @@
 package com.cinema.cinema;
 
 import java.io.File;
-import java.io.InputStream;
-import java.util.Queue;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * A view interface for the cinema booking application.
@@ -59,8 +56,8 @@ public interface View {
     }
 
     /**
-     * Get a selected file from the user.
-     * @return A file selected by the user.
+     * Get a selected file from the user, which is the location they want to save to.
+     * @return The file selected by the user.
      */
-    File getSelectedFile();
+    File getSelectedSaveFile();
 }
