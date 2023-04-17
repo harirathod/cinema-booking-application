@@ -3,6 +3,10 @@ package com.cinema.cinema;
 import javafx.application.Application;
 import javafx.application.Platform;
 
+import java.io.File;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
+
 /**
  * Class JavaFXController launches the GuiView class, and provides methods for manipulating the view. It is used as
  * an interface between the main controlling class 'CustomerBooking' and the 'GuiView', so that the 'CustomerBooking' does
@@ -76,5 +80,20 @@ public class JavaFXController implements View {
         Platform.runLater(() -> guiView.display(text));
     }
 
-
+    @Override
+    public File getSelectedFile()
+    {
+        AtomicReference<File> file = new AtomicReference<>();
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            file.set(guiView.getSelectedFile());
+            countDownLatch.countDown();
+        });
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return file.get();
+    }
 }
