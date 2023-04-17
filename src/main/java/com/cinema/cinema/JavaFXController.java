@@ -80,13 +80,18 @@ public class JavaFXController implements View {
         Platform.runLater(() -> guiView.display(text));
     }
 
+    /**
+     * Get the selected save file from the user. This method is thread-safe, in that it does not return
+     * until the file is obtained from the GuiView, which is run on the separate JavaFX thread.
+     * @return The selected save file.
+     */
     @Override
-    public File getSelectedFile()
+    public File getSelectedSaveFile()
     {
         AtomicReference<File> file = new AtomicReference<>();
         CountDownLatch countDownLatch = new CountDownLatch(1);
         Platform.runLater(() -> {
-            file.set(guiView.getSelectedFile());
+            file.set(guiView.getSelectedSaveFile());
             countDownLatch.countDown();
         });
         try {
