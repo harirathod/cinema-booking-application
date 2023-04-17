@@ -1,6 +1,7 @@
 package com.cinema.cinema;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 
 /**
  * Class JavaFXController launches the GuiView class, and provides methods for manipulating the view. It is used as
@@ -22,9 +23,7 @@ public class JavaFXController implements View {
         new Thread(() -> {
             Application.launch(GuiView.class);
         }).start();
-        System.out.println("hasnt got guiView yet");
         guiView = GuiView.getInstance();
-        System.out.println("run was released");
     }
 
     /**
@@ -43,7 +42,7 @@ public class JavaFXController implements View {
     @Override
     public void displayWithFormatting(String text)
     {
-        guiView.displayWithFormatting(text);
+        Platform.runLater(() -> guiView.displayWithFormatting(text));
     }
 
     /**
@@ -53,7 +52,7 @@ public class JavaFXController implements View {
     @Override
     public void displayError(String message)
     {
-        guiView.displayError(message);
+        Platform.runLater(() -> guiView.displayError(message));
     }
 
     /**
@@ -64,7 +63,7 @@ public class JavaFXController implements View {
     @Override
     public void displayError(String title, String message)
     {
-        guiView.displayError(title, message);
+        Platform.runLater(() -> guiView.displayError(title, message));
     }
 
     /**
@@ -74,6 +73,8 @@ public class JavaFXController implements View {
     @Override
     public void display(String text)
     {
-        guiView.display(text);
+        Platform.runLater(() -> guiView.display(text));
     }
+
+
 }
