@@ -1,5 +1,6 @@
 package com.cinema.cinema;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
@@ -57,4 +58,9 @@ public interface View {
         return "---------------------------------";
     }
 
+    /**
+     * Get a selected file from the user.
+     * @return A file selected by the user.
+     */
+    File getSelectedFile();
 }
