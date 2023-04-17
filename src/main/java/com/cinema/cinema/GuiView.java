@@ -7,14 +7,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -36,6 +40,7 @@ public class GuiView extends Application implements View {
     private TextField input;
     private Button submitButton;
     private BlockingQueue<String> blockingQueue;
+    private Stage stage;
 
     /**
      * Constructor.
@@ -76,6 +81,7 @@ public class GuiView extends Application implements View {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
+        this.stage = primaryStage;
         blockingQueue = new LinkedBlockingQueue<>(1);
 
         output = new Label();
@@ -96,11 +102,22 @@ public class GuiView extends Application implements View {
         Scene scene = new Scene(root);
         scene.getStylesheets().add("style.css");
         scene.getAccelerators().put(new KeyCodeCombination(KeyCode.ENTER), () -> submitButton.fire());
+
         primaryStage.setTitle("Cinema Booking Application");
         primaryStage.setScene(scene);
         primaryStage.show();
         primaryStage.setResizable(false);
         countDownLatch.countDown();
+    }
+
+    /**
+     * Open the save dialogue-window.
+     */
+    public File getSelectedFile()
+    {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+        return fileChooser.showSaveDialog(stage);
     }
 
     /**
