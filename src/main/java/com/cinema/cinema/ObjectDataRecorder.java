@@ -53,9 +53,10 @@ public class ObjectDataRecorder<E> {
     }
 
     /**
-     * Get the list of objects currently stored in the file.
+     * Get the list of objects currently stored in the file. Return an empty list if there were no objects
+     * found in the file.
      *
-     * @return The list of objects currently being stored in the file.
+     * @return The list of objects currently being stored in the file, or an empty list if there were no objects.
      * @throws IOException            If there was an error reading from the file.
      * @throws ClassNotFoundException If the objects read were not of the same type as this ObjectDataRecorder's generic.
      */
