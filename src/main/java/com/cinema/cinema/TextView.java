@@ -1,5 +1,6 @@
 package com.cinema.cinema;
 
+import java.io.File;
 import java.util.Scanner;
 
 /**
@@ -49,6 +50,12 @@ public class TextView implements View {
     public void display(String text)
     {
         System.out.println(text);
+    }
+
+    @Override
+    public File getSelectedSaveFile()
+    {
+        return new File(getInput());
     }
 
     /**
