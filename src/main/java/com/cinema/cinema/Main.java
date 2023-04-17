@@ -11,7 +11,7 @@ public class Main {
      * @param args Leave empty.
      */
     public static void main(String[] args) throws InterruptedException {
-        CustomerBooking customerBooking = new CustomerBooking(new TextView());
+        CustomerBooking customerBooking = new CustomerBooking(new JavaFXController());
         customerBooking.start();
     }
 }
