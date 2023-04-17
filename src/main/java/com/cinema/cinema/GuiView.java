@@ -111,9 +111,10 @@ public class GuiView extends Application implements View {
     }
 
     /**
-     * Open the save dialogue-window.
+     * Open the save dialogue-window and prompt the user for a location to save their tickets to.
+     * @return The file that the user selected to save to.
      */
-    public File getSelectedFile()
+    public File getSelectedSaveFile()
     {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
@@ -140,7 +141,8 @@ public class GuiView extends Application implements View {
     {
         String text = input.getText();
         input.clear();
-        display(text);
+        // Uncomment to show the user what they've typed in.
+        // display(text);
 
         if(!blockingQueue.offer(text)) displayError("There was an error reading your input"
                 , "Apologies, we could not process your user input at this time.");
