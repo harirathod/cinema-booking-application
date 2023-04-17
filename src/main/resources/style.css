@@ -1,0 +1,21 @@
+* {
+
+}
+
+.label {
+    -fx-padding: 16px;
+    -fx-alignment: top-center;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+}
+
+.scroll-pane {
+    -fx-fit-to-width: true;
+    -fx-vbar-policy: always;
+}
+
+HBox {
+    -fx-alignment: center;
+    -fx-spacing: 16px;
+    -fx-padding: 8px;
+}
