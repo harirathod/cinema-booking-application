@@ -1,7 +1,11 @@
 package com.cinema.cinema;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -61,8 +65,7 @@ public class CustomerBooking {
                 Welcome to Glacier Cinema!
                 We're the brand new cinema on the scene,
                 and we've got all the popular movies in screen!
-                Trust, you won't go wrong with us.
-                """);
+                You won't go wrong with us.""");
 
         // While the user is not finished, get the next command and evaluate it.
         Command command;
@@ -137,7 +140,7 @@ public class CustomerBooking {
      * by the View (UI).
      */
     private void book() throws InterruptedException {
-        view.display("Which movie would you like to book a ticket for?");
+        view.displayWithFormatting("Which movie would you like to book a ticket for?");
         String movie = view.getInput();
 
         Screen screen;
@@ -150,7 +153,7 @@ public class CustomerBooking {
         }
 
         view.display("Current screening of the movie:\n" + screen.getDetails());
-        view.display("Which seat would you like to book?");
+        view.displayWithFormatting("Which seat would you like to book?");
         String[] seatPosition;
 
         // Use regex to check the row and column values entered are parsable integers.
@@ -213,22 +216,11 @@ public class CustomerBooking {
     /**
      * Print details of all tickets that the user has booked.
      */
-    private void showTickets()
-    {
-        try {
-            List<Ticket> list = ticketDataRecorder.readListOfObjectsFromFile();
-            if (list.isEmpty()) {
-                view.displayWithFormatting("No tickets in your basket.");
-            }
-            else {
-                String details = "";
-                for (Ticket ticket : list) {
-                    details += ticket.getDetails();
-                }
-                view.displayWithFormatting(details);
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            view.displayError("Error getting tickets from basket.");
+    private void showTickets() {
+        if (getDetailsOfTicketsInBasket() == null) {
+            view.displayWithFormatting("No tickets in your basket.");
+        } else {
+            view.displayWithFormatting(getDetailsOfTicketsInBasket());
         }
     }
 
@@ -237,9 +229,34 @@ public class CustomerBooking {
      */
     private void saveTickets()
     {
-        view.display("Choose a filename to save the tickets to.");
-        File file = view.getSelectedFile();
-        System.out.println(file);
+        String details = getDetailsOfTicketsInBasket();
+        if (details == null) {
+            view.display("No tickets to save.");
+            return;
+        }
+
+        File file = view.getSelectedSaveFile();
+        if (file != null) {
+            try (BufferedWriter writer = Files.newBufferedWriter(Path.of(file.getPath()))) {
+                writer.write(details);
+            } catch (IOException e) {
+                view.displayError("Saving Tickets Error", "Could not save tickets to the specified location.");
+            }
+        }
+    }
+
+    private String getDetailsOfTicketsInBasket()
+    {
+        String details = null;
+        try {
+            List<Ticket> list = ticketDataRecorder.readListOfObjectsFromFile();
+            if (!list.isEmpty()) {
+                details = Ticket.getAllTicketsDetails(list);
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            view.displayError("Error getting tickets from basket.");
+        }
+        return details;
     }
 
     /**
@@ -269,4 +286,8 @@ public class CustomerBooking {
             view.displayError("Error handling file " + screenDataRecorder.getFILENAME() + " " + e.getMessage());
         }
     }
+
+    /**
+     *
+     */
 }
