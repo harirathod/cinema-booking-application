@@ -3,6 +3,7 @@ package com.cinema.cinema;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Collection;
 
 /**
      * Ticket defines a ticket that is associated with the showing of a movie
@@ -89,6 +90,20 @@ import java.time.LocalTime;
             LocalTime time = this.date.toLocalTime();
             date += time.minusNanos(time.getNano());
             return date;
+        }
+
+        /**
+         * Convert a collection of tickets to a string representation.
+         * @param tickets The collection of tickets.
+         * @return The string representation of the tickets.
+         */
+        public static String getAllTicketsDetails(Collection<Ticket> tickets)
+        {
+            String details = "";
+            for (Ticket ticket : tickets) {
+                details += ticket.getDetails() + "\n";
+            }
+            return details;
         }
     }
 
