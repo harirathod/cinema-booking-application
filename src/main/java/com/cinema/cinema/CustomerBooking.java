@@ -1,5 +1,6 @@
 package com.cinema.cinema;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -96,8 +97,7 @@ public class CustomerBooking {
      *
      * @param command The command to evaluate.
      */
-    public void evaluateCommand(Command command)
-    {
+    public void evaluateCommand(Command command) {
         // Evaluate the command.
         switch (command.getCommandWord()) {
             case HELP -> help();
@@ -110,7 +110,9 @@ public class CustomerBooking {
             }
             case LIST -> list(command);
             case BASKET -> showTickets();
-            case QUIT -> {}
+            case SAVE -> saveTickets();
+            case QUIT -> {
+            }
             default -> unknown();
         }
     }
@@ -228,6 +230,16 @@ public class CustomerBooking {
         } catch (IOException | ClassNotFoundException e) {
             view.displayError("Error getting tickets from basket.");
         }
+    }
+
+    /**
+     * Save the tickets to a text file.
+     */
+    private void saveTickets()
+    {
+        view.display("Choose a filename to save the tickets to.");
+        File file = view.getSelectedFile();
+        System.out.println(file);
     }
 
     /**
