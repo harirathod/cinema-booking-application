@@ -170,14 +170,15 @@ public class TicketOffice
     /**
      * Get the Screen that is screening a movie.
      *
-     * @param movie The movie to search for.
+     * @param movie The title of the movie, or partial title of the movie, to search for.
      * @return The Screen that is screening the movie.
      * @throws MovieDoesNotExistException If there is no screening of this movie.
      */
     public Screen validateMovieTitle(String movie) throws MovieDoesNotExistException
     {
         return screens.values().stream()
-                .filter(x -> movie.equals(x.getMovieTitle()))
+                .filter(Screen::hasMovieScreening)
+                .filter(x -> x.getMovieTitle().toLowerCase().contains(movie.toLowerCase()))
                 .findFirst().orElseThrow(() -> new MovieDoesNotExistException("Movie '" + movie + "' is not being screened."));
     }
 
@@ -193,10 +194,7 @@ public class TicketOffice
     public Ticket bookTicket(String movieTitle, int seatNumber, int rowNumber) throws MovieDoesNotExistException, UnavailableSeatException
     {
         // Check that the movie is being screened.
-        validateMovieTitle(movieTitle);
-
-        return screens.values().stream()
-                    .filter(x -> movieTitle.equals(x.getMovieTitle()))
-                    .findFirst().get().bookTicket(seatNumber, rowNumber);
+        Screen screen = validateMovieTitle(movieTitle);
+        return screen.bookTicket(seatNumber, rowNumber);
     }
 }
