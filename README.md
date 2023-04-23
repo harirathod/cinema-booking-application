@@ -14,14 +14,13 @@ This is a cinema booking application that runs in the terminal.
 
 ## Technologies Used
 - Java 18
-  - File I/O
-  - JUnit 5
 
 ## Purpose of Project
 
 The project was created alongside my studies of Year 1 Computer Science.
 
 This project demonstrates my continued learning of programming principles, including:
+- Java Concurrency
 - File I/O
 - Exception Handling
 - JUnit testing
