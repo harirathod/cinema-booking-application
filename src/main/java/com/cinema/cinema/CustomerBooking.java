@@ -153,7 +153,7 @@ public class CustomerBooking {
         }
 
         view.display("Current screening of the movie:\n" + screen.getDetails());
-        view.displayWithFormatting("Which seat would you like to book?");
+        view.displayWithFormatting(String.format("Which seat would you like to book to '%s'?", screen.getMovieTitle()));
         String[] seatPosition;
 
         // Use regex to check the row and column values entered are parsable integers.
@@ -239,6 +239,7 @@ public class CustomerBooking {
         if (file != null) {
             try (BufferedWriter writer = Files.newBufferedWriter(Path.of(file.getPath()))) {
                 writer.write(details);
+                view.display(String.format("Saved tickets to '%s'", file.getPath()));
             } catch (IOException e) {
                 view.displayError("Saving Tickets Error", "Could not save tickets to the specified location.");
             }
