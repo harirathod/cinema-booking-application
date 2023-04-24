@@ -1,31 +1,11 @@
 package com.cinema.cinema;
 
 /**
- * This class provides methods for converting String types to CommandWord and Command types.
+ * This class provides methods for converting String types to ManagerCommandWord and Command types.
  * @author Hari Rathod
  * @version 2023.03.29
  */
 public class CommandConverter {
-
-    /**
-     * Converts the string to an appropriate command word. If the string is null or unrecognised, the CommandWord returned
-     * is CommandWord.UNKNOWN.
-     * @param word The string to convert to a CommandWord.
-     * @return The CommandWord most appropriate to the parameter entered.
-     */
-    public static CommandWord convertToCommandWord(String word)
-    {
-        if(word == null) {
-            return CommandWord.UNKNOWN;
-        }
-        word = word.toLowerCase();
-        for(CommandWord command : CommandWord.values()) {
-            if(word.equals(command.getCommandString())) {
-                return command;
-            }
-        }
-        return CommandWord.UNKNOWN;
-    }
 
     /**
      * Convert the string to a Command.
@@ -33,7 +13,7 @@ public class CommandConverter {
      *               must be separated by a space. This method can recognise at most 2 words, separated by a space, in an 'inputString'.
      * @return A Command for the string provided.
      */
-    public static Command convertToCommand(String inputString)
+    public static <E extends CommandWord> Command<E> convertToCommand(String inputString, E e)
     {
         // First word defines the command.
         String commandWord = null;
@@ -52,7 +32,6 @@ public class CommandConverter {
                 secondWord = inputWords[1];
             }
         }
-
-        return new Command(CommandConverter.convertToCommandWord(commandWord), secondWord);
+        return new Command<E>(e.convertToCommandWord(commandWord), secondWord);
     }
 }
