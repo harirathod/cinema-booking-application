@@ -8,11 +8,12 @@ import java.nio.file.StandardOpenOption;
 /**
  * This class records the history of user input in a file.
  */
-public class UserInputRecorder {
-    private static final String FILENAME = "user_input_history.txt";
+public class InputRecorder {
+    private final String FILENAME;
 
-    public UserInputRecorder() throws IOException
+    public InputRecorder(String FILENAME) throws IOException
     {
+        this.FILENAME = FILENAME;
         try (BufferedWriter writer = Files.newBufferedWriter(Path.of(FILENAME))) {
             // File is opened in write mode, automatically clearing it.
         }
