@@ -20,6 +20,6 @@ class CommandWordTest {
     @Test
     public void testGetAllCommands()
     {
-        assertEquals("\nhelp\nfinished\nbook <movie title>\nlist <movies>\nbasket", CommandWord.getAllCommands());
+        assertEquals("\nhelp\nfinished\nbook <movie title>\nlist <movies>\nbasket", ManagerCommandWord.getAllCommands());
     }
 }
