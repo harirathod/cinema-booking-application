@@ -8,14 +8,14 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Class JavaFXController launches the GuiView class, and provides methods for manipulating the view. It is used as
+ * Class GuiViewController launches the GuiView class, and provides methods for manipulating the view. It is used as
  * an interface between the main controlling class 'CustomerBooking' and the 'GuiView', so that the 'CustomerBooking' does
  * not need to specify Application.launch(GuiView.class).
  *
  * @author hari_rathod
  * @version 2023.04.17
  */
-public class JavaFXController implements View {
+public class GuiViewController implements View {
     private GuiView guiView;
 
     /**
