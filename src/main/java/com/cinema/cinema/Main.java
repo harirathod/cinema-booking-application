@@ -8,10 +8,10 @@ public class Main {
 
     /**
      * The main method that starts the application.
-     * @param args Leave empty.
+     * @param args Ignore.
      */
     public static void main(String[] args) throws InterruptedException {
-        CustomerBooking customerBooking = new CustomerBooking(new JavaFXController());
-        customerBooking.start();
+        new CustomerBooking(new GuiViewController()).start();
+
     }
 }
