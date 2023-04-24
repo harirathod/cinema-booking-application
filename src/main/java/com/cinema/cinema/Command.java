@@ -6,8 +6,8 @@ package com.cinema.cinema;
  * @author Hari Rathod
  * @version 2023.03.29
  */
-public class Command {
-    private CommandWord commandWord;
+public class Command<E extends CommandWord> {
+    private E commandWord;
     private String secondWord;
 
     /**
@@ -15,7 +15,7 @@ public class Command {
      * @param commandWord The first word of the Command. The 'action'.
      * @param secondWord The second word of the Command. The 'subject'.
      */
-    public Command(CommandWord commandWord, String secondWord)
+    public Command(E commandWord, String secondWord)
     {
         this.commandWord = commandWord;
         this.secondWord = secondWord;
@@ -25,7 +25,7 @@ public class Command {
      * Get the command word.
      * @return The command word.
      */
-    public CommandWord getCommandWord()
+    public E getCommandWord()
     {
         return commandWord;
     }
