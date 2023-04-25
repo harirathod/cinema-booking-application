@@ -58,7 +58,12 @@ public class TicketOfficeTest
         } catch (ScreenIdAlreadyExistsException | InvalidScreenParameterException e) {
             fail();
         }
-        assertNotNull(ticketOffice.findScreen(1));
+        try {
+            ticketOffice.findScreen(1);
+            assertTrue(true);
+        } catch (ScreenIdDoesNotExistException e) {
+            fail();
+        }
     }
 
     /**
