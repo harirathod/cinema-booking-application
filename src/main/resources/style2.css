@@ -1,0 +1,23 @@
+.root {
+    -fx-background-color: white;
+}
+
+VBox {
+    -fx-fill-width: false;
+    -fx-padding: 16px;
+    -fx-spacing: 8px;
+}
+
+#box-with-button {
+    -fx-alignment: center;
+}
+
+#box-with-button .button {
+    -fx-background-color: dimgray;
+    -fx-text-fill: white;
+}
+
+#box-with-button .button:pressed {
+    -fx-text-fill: black;
+    -fx-background-color: gainsboro;
+}
