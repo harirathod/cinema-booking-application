@@ -13,7 +13,7 @@ public class CommandConverter {
      *               must be separated by a space. This method can recognise at most 2 words, separated by a space, in an 'inputString'.
      * @return A Command for the string provided.
      */
-    public static <E extends CommandWord> Command<E> convertToCommand(String inputString, E e)
+    public static Command convertToCommand(String inputString, BookingType bookingType)
     {
         // First word defines the command.
         String commandWord = null;
@@ -32,6 +32,28 @@ public class CommandConverter {
                 secondWord = inputWords[1];
             }
         }
-        return new Command<E>(e.convertToCommandWord(commandWord), secondWord);
+        return new Command(convertToCommandWord(commandWord, bookingType), secondWord);
+    }
+
+    /**
+     * Converts the string to an appropriate command word. If the string is null or unrecognised, the CommandWord returned
+     * is CommandWord.UNKNOWN.
+     * @param word The string to convert to a CommandWord.
+     *             If the string is null, the CommandWord returned is CommandWord.UNKNOWN.
+     * @param bookingType The booking type to get the commands for.
+     * @return The CommandWord most appropriate to the parameter entered.
+     */
+    private static CommandWord convertToCommandWord(String word, BookingType bookingType)
+    {
+        if(word == null) {
+            return CommandWord.UNKNOWN;
+        }
+        word = word.toLowerCase();
+        for(CommandWord command : bookingType.getCommands()) {
+            if(word.equals(command.getCommandString())) {
+                return command;
+            }
+        }
+        return CommandWord.UNKNOWN;
     }
 }
