@@ -9,10 +9,15 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Class GuiViewController launches the GuiView class, and provides methods for manipulating the view. It is used as
- * an interface between the main controlling class 'CustomerBooking' and the 'GuiView', so that the 'CustomerBooking' does
- * not need to specify Application.launch(GuiView.class).
+ * an interface between the Booking classes and the GuiView, so that the Booking classes do
+ * not need to specify Application.launch(GuiView.class), or Platform.runLater(...)
+ * If a Booking class wants to use GuiView, they must use GuiViewController as their View.
  *
- * @author hari_rathod
+ * As the GuiView JavaFX class can only be updated from the JavaFX thread, the Booking classes cannot
+ * update the view without using 'Platform.runLater(...)'. To maintain a high level of abstraction in class Booking, from the View subclasses,
+ * this GuiViewController is necessary.
+ *
+ * @author Hari Rathod
  * @version 2023.04.17
  */
 public class GuiViewController implements View {
