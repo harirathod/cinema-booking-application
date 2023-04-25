@@ -92,10 +92,15 @@ public class TicketOffice
      *
      * @param id The id of the screen to get.
      * @return The screen that matches the id, or null if the screen is not found.
+     * @throws ScreenIdDoesNotExistException If the screen was not found.
      */
-    public Screen findScreen(int id)
-    {
-        return screens.get(id);
+    public Screen findScreen(int id) throws ScreenIdDoesNotExistException {
+        Screen screen = screens.get(id);
+        if (screen != null) {
+            return screen;
+        } else {
+            throw new ScreenIdDoesNotExistException("Screen with id (" + id + ") does not exist.");
+        }
     }
 
     /**
