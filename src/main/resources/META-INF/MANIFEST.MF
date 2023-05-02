@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Main-Class: com.cinema.cinema.Main
+Class-Path: javafx-base-19.0.2.1-mac.jar opentest4j-1.2.0.jar mongodb-dr
+ iver-sync-4.9.0.jar junit-jupiter-5.9.2.jar annotations-24.0.1.jar java
+ fx-controls-19.0.2.1.jar javafx-controls-19.0.2.1-mac.jar mongodb-drive
+ r-core-4.9.0.jar junit-platform-commons-1.9.2.jar bson-record-codec-4.9
+ .0.jar apiguardian-api-1.1.2.jar javafx-base-19.0.2.1.jar javafx-fxml-1
+ 9.0.2.1-mac.jar javafx-graphics-19.0.2.1.jar javafx-fxml-19.0.2.1.jar j
+ avafx-graphics-19.0.2.1-mac.jar junit-platform-engine-1.9.2.jar junit-j
+ upiter-params-5.9.2.jar bson-4.9.0.jar
+
