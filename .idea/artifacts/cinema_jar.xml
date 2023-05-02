@@ -1,29 +1,27 @@
 <component name="ArtifactManager">
-  <artifact build-on-make="true" name="cinema:jar">
+  <artifact type="jar" build-on-make="true" name="cinema:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/cinema_jar</output-path>
-    <root id="root">
-      <element id="archive" name="cinema.jar">
-        <element id="module-output" name="cinema" />
-      </element>
-      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:mac:19.0.2.1" />
-      <element id="library" level="project" name="Maven: org.opentest4j:opentest4j:1.2.0" />
-      <element id="library" level="project" name="Maven: org.mongodb:mongodb-driver-sync:4.9.0" />
-      <element id="library" level="project" name="Maven: org.junit.jupiter:junit-jupiter:5.9.2" />
-      <element id="library" level="project" name="Maven: org.jetbrains:annotations:24.0.1" />
-      <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:19.0.2.1" />
-      <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:mac:19.0.2.1" />
-      <element id="library" level="project" name="Maven: org.mongodb:mongodb-driver-core:4.9.0" />
-      <element id="library" level="project" name="Maven: org.junit.platform:junit-platform-commons:1.9.2" />
-      <element id="library" level="project" name="Maven: org.mongodb:bson-record-codec:4.9.0" />
-      <element id="library" level="project" name="Maven: org.apiguardian:apiguardian-api:1.1.2" />
-      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:19.0.2.1" />
-      <element id="library" level="project" name="Maven: org.openjfx:javafx-fxml:mac:19.0.2.1" />
-      <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:19.0.2.1" />
-      <element id="library" level="project" name="Maven: org.openjfx:javafx-fxml:19.0.2.1" />
-      <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:mac:19.0.2.1" />
-      <element id="library" level="project" name="Maven: org.junit.platform:junit-platform-engine:1.9.2" />
-      <element id="library" level="project" name="Maven: org.junit.jupiter:junit-jupiter-params:5.9.2" />
-      <element id="library" level="project" name="Maven: org.mongodb:bson:4.9.0" />
+    <root id="archive" name="cinema.jar">
+      <element id="module-output" name="cinema" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/mongodb-driver-core/4.9.0/mongodb-driver-core-4.9.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/19.0.2.1/javafx-fxml-19.0.2.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-base/19.0.2.1/javafx-base-19.0.2.1-mac.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/19.0.2.1/javafx-controls-19.0.2.1-mac.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/bson-record-codec/4.9.0/bson-record-codec-4.9.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/19.0.2.1/javafx-graphics-19.0.2.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/19.0.2.1/javafx-controls-19.0.2.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/19.0.2.1/javafx-graphics-19.0.2.1-mac.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-base/19.0.2.1/javafx-base-19.0.2.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/mongodb-driver-sync/4.9.0/mongodb-driver-sync-4.9.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/bson/4.9.0/bson-4.9.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/19.0.2.1/javafx-fxml-19.0.2.1-mac.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/24.0.1/annotations-24.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
