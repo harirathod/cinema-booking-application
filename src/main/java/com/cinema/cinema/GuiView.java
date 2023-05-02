@@ -22,7 +22,7 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * A GUI view for the cinema booking application.
+ * A JavaFX GUI view, for the cinema booking application.
  * @author hari_rathod
  * @version 2023.04.12
  */
@@ -30,6 +30,8 @@ public class GuiView extends Application implements View {
 
     // A reference to the current GuiView object. Allows the GuiView object to be accessed, even after being launched.
     private static GuiView thisGuiView;
+
+    // This latch lets other threads know when the instance of this class has finished construction.
     private static CountDownLatch countDownLatch = new CountDownLatch(1);
 
     // To display messages.
@@ -38,6 +40,8 @@ public class GuiView extends Application implements View {
     // To receive user input.
     private TextField input;
     private Button submitButton;
+
+    // Used for the management of user input across multiple threads.
     private BlockingQueue<String> blockingQueue;
     private Stage stage;
 
@@ -87,29 +91,35 @@ public class GuiView extends Application implements View {
         this.stage = primaryStage;
         blockingQueue = new LinkedBlockingQueue<>(1);
 
+        // Set up output field.
         output = new Label();
         VBox outputPane = new VBox(output);
         outputPane.setAlignment(Pos.TOP_CENTER);
 
+        // Set up input field.
         input = new TextField();
         submitButton = new Button("Enter text");
         submitButton.setOnAction(e -> submitText());
 
+        // Place the text display panel in a scroll pane, and set the scroll bar to be scrolled to the bottom,
+        // for the user's convenience.
         ScrollPane scrollPane = new ScrollPane(outputPane);
         scrollPane.setPrefHeight(300);
         scrollPane.setPrefWidth(400);
         setScrollPaneVBarToBottom(scrollPane);
 
         Pane root = new VBox(scrollPane, new HBox(input, submitButton));
-
         Scene scene = new Scene(root);
         scene.getStylesheets().add("style.css");
+
+        // If the user presses 'ENTER', this submits the text in the input field.
         scene.getAccelerators().put(new KeyCodeCombination(KeyCode.ENTER), () -> submitButton.fire());
 
         primaryStage.setTitle("Cinema Booking Application");
         primaryStage.setScene(scene);
         primaryStage.show();
         primaryStage.setResizable(false);
+        // Let other threads know that this class has finished construction.
         countDownLatch.countDown();
     }
 
@@ -120,13 +130,14 @@ public class GuiView extends Application implements View {
     public File getSelectedSaveFile()
     {
         FileChooser fileChooser = new FileChooser();
+        // Save the file to the user's current directory by default.
         fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         return fileChooser.showSaveDialog(stage);
     }
 
     /**
-     * Snap the scrollPane's VBar to the bottom of the output label.
-     * @param scrollPane The scrollPane that we want to have its VBar at the bottom.
+     * Set this ScrollPane to be scrolled to the bottom, even when its content changes.
+     * @param scrollPane The scrollPane that we want to be scrolled to the bottom.
      */
     private void setScrollPaneVBarToBottom(ScrollPane scrollPane)
     {
@@ -137,14 +148,13 @@ public class GuiView extends Application implements View {
     }
 
     /**
-     * Set up the functionality, such that whenever the submit-button is clicked, input is taken from the 'input'
-     * box and is displayed on the screen.
+     * Take text from the 'input' label, and display it in the 'output' label.
      */
     private void submitText()
     {
         String text = input.getText();
         input.clear();
-        // Uncomment to show the user what they've typed in.
+        // Uncomment this below line, to show the user what they've typed in.
         // display(text);
 
         if(!blockingQueue.offer(text)) displayError("There was an error reading your input",
@@ -153,8 +163,7 @@ public class GuiView extends Application implements View {
 
 
     /**
-     * Display some text to the user, by appending this text to the end of the 'output label'.
-     *
+     * Display formatted text to the user, in the 'output label'.
      * @param text The text to be displayed.
      */
     @Override
@@ -166,7 +175,6 @@ public class GuiView extends Application implements View {
 
     /**
      * Display an error dialog to the user, with no header text but only content text.
-     *
      * @param message The error message to be displayed.
      */
     @Override
@@ -179,7 +187,6 @@ public class GuiView extends Application implements View {
 
     /**
      * Display an error dialog to the user, with both header and content text.
-     *
      * @param title   The title of the error message.
      * @param message The content of the error message.
      */
@@ -193,7 +200,6 @@ public class GuiView extends Application implements View {
 
     /**
      * Display some text to the user, by appending this text to the end of the 'output label'.
-     *
      * @param text The text to be displayed.
      */
     @Override
@@ -202,12 +208,13 @@ public class GuiView extends Application implements View {
     }
 
     /**
-     * Get the instance of the GuiView currently running.
-     * @return The instance of the GuiView class that is running.
+     * Get the instance of the GuiView currently active.
+     * @return The instance of the GuiView class that is currently running.
      */
     public static GuiView getInstance()
     {
         try {
+            // Blocks until the instance is correctly constructed.
             countDownLatch.await();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

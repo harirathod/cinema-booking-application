@@ -1,6 +1,5 @@
 package com.cinema.cinema;
 
-import javafx.application.Application;
 import javafx.application.Platform;
 
 import java.io.File;
