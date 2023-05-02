@@ -9,9 +9,6 @@ import java.util.Arrays;
  * @author hari_rathod
  */
 public class CinemaBookingApplication {
-    public static void main(String[] args) {
-        new CinemaBookingApplication().run(args);
-    }
 
     /**
      * The main method that starts the application.
