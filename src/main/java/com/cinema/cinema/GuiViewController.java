@@ -29,9 +29,7 @@ public class GuiViewController implements View {
     @Override
     public void start()
     {
-        new Thread(() -> {
-            Application.launch(GuiView.class);
-        }).start();
+        Platform.runLater(() -> new GuiView().start());
         guiView = GuiView.getInstance();
     }
 
