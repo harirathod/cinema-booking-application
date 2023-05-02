@@ -31,7 +31,6 @@ public class GuiView extends Application implements View {
     // A reference to the current GuiView object. Allows the GuiView object to be accessed, even after being launched.
     private static GuiView thisGuiView;
     private static CountDownLatch countDownLatch = new CountDownLatch(1);
-    private static int count = 10;
 
     // To display messages.
     private Label output;
@@ -54,7 +53,11 @@ public class GuiView extends Application implements View {
      */
     @Override
     public void start() {
-        launch("");
+        try {
+            start(new Stage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -144,8 +147,8 @@ public class GuiView extends Application implements View {
         // Uncomment to show the user what they've typed in.
         // display(text);
 
-        if(!blockingQueue.offer(text)) displayError("There was an error reading your input"
-                , "Apologies, we could not process your user input at this time.");
+        if(!blockingQueue.offer(text)) displayError("There was an error reading your input",
+                "Apologies, we could not process your user input at this time.");
     }
 
 
