@@ -2,50 +2,60 @@ package com.cinema.cinema;
 
 import javafx.application.Application;
 
-import java.util.Arrays;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
- * This class contains the main method that starts the application.
+ * This class decides which Booking and View subclass to instantiate.
+ * If the user is running the application from the command line:
+ *          If they provide any arguments after the 'java -jar cinema.jar' then this class assumes they want to
+ *          run the application in the terminal. Then, if the command line argument is "m", this class starts a
+ *          ManagerBooking. If the argument is "c", this class starts a CustomerBooking.
+ *
+ *          Else, if they do not provide any arguments after 'java -jar cinema.jar', the GUI view is launched, where
+ *          the user is prompted to start a ManagerBooking or CustomerBooking.
+ * Else, if the user is not running the application from the command line (i.e., they double click the .jar), then
+ * the GUI view is launched.
  * @author hari_rathod
+ * @version 2023.05.02
  */
 public class CinemaBookingApplication {
 
     /**
-     * The main method that starts the application.
+     * This method decides whether the run the application as a GUI or in the terminal. If an array is passed into
+     * the args parameter, then this method starts a terminal view, assuming the user is using the command line.
+     *
+     * If a null or empty array is passed as the value of args, the method starts a GUI, assuming that the user
+     * doesn't want to run the application in the terminal.
+     * @param args The arguments for this application. If "m" is provided as the argument, a ManagerBooking is started in the
+     *             terminal. If "c" is provided, then a CustomerBooking is started.
      */
-    public void run(String[] args) {
-
-        // TODO: Apply Singleton pattern to BookingChooser so we can do getInput(). Add BlockingQueue to BookingChooser
-        //  to get the user input. If input = 'manager' start new ManagerBooking(new GuiViewController).start(), otherwise
-        //  if 'customer', start new CustomerBooking.
-
-        /*
-        TODO: if args.length > 1 && args[1] == m then start manager booking with TextView, otherwise start customer booking,
-         also with text view.
-         */
-
-        System.out.println(args.length);
+    public void run(String[] args)
+    {
         // If the user uses the command line or enters arguments, then open the booking application in the terminal.
         if (args != null && args.length > 0) {
-            if (args[0].equals("m")) {
-                new ManagerBooking(new TextView()).start();
-            } else if (args[0].equals("c")) {
-                new CustomerBooking(new TextView()).start();
-            }
-        } else {
-            // If the user doesn't use the command line to start the application, then open the Booking as a GUI.
-            new Thread(() -> {
-                Application.launch(BookingChooser.class);
-            }).start();
-
-            BookingChooser bookingChooser = BookingChooser.getBookingChooser();
-            BookingType bookingType = bookingChooser.getSelectedBookingType();
-            if (bookingType == BookingType.MANAGER) {
-                new ManagerBooking(new GuiViewController()).start();
-            } else if (bookingType == BookingType.CUSTOMER) {
-                new CustomerBooking(new GuiViewController()).start();
+            switch (args[0]) {
+                case "m" -> new ManagerBooking(new TextView()).start();
+                case "c" -> new CustomerBooking(new TextView()).start();
+                default -> System.out.println("Failed to recognise provided arguments.");
             }
         }
+        else {
+            // If the user doesn't use arguments to start the application, then open the Booking as a GUI.
 
+            // Using an Executor over new Thread(...).start() increases performance by up to 2000 milliseconds.
+            Executor e = Executors.newSingleThreadExecutor();
+            e.execute(() -> {
+                Application.launch(BookingChooser.class);
+            });
+            BookingChooser bookingChooser = BookingChooser.getBookingChooser();
+
+            // Wait until the user has submitted their selected booking type.
+            BookingType bookingType = bookingChooser.getSelectedBookingType();
+            switch (bookingType) {
+                case MANAGER -> new ManagerBooking(new GuiViewController()).start();
+                case CUSTOMER -> new CustomerBooking(new GuiViewController()).start();
+            }
+        }
     }
 }
