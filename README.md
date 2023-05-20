@@ -32,15 +32,14 @@ This project demonstrates my continued learning of programming principles, inclu
 
 ###### _Paste the following commands into your terminal._
 
-1. Clone the repository to your local machine and navigate to the project directory:
-```shell
+1. Clone the repository to your local machine:
+```
 git clone https://github.com/harirathod/cinema-booking-application.git
-cd cinema-booking-application/src/
 ```
 
-2. Start the application with the following commands:
-```shell
-TODO
+2. Start the application with the following command:
+```py
+java -jar cinema-booking-application/out/artifacts/cinema_jar/cinema.jar
 ```
 > **Note:** Please make sure you have the JDK (Java Development Kit) installed.
 
