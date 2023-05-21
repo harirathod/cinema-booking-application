@@ -22,13 +22,11 @@ import java.util.concurrent.Executors;
 public class CinemaBookingApplication {
 
     /**
-     * This method decides whether the run the application as a GUI or in the terminal. If an array is passed into
-     * the args parameter, then this method starts a terminal view, assuming the user is using the command line.
-     *
-     * If a null or empty array is passed as the value of args, the method starts a GUI, assuming that the user
-     * doesn't want to run the application in the terminal.
-     * @param args The arguments for this application. If "m" is provided as the argument, a ManagerBooking is started in the
-     *             terminal. If "c" is provided, then a CustomerBooking is started.
+     * This method decides whether the run the application as a GUI or in the terminal.
+     * If no arguments are passed into this method, the GUI is launched. Otherwise, the booking starts in the terminal.
+     * If "m" is passed, the ManagerBooking starts in the terminal. If "c" is passed, a CustomerBooking starts.
+     * @param args The arguments for this application. If "m" is provided as the argument, a ManagerBooking starts in the
+     *             terminal. If "c" is provided, then a CustomerBooking starts.
      */
     public void run(String[] args)
     {
@@ -43,14 +41,14 @@ public class CinemaBookingApplication {
         else {
             // If the user doesn't use arguments to start the application, then open the Booking as a GUI.
 
-            // Using an Executor over new Thread(...).start() increases performance by up to 2000 milliseconds.
+            // Using an Executor over new Thread(...).start() increases performance (by up to 2000 milliseconds).
             Executor e = Executors.newSingleThreadExecutor();
             e.execute(() -> {
                 Application.launch(BookingChooser.class);
             });
             BookingChooser bookingChooser = BookingChooser.getBookingChooser();
 
-            // Wait until the user has submitted their selected booking type.
+            // Waits (blocks) until the user has submitted their selected booking type.
             BookingType bookingType = bookingChooser.getSelectedBookingType();
             switch (bookingType) {
                 case MANAGER -> new ManagerBooking(new GuiViewController()).start();
