@@ -42,6 +42,7 @@ public abstract class Booking {
             evaluateCommand(command);
         }
         while (command.getCommandWord() !=  CommandWord.QUIT);
+        System.exit(0);
     }
 
     /**
