@@ -39,8 +39,6 @@ public class ManagerBooking extends Booking {
                 Using this system, you can add and remove screens from the cinema.""");
         // Start the booking. Continue to process input until the user quits.
         super.start();
-
-        getView().displayWithFormatting("Manager session finished.");
     }
 
     /**
@@ -55,7 +53,7 @@ public class ManagerBooking extends Booking {
             case ADD -> add();
             case REMOVE -> remove();
             case LIST -> list(command);
-            case QUIT -> {}
+            case QUIT -> getView().displayWithFormatting("Manager session finished.");
             default -> unknown();
         }
     }
