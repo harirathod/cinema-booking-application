@@ -4,6 +4,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
+import org.bson.json.JsonWriterSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +35,6 @@ public class ScreenDataManipulator {
             // Connect to the MongoDB database 'cinema', and get collection 'screens'.
             MongoCollection<Document> documentScreens = mongoClient.getDatabase("cinema").getCollection("screens");
             for (Document doc : documentScreens.find()) {
-                System.out.println(doc.get("_id"));
-                System.out.println(doc.get("movieTitle"));
                 screens.add(ScreenDocumentConverter.convertDocumentToScreen(doc));
             }
         }
