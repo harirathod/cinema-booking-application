@@ -7,7 +7,6 @@ import java.util.List;
  * The abstract class that CustomerBooking and ManagerBooking inherit from.
  */
 public abstract class Booking {
-    private final ObjectDataRecorder<Screen> screenDataRecorder = new ObjectDataRecorder<>(Filename.SCREEN, Screen.class);
     private final TicketOffice office;
     private View view;
 
@@ -29,9 +28,6 @@ public abstract class Booking {
      */
     public void start()
     {
-        // Populate the ticket office with screens from "screens.ser".
-        populateScreens();
-
         // While the user is not finished, get the next command and evaluate it.
         Command command;
         do {
@@ -81,26 +77,6 @@ public abstract class Booking {
     }
 
     /**
-     * Populate the cinema with screens.
-     */
-    private void populateScreens() {
-        try {
-            List<Screen> screens = screenDataRecorder.readListOfObjectsFromFile();
-            for (Screen screen : screens) {
-                try {
-                    office.addScreen(screen);
-                } catch (ScreenIdAlreadyExistsException e) {
-                    view.displayError(e.getMessage());
-                }
-            }
-        } catch (ClassNotFoundException e) {
-            view.displayError(e.getMessage());
-        } catch (IOException e) {
-            view.displayError("Error handling file " + screenDataRecorder.getFILENAME() + " " + e.getMessage());
-        }
-    }
-
-    /**
      * Get the view.
      * @return The view.
      */
@@ -109,15 +85,6 @@ public abstract class Booking {
         return view;
     }
 
-
-    /**
-     * Get the screen data recorder, used to read and write screens to a file for persistent storage.
-     * @return The screen data recorder.
-     */
-    protected ObjectDataRecorder<Screen> getScreenDataRecorder()
-    {
-        return screenDataRecorder;
-    }
 
     /**
      * Record a string in a text file.
