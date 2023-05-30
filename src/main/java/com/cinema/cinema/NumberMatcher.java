@@ -16,7 +16,13 @@ public class NumberMatcher {
      */
     public static boolean matchesSingleInteger(String string)
     {
-        Pattern pattern = Pattern.compile("\\d+");
-        return pattern.matcher(string).matches();
+        try {
+            Integer.parseInt(string);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        //Pattern pattern = Pattern.compile("\\d+");. This pattern matching does not work if the number is very large.
+        //return pattern.matcher(string).matches();
     }
 }
