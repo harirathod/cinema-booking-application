@@ -54,7 +54,7 @@ public class Screen implements Serializable
     /**
      * Empty the screen, i.e., make every seat available.
      */
-    public void emptyScreen()
+    private void emptyScreen()
     {
         for (boolean[] seats : seats) {
             Arrays.fill(seats, true);
@@ -65,7 +65,7 @@ public class Screen implements Serializable
      * Get the number of available seats for this Screen.
      * @return The number of available seats.
      */
-    public int getNumberOfAvailableSeats()
+    private int getNumberOfAvailableSeats()
     {
         int availableSeatsCount = 0;
         for (boolean[] seatColumn : seats) {
@@ -240,6 +240,15 @@ public class Screen implements Serializable
     public int getTicketCost()
     {
         return ticketCost;
+    }
+
+    /**
+     * Get the grid of seats in the screen.
+     * @return
+     */
+    public boolean[][] getSeats()
+    {
+        return seats;
     }
 }
 
