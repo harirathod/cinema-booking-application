@@ -54,7 +54,7 @@ public class Screen implements Serializable
     /**
      * Empty the screen, i.e., make every seat available.
      */
-    private void emptyScreen()
+    public void emptyScreen()
     {
         for (boolean[] seats : seats) {
             Arrays.fill(seats, true);
@@ -65,7 +65,7 @@ public class Screen implements Serializable
      * Get the number of available seats for this Screen.
      * @return The number of available seats.
      */
-    private int getNumberOfAvailableSeats()
+    public int getNumberOfAvailableSeats()
     {
         int availableSeatsCount = 0;
         for (boolean[] seatColumn : seats) {
@@ -88,10 +88,12 @@ public class Screen implements Serializable
     }
 
     /**
-     * Take the seat and row number, and mark that seat as booked.
+     * Take the seat and row number, and mark that seat as booked. Before calling book(), a call must be made to validateSeatNumbers().
+     * Otherwise, an ArrayIndexOutOfBoundsException will be thrown.
      * @param columnNumber The column number of the seat to book. 1 is the number of the first column.
      * @param rowNumber The row number of the seat to book. 1 is the number of the first row.
      * @throws UnavailableSeatException If the seat is unavailable (booked).
+     * @throws ArrayIndexOutOfBoundsException If the seat is out of bounds.
      */
     protected void book(int columnNumber, int rowNumber) throws UnavailableSeatException {
 
