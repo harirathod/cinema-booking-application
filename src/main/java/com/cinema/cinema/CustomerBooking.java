@@ -15,10 +15,7 @@ import java.util.List;
  */
 
 public class CustomerBooking extends Booking {
-
-
     private InputRecorder inputRecorder;
-
     private final ObjectDataRecorder<Ticket> ticketDataRecorder = new ObjectDataRecorder<>(Filename.TICKET, Ticket.class);
 
     /**
