@@ -76,8 +76,8 @@ public class ScreenTest
     @Test
     public void testGetNumberOfSeats()
     {
-        assertEquals(200, screen1.getNumberOfAvailableSeats());
-        assertEquals(15, screen2.getNumberOfAvailableSeats());
+        assertEquals(200, screen1.getNumberOfSeats());
+        assertEquals(15, screen2.getNumberOfSeats());
     }
 
     /**
@@ -96,11 +96,21 @@ public class ScreenTest
     @Test
     public void testGetNumberOfAvailableSeats()
     {
-        /*screen4.book(19, 2);
-        assertEquals(59, screen4.getNumberOfAvailableSeats());
+        try {
+            screen1.book(1, 2);
+            assertEquals(199, screen1.getNumberOfAvailableSeats());
+        } catch (UnavailableSeatException e) {
+            fail();
+        }
 
-        screen3.book(-1, 3);
-        assertEquals(20, screen3.getNumberOfAvailableSeats());*/
+
+        try {
+            screen2.book(-1, 3);
+            fail();
+        } catch (ArrayIndexOutOfBoundsException | UnavailableSeatException e) {
+            assertEquals(15, screen2.getNumberOfAvailableSeats());
+        }
+
     }
 
     /**
@@ -109,13 +119,13 @@ public class ScreenTest
     @Test
     public void testAddNewMovie()
     {
-        /*screen4.addNewMovie("Shazam 3", 900);
-        assertEquals("Shazam 3", screen4.getMovieTitle());
-        assertEquals(900, screen4.getTicketCost());
+        screen1.addNewMovie("Shazam 3", 900);
+        assertEquals("Shazam 3", screen1.getMovieTitle());
+        assertEquals(900, screen1.getTicketCost());
 
-        screen3.addNewMovie("Black Panther: Return of the Jedi", 1300);
-        assertEquals("Black Panther: Return of the Jedi", screen3.getMovieTitle());
-        assertEquals(1300, screen3.getTicketCost());*/
+        screen2.addNewMovie("Black Panther: Return of the Jedi", 1300);
+        assertEquals("Black Panther: Return of the Jedi", screen2.getMovieTitle());
+        assertEquals(1300, screen2.getTicketCost());
     }
 
     /**
@@ -124,21 +134,20 @@ public class ScreenTest
     @Test
     public void testRemoveMovie()
     {
-        /*
-        assertFalse(screen3.hasMovieScreening());
-        assertNull(screen3.getMovieTitle());
-        assertEquals(0, screen3.getTicketCost());
+        assertFalse(screen1.hasMovieScreening());
+        assertNull(screen1.getMovieTitle());
+        assertEquals(0, screen1.getTicketCost());
 
-        screen3.addNewMovie("Shazam | Light of Thunder", 2700);
-        assertTrue(screen3.hasMovieScreening());
-        assertNotNull(screen3.getMovieTitle());
-        assertEquals(2700, screen3.getTicketCost());
+        screen1.addNewMovie("Shazam | Light of Thunder", 2700);
+        assertTrue(screen1.hasMovieScreening());
+        assertNotNull(screen1.getMovieTitle());
+        assertEquals(2700, screen1.getTicketCost());
 
-        screen3.removeMovie();
-        assertFalse(screen3.hasMovieScreening());
-        assertNull(screen3.getMovieTitle());
-        assertEquals(0, screen3.getTicketCost());
-        */
+        screen1.removeMovie();
+        assertFalse(screen1.hasMovieScreening());
+        assertNull(screen1.getMovieTitle());
+        assertEquals(0, screen1.getTicketCost());
+
 
     }
 
@@ -148,15 +157,18 @@ public class ScreenTest
     @Test
     public void testEmptyScreen()
     {
-        /*
-        screen4.book(1,1);
-        screen4.book(6,2);
-        screen4.book(13,1);
-        assertEquals(60, screen4.getNumberOfSeats());
-        assertEquals(57, screen4.getNumberOfAvailableSeats());
-        screen4.emptyScreen();
-        assertEquals(60, screen4.getNumberOfAvailableSeats());
-         */
+
+        try {
+            screen1.book(1,1);
+            screen1.book(6,2);
+            screen1.book(7,10);
+        } catch (UnavailableSeatException e) {
+            fail();
+        }
+        assertEquals(200, screen1.getNumberOfSeats());
+        assertEquals(197, screen1.getNumberOfAvailableSeats());
+        screen1.emptyScreen();
+        assertEquals(200, screen1.getNumberOfAvailableSeats());
     }
 }
 

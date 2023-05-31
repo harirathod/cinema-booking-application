@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
  */
 public class SeatTest
 {
-    Seat seat = new Seat();
+    Seat seat;
 
     /**
      * Default constructor for test class SeatTest
@@ -31,6 +31,7 @@ public class SeatTest
     @BeforeEach
     public void setUp()
     {
+        seat = new Seat();
     }
 
     /**
@@ -49,10 +50,10 @@ public class SeatTest
     @Test
     public void testAvailability()
     {
-        assertEquals(true, seat.isAvailable());
+        assertTrue(seat.isAvailable());
         seat.setUnavailable();
-        assertEquals(false, seat.isAvailable());
+        assertFalse(seat.isAvailable());
         seat.setAvailable();
-        assertEquals(true, seat.isAvailable());
+        assertTrue(seat.isAvailable());
     }
 }
