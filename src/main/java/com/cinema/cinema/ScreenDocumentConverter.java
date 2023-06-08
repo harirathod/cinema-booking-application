@@ -39,7 +39,7 @@ public class ScreenDocumentConverter {
         for (boolean[] row : screen.getSeats()) {
             BsonArray bsonRow = new BsonArray();
             for (boolean seat : row) {
-                bsonRow.add(new BsonBoolean(true));
+                bsonRow.add(new BsonBoolean(seat));
             }
             bsonSeats.add(bsonRow);
         }
