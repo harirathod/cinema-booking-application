@@ -21,7 +21,7 @@ public class Screen implements Serializable
     private int ticketCost;
 
     // The seats in the screen.
-    //private Seat[][] seats; For efficient storage / mapping in the MongoDB database, I have used boolean[][] instead of Seat[][].
+    //private Seat[][] seats; For efficient storage / mapping in the database, I have used boolean[][] instead of Seat[][].
     private boolean[][] seats;
 
     // The id of the screen.
@@ -95,9 +95,8 @@ public class Screen implements Serializable
      * @throws UnavailableSeatException If the seat is unavailable (booked).
      * @throws ArrayIndexOutOfBoundsException If the seat is out of bounds.
      */
-    protected void book(int columnNumber, int rowNumber) throws UnavailableSeatException {
-
-
+    protected void book(int columnNumber, int rowNumber) throws UnavailableSeatException
+    {
         // Entering a value of 1 should access element 0 of the grid of seats.
         columnNumber = columnNumber - 1;
         rowNumber = rowNumber - 1;
@@ -118,7 +117,6 @@ public class Screen implements Serializable
         movieTitle = newMovieTitle;
         hasMovieScreening = true;
         this.ticketCost = ticketCost;
-        emptyScreen();
     }
 
     /**
@@ -129,6 +127,7 @@ public class Screen implements Serializable
         movieTitle = null;
         hasMovieScreening = false;
         ticketCost = 0;
+        emptyScreen();
     }
 
     /**
@@ -251,6 +250,14 @@ public class Screen implements Serializable
     public boolean[][] getSeats()
     {
         return seats;
+    }
+
+    /**
+     * Set the grid of seats in the screen.
+     */
+    public void setSeats(boolean[][] seats)
+    {
+        this.seats = seats;
     }
 }
 
