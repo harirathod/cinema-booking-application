@@ -141,6 +141,7 @@ public class Screen implements Serializable
         details += "Screen: " + id + "\n";
         details += "Current Movie: '" + movieTitle + "'\n";
         details += "Seat capacity: " + seats.length + " columns, by " + seats[0].length + " rows.\n";
+        details += "Available Seat Capacity: " + getNumberOfAvailableSeats() + "\n";
         details += "Ticket Cost: £" + (ticketCost / 100 ) + "\n";
 
         return details;
