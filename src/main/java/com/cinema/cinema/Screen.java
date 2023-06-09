@@ -3,6 +3,7 @@ package com.cinema.cinema;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -20,7 +21,8 @@ public class Screen implements Serializable
     private int ticketCost;
 
     // The seats in the screen.
-    private Seat[][] seats;
+    //private Seat[][] seats; For efficient storage / mapping in the database, I have used boolean[][] instead of Seat[][].
+    private boolean[][] seats;
 
     // The id of the screen.
     private int id;
@@ -44,12 +46,9 @@ public class Screen implements Serializable
         this.id = id;
 
         // Create a grid of seats.
-        seats = new Seat[numberOfColumns][numberOfRows];
-        for(int i = 0; i < seats.length; i++) {
-            for(int  j = 0; j < seats[i].length; j++) {
-                seats[i][j] = new Seat();
-            }
-        }
+        seats = new boolean[numberOfColumns][numberOfRows];
+        //seats = new Seat[numberOfColumns][numberOfRows];
+        emptyScreen();
     }
 
     /**
@@ -57,10 +56,8 @@ public class Screen implements Serializable
      */
     public void emptyScreen()
     {
-        for (Seat[] rowOfSeats : seats) {
-            for (Seat seat : rowOfSeats) {
-                seat.setAvailable();
-            }
+        for (boolean[] seats : seats) {
+            Arrays.fill(seats, true);
         }
     }
 
@@ -71,9 +68,9 @@ public class Screen implements Serializable
     public int getNumberOfAvailableSeats()
     {
         int availableSeatsCount = 0;
-        for (Seat[] seatColumn : seats) {
-            for (Seat seat : seatColumn) {
-                if (seat.isAvailable()) {
+        for (boolean[] seatColumn : seats) {
+            for (boolean seat : seatColumn) {
+                if (seat) {
                     availableSeatsCount++;
                 }
             }
@@ -91,22 +88,23 @@ public class Screen implements Serializable
     }
 
     /**
-     * Take the seat and row number, and mark that seat as booked.
+     * Take the seat and row number, and mark that seat as booked. Before calling book(), a call must be made to validateSeatNumbers().
+     * Otherwise, an ArrayIndexOutOfBoundsException will be thrown.
      * @param columnNumber The column number of the seat to book. 1 is the number of the first column.
      * @param rowNumber The row number of the seat to book. 1 is the number of the first row.
      * @throws UnavailableSeatException If the seat is unavailable (booked).
+     * @throws ArrayIndexOutOfBoundsException If the seat is out of bounds.
      */
-    protected void book(int columnNumber, int rowNumber) throws UnavailableSeatException {
-
-
+    protected void book(int columnNumber, int rowNumber) throws UnavailableSeatException
+    {
         // Entering a value of 1 should access element 0 of the grid of seats.
         columnNumber = columnNumber - 1;
         rowNumber = rowNumber - 1;
 
-        if (!seats[columnNumber][rowNumber].isAvailable()) {
+        if (!seats[columnNumber][rowNumber]) {
             throw new UnavailableSeatException("Seat is unavailable.");
         }
-        seats[columnNumber][rowNumber].setUnavailable();
+        seats[columnNumber][rowNumber] = false;
     }
 
     /**
@@ -119,7 +117,6 @@ public class Screen implements Serializable
         movieTitle = newMovieTitle;
         hasMovieScreening = true;
         this.ticketCost = ticketCost;
-        emptyScreen();
     }
 
     /**
@@ -130,6 +127,7 @@ public class Screen implements Serializable
         movieTitle = null;
         hasMovieScreening = false;
         ticketCost = 0;
+        emptyScreen();
     }
 
     /**
@@ -243,6 +241,23 @@ public class Screen implements Serializable
     public int getTicketCost()
     {
         return ticketCost;
+    }
+
+    /**
+     * Get the grid of seats in the screen.
+     * @return
+     */
+    public boolean[][] getSeats()
+    {
+        return seats;
+    }
+
+    /**
+     * Set the grid of seats in the screen.
+     */
+    public void setSeats(boolean[][] seats)
+    {
+        this.seats = seats;
     }
 }
 

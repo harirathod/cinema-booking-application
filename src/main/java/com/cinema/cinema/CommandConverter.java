@@ -43,7 +43,7 @@ public class CommandConverter {
      * @param bookingType The booking type to get the commands for.
      * @return The CommandWord most appropriate to the parameter entered.
      */
-    private static CommandWord convertToCommandWord(String word, BookingType bookingType)
+    public static CommandWord convertToCommandWord(String word, BookingType bookingType)
     {
         if(word == null) {
             return CommandWord.UNKNOWN;

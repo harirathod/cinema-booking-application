@@ -22,6 +22,9 @@
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/19.0.2.1/javafx-fxml-19.0.2.1-mac.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/24.0.1/annotations-24.0.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar" path-in-jar="/" />
+      <element id="file-copy" path="$PROJECT_DIR$/manager_input.txt" />
+      <element id="file-copy" path="$PROJECT_DIR$/screens.ser" />
+      <element id="file-copy" path="$PROJECT_DIR$/user_input_history.txt" />
     </root>
   </artifact>
 </component>

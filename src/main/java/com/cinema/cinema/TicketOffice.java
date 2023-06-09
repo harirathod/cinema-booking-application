@@ -1,7 +1,6 @@
 package com.cinema.cinema;
 
 import java.util.*;
-import java.util.Map.Entry;
 
 /**
  * TicketOffice is manages the other class. It is through this class
@@ -12,21 +11,24 @@ import java.util.Map.Entry;
  */
 public class TicketOffice
 {
-    // All screens in the Cinema.
-    private Map<Integer, Screen> screens;
+    // Used to interface with the screens' database.
+    private ScreenDataManipulator screenDataManipulator;
+    // We cannot store 'screenDataManipulator.getAllScreens()' in a field, as the storage (database) would not be
+    // synced with the object references of a 'List<Screen>'.
 
     /**
      * Initialise fields.
      */
     public TicketOffice()
     {
-        screens = new HashMap<>();
+        screenDataManipulator = new ScreenDataManipulator();
     }
 
     /**
      * Add a screen to the cinema. If the number of columns or row for the
      * screen is invalid (< 0), no screen will be added. If the screen already
-     * exists, another screen cannot be added.
+     * exists, another screen cannot be added. To add a screen with the same id, 'removeScreen(id)' must be called first.
+     * Otherwise, a ScreenIdAlreadyExistsException will be thrown.
      *
      * @param id              The id of the screen. Must be a positive number.
      * @param numberOfColumns The number of columns for the screen. Must be a positive number.
@@ -43,69 +45,66 @@ public class TicketOffice
             throw new InvalidScreenParameterException("Number of columns (" + numberOfColumns + ") and number of rows ("
                     + numberOfRows + ") invalid for Screen.");
         }
-
-        if (screens.containsKey(id)) {
-            throw new ScreenIdAlreadyExistsException("Screen with id " + id + " already exists.");
-        }
-        screens.put(id, screen);
+        addScreenToStorage(screen);
     }
 
     /**
-     * Remove screen from the cinema. If the screen is not in the cinema, nothing will happen.
+     * Remove (delete) a screen from the cinema. If the screen is not in the cinema, nothing will happen.
      *
      * @param id The id of the screen to be removed.
-     * @return True if the screen was successfully removed, false otherwise.
+     * @throws ScreenIdDoesNotExistException If the screen id does not exist (i.e., the id is not matched by any screens).
      */
-    public boolean removeScreen(int id)
+    public void removeScreen(int id) throws ScreenIdDoesNotExistException
     {
-        Iterator<Entry<Integer, Screen>> it = screens.entrySet().iterator();
-        while (it.hasNext()) {
-            if (it.next().getKey() == id) {
-                it.remove();
-                return true;
-            }
-        }
-        return false;
+        screenDataManipulator.deleteScreen(id);
     }
 
     /**
      * Add a screen to the cinema. If the screen id has already been added,
-     * adding another screen with the same id will have no effect.
+     * adding another screen with the same id will throw a ScreenIdAlreadyExistsException.
      *
      * @param screen The screen to be added.
      * @throws ScreenIdAlreadyExistsException If the id of the screen that we are trying to add is already present.
+     * @throws IllegalArgumentException If the screen is null.
      */
     public void addScreen(Screen screen) throws ScreenIdAlreadyExistsException
     {
         if(screen == null) {
             throw new IllegalArgumentException("Screen cannot be null.");
         }
+        addScreenToStorage(screen);
+    }
 
-        if (screens.containsKey(screen.getId())) {
+    /**
+     * Adds the screen to the storage, but only if the id of the screen is not matched by a screen currently stored.
+     * @param screen The screen to be added to storage.
+     * @throws ScreenIdAlreadyExistsException If the id of the screen that we are trying to add is already present.
+     */
+    private void addScreenToStorage(Screen screen) throws ScreenIdAlreadyExistsException {
+        List<Screen> screens = screenDataManipulator.getAllScreens();
+        if (screens.stream().anyMatch(s -> s.getId() == screen.getId())) {
             throw new ScreenIdAlreadyExistsException("Screen with id " + screen.getId() + " already exists.");
         }
-        screens.put(screen.getId(), screen);
+        screenDataManipulator.recordScreen(screen);
     }
 
     /**
      * Get a screen using the provided id.
      *
      * @param id The id of the screen to get.
-     * @return The screen that matches the id, or null if the screen is not found.
+     * @return The screen that matches the id.
      * @throws ScreenIdDoesNotExistException If the screen was not found.
      */
-    public Screen findScreen(int id) throws ScreenIdDoesNotExistException {
-        Screen screen = screens.get(id);
-        if (screen != null) {
-            return screen;
-        } else {
-            throw new ScreenIdDoesNotExistException("Screen with id (" + id + ") does not exist.");
-        }
+    public Screen findScreen(int id) throws ScreenIdDoesNotExistException
+    {
+        return screenDataManipulator.getScreenById(id);
     }
 
     /**
      * Show a new movie at a specific screen. No movie is added if there
      * is no screen with the provided id.
+     * NOTE: If screen.addNewMovie(movieTitle, ticketCost) is used instead of this method, then the screen will
+     * not be updated in the storage correctly.
      *
      * @param id         The id of the screen we want to add the movie to.
      * @param movieTitle The title of the movie.
@@ -114,23 +113,51 @@ public class TicketOffice
      */
     public void addNewMovie(int id, String movieTitle, int ticketCost) throws ScreenIdDoesNotExistException
     {
-        if (!screens.containsKey(id)) {
-            throw new ScreenIdDoesNotExistException("Screen with id (" + id
-                    + ") does not exist.");
-        }
+        // Throws ScreenIdDoesNotExistException if the screen was not found, thus validating the id.
+        screenDataManipulator.getScreenById(id);
 
-        screens.get(id).addNewMovie(movieTitle, ticketCost);
+        screenDataManipulator.updateScreening(id, movieTitle, ticketCost);
     }
 
     /**
-     * Get the details of all the movies currently showing at the cinema, formatted as a String.
-     * @return The details of all movies, formatted as a String.
+     * Remove the movie from a specific screen. No movie is removed if there
+     * is no screen with the provided id.
+     * NOTE: If screen.removeMovie() is used instead of this method, then the screen will
+     * not be updated in the database correctly.
+     *
+     * @param id         The id of the screen we want to remove the movie from.
+     * @throws ScreenIdDoesNotExistException If the screen with the id parameter provided does not exist.
+     */
+    public void removeMovie(int id) throws ScreenIdDoesNotExistException
+    {
+        // Throws ScreenIdDoesNotExistException if the screen was not found, thus validating the id.
+        screenDataManipulator.getScreenById(id);
+
+        screenDataManipulator.removeScreening(id);
+    }
+
+    /**
+     * Get the details of the screens currently showing movies at the cinema, as a String.
+     * @return The details of only the screens showing movies, as a String.
      */
     public String getAllMoviesDetails()
     {
         StringBuilder details = new StringBuilder();
-        screens.values().stream()
+        screenDataManipulator.getAllScreens().stream()
                 .filter(Screen::hasMovieScreening)
+                .map(Screen::getDetails)
+                .forEach(x -> details.append("\n").append(x));
+        return details.toString();
+    }
+
+    /**
+     * Get the details of all screens at the cinema, as a String.
+     * @return The details of all screens, as a String.
+     */
+    public String getAllScreenDetails()
+    {
+        StringBuilder details = new StringBuilder();
+        screenDataManipulator.getAllScreens().stream()
                 .map(Screen::getDetails)
                 .forEach(x -> details.append("\n").append(x));
         return details.toString();
@@ -146,7 +173,7 @@ public class TicketOffice
      */
     public Ticket bookRandomTicket(String movieTitle) throws NoAvailableSeatException, MovieDoesNotExistException
     {
-
+        /*
         // Validate that the movie is being screened.
         validateMovieTitle(movieTitle);
 
@@ -170,6 +197,8 @@ public class TicketOffice
             }
         }
         return ticket;
+         */
+        return null;
     }
 
     /**
@@ -181,7 +210,7 @@ public class TicketOffice
      */
     public Screen validateMovieTitle(String movie) throws MovieDoesNotExistException
     {
-        return screens.values().stream()
+        return screenDataManipulator.getAllScreens().stream()
                 .filter(Screen::hasMovieScreening)
                 .filter(x -> x.getMovieTitle().toLowerCase().contains(movie.toLowerCase()))
                 .findFirst().orElseThrow(() -> new MovieDoesNotExistException("Movie '" + movie + "' is not being screened."));
@@ -200,6 +229,10 @@ public class TicketOffice
     {
         // Check that the movie is being screened.
         Screen screen = validateMovieTitle(movieTitle);
-        return screen.bookTicket(seatNumber, rowNumber);
+
+        Ticket ticket = screen.bookTicket(seatNumber, rowNumber);
+        // Record the screen, with one less seat available, in storage.
+        screenDataManipulator.recordScreen(screen);
+        return ticket;
     }
 }

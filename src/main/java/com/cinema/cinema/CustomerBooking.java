@@ -15,10 +15,7 @@ import java.util.List;
  */
 
 public class CustomerBooking extends Booking {
-
-
     private InputRecorder inputRecorder;
-
     private final ObjectDataRecorder<Ticket> ticketDataRecorder = new ObjectDataRecorder<>(Filename.TICKET, Ticket.class);
 
     /**
@@ -55,8 +52,6 @@ public class CustomerBooking extends Booking {
 
         // Start the booking. Continue to process input until the user quits.
         super.start();
-
-        getView().displayWithFormatting("Thanks for visiting, and have a great time!");
     }
 
     /**
@@ -78,7 +73,7 @@ public class CustomerBooking extends Booking {
             case LIST -> list(command);
             case BASKET -> showTickets();
             case SAVE -> saveTickets();
-            case QUIT -> {}
+            case QUIT -> getView().displayWithFormatting("Thanks for visiting, and have a great time!");
             default -> unknown();
         }
     }

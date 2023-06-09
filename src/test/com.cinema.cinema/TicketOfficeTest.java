@@ -8,13 +8,15 @@ import org.junit.jupiter.api.Test;
 
 /**
  * The test class TicketOfficeTest.
+ * TODO: Tests do not work as of now, due to integration with database
+ *  in progress.
  *
  * @author  Hari Rathod
  * @version 2022.12.24
  */
 public class TicketOfficeTest
 {
-    TicketOffice ticketOffice = new TicketOffice();
+    TicketOffice ticketOffice;
     Screen screen1;
     Screen screen2;
 
@@ -144,7 +146,21 @@ public class TicketOfficeTest
         } catch (Exception e) {
             fail();
         }
-        assertTrue(ticketOffice.removeScreen(3));
-        assertFalse(ticketOffice.removeScreen(1));
+        try {
+            ticketOffice.addScreen(3, 10, 10);
+            fail();
+        } catch (ScreenIdAlreadyExistsException | InvalidScreenParameterException e) {
+            try {
+                ticketOffice.removeScreen(3);
+            } catch (ScreenIdDoesNotExistException ex) {
+                fail();
+            }
+        }
+
+        try {
+            ticketOffice.addScreen(3, 10, 10);
+        } catch (InvalidScreenParameterException | ScreenIdAlreadyExistsException ex) {
+            fail();
+        }
     }
 }

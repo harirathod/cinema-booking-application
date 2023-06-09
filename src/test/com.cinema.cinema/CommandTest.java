@@ -34,5 +34,8 @@ public class CommandTest {
         Command command = new Command(CommandWord.BOOK, "Avatar 3 - 2023");
         assertEquals(CommandWord.BOOK, command.getCommandWord());
         assertEquals("Avatar 3 - 2023", command.getSecondWord());
+
+        Command command2 = new Command(CommandWord.QUIT, null);
+        assertFalse(command2.hasSecondWord());
     }
 }

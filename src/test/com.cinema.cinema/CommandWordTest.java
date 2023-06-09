@@ -15,11 +15,27 @@ class CommandWordTest {
     }
 
     /**
-     * Test that all commands are printed out correctly.
+     * Test that all commands' placeholders work correctly.
      */
     @Test
-    public void testGetAllCommands()
+    public void testPlaceholder()
     {
-        //assertEquals("\nhelp\nfinished\nbook <movie title>\nlist <movies>\nbasket", CommandWord.getAllCommands());
+
+        assertFalse(CommandWord.QUIT.hasPlaceholder());
+        assertTrue(CommandWord.ADD.hasPlaceholder());
+
+        assertNull(CommandWord.QUIT.getPlaceholder());
+        assertEquals("movie", CommandWord.ADD.getPlaceholder());
+    }
+
+    /**
+     * Test that all commands' CommandString are provided correctly..
+     */
+    @Test
+    public void testCommandString()
+    {
+        assertEquals("remove", CommandWord.REMOVE.getCommandString());
+        assertEquals("book", CommandWord.BOOK.getCommandString());
+        assertNull(CommandWord.UNKNOWN.getCommandString());
     }
 }

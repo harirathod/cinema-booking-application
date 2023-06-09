@@ -39,8 +39,6 @@ public class ManagerBooking extends Booking {
                 Using this system, you can add and remove screens from the cinema.""");
         // Start the booking. Continue to process input until the user quits.
         super.start();
-
-        getView().displayWithFormatting("Manager session finished.");
     }
 
     /**
@@ -55,7 +53,7 @@ public class ManagerBooking extends Booking {
             case ADD -> add();
             case REMOVE -> remove();
             case LIST -> list(command);
-            case QUIT -> {}
+            case QUIT -> getView().displayWithFormatting("Manager session finished.");
             default -> unknown();
         }
     }
@@ -71,8 +69,7 @@ public class ManagerBooking extends Booking {
     }
 
     /**
-     * Add a screen to the cinema.
-     * @see Screen
+     * Add a movie to a screen in the cinema.
      */
     private void add()
     {
@@ -80,7 +77,7 @@ public class ManagerBooking extends Booking {
         // Get the id from the user, and check that it is a parsable integer.
         String string = null;
         do {
-            getView().display("Please provide the id as a single number, e.g., 1");
+            getView().display("Please provide the id as an integer, e.g., 3");
             string = getView().getInput();
             if (string.equals(CommandWord.QUIT.getCommandString())) {
                 getView().display("Adding screen process was cancelled.");
@@ -99,9 +96,9 @@ public class ManagerBooking extends Booking {
         }
 
         // Prevent the user from overwriting screens that are currently screening a movie.
-        // The user should call 'remove()' if they wish to overwrite an existing screening.
+        // The user should call 'remove()' if they wish to change an existing screening.
         if (screen.hasMovieScreening()) {
-            getView().display("You cannot add a screen to this movie, as it already has a screening.");
+            getView().display("You cannot add a movie to this screen, as it already has a screening.");
             return;
         }
 
@@ -111,19 +108,21 @@ public class ManagerBooking extends Booking {
 
         // Get the cost from the user, and check that it is a parsable integer.
         do {
-            getView().display("Please provide the cost as a single number, e.g., 1300");
+            getView().display("Please provide the cost as an integer, e.g., 1300");
             string = getView().getInput();
             if (string.equals(CommandWord.QUIT.getCommandString())) {
-                getView().display("Adding screen process was cancelled.");
+                getView().display("Adding movie process was cancelled.");
                 return;
             }
-        }
-        while (!NumberMatcher.matchesSingleInteger(string));
+        } while (!NumberMatcher.matchesSingleInteger(string));
         int cost = Integer.parseInt(string);
 
-        screen.addNewMovie(movieTitle, cost);
-        // Record the screen persistently.
-        recordScreenInFile(screen);
+        try {
+            getOffice().addNewMovie(screen.getId(), movieTitle, cost);
+        } catch (ScreenIdDoesNotExistException e) {
+            // The screen ID should've been validated earlier.
+            throw new RuntimeException(e);
+        }
         getView().display("Movie %s was added to screen %s.".formatted(movieTitle, screen.getId()));
     }
 
@@ -151,42 +150,14 @@ public class ManagerBooking extends Booking {
         Screen screen;
         try {
             screen = getOffice().findScreen(Integer.parseInt(string));
+            getOffice().removeMovie(screen.getId());
         } catch (ScreenIdDoesNotExistException e) {
             getView().display(e.getMessage());
             return;
         }
+
         String movieTitle = screen.getMovieTitle();
-        screen.removeMovie();
-        recordScreenInFile(screen);
         getView().display("Movie %s was remove from screen %s.".formatted(movieTitle, screen.getId()));
-    }
-
-    /**
-     * Record a screen in the list of screens being stored. This screen overwrites any existing screens with the same id.
-     * If a screen in the list doesn't match this new screen's id, then the new screen is added without overwriting any existing screens.
-     * @param newScreen The new screen to be added to the screens currently being stored.
-     */
-    private void recordScreenInFile(Screen newScreen)
-    {
-        List<Screen> screens = null;
-        try {
-            screens = getScreenDataRecorder().readListOfObjectsFromFile();
-        } catch (IOException | ClassNotFoundException e) {
-            getView().displayError("There was an error reading the current screens from file.");
-            return;
-        }
-
-        screens.removeIf(screen -> screen.getId() == newScreen.getId());
-        screens.add(newScreen);
-        screens.sort(Comparator.comparingInt(Screen::getId));
-        try {
-            getScreenDataRecorder().resetFile();
-            for (Screen screen : screens) {
-                getScreenDataRecorder().writeToFile(screen);
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            getView().displayError("There was an error saving the updated screen to file.");
-        }
     }
 
     /**
