@@ -47,11 +47,7 @@ java -jar -Dpassword="<database-password>" -Dusername="<database-username>" cine
 And you're done! You can now try out the cinema booking application via the terminal!
 
 ## How the Project Works
-
-(As of now), the main method of class **com.cinema.cinema.SetUpDatabase** creates some Screens and writes them to a file "screens.ser".
-
-When the main method of class **com.cinema.cinema.Main** is run to start the cinema booking application, and the Screens in "screens.ser" are loaded into the application.
-
+#####
 Any tickets booked by the user are written to "tickets.ser", so are stored persistently. These tickets can be viewed with the 'basket' command. 
 
 ## Project Status
