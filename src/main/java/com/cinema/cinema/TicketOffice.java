@@ -52,8 +52,9 @@ public class TicketOffice
      * Remove (delete) a screen from the cinema. If the screen is not in the cinema, nothing will happen.
      *
      * @param id The id of the screen to be removed.
+     * @throws ScreenIdDoesNotExistException If the screen id does not exist (i.e., the id is not matched by any screens).
      */
-    public void removeScreen(int id)
+    public void removeScreen(int id) throws ScreenIdDoesNotExistException
     {
         screenDataManipulator.deleteScreen(id);
     }
@@ -64,6 +65,7 @@ public class TicketOffice
      *
      * @param screen The screen to be added.
      * @throws ScreenIdAlreadyExistsException If the id of the screen that we are trying to add is already present.
+     * @throws IllegalArgumentException If the screen is null.
      */
     public void addScreen(Screen screen) throws ScreenIdAlreadyExistsException
     {
@@ -93,20 +95,16 @@ public class TicketOffice
      * @return The screen that matches the id.
      * @throws ScreenIdDoesNotExistException If the screen was not found.
      */
-    public Screen findScreen(int id) throws ScreenIdDoesNotExistException {
-        Screen screen = screenDataManipulator.getScreenById(id);
-        if (screen != null) {
-            return screen;
-        } else {
-            throw new ScreenIdDoesNotExistException("Screen with id (" + id + ") does not exist.");
-        }
+    public Screen findScreen(int id) throws ScreenIdDoesNotExistException
+    {
+        return screenDataManipulator.getScreenById(id);
     }
 
     /**
      * Show a new movie at a specific screen. No movie is added if there
      * is no screen with the provided id.
      * NOTE: If screen.addNewMovie(movieTitle, ticketCost) is used instead of this method, then the screen will
-     * not be updated in the database correctly.
+     * not be updated in the storage correctly.
      *
      * @param id         The id of the screen we want to add the movie to.
      * @param movieTitle The title of the movie.
@@ -115,11 +113,8 @@ public class TicketOffice
      */
     public void addNewMovie(int id, String movieTitle, int ticketCost) throws ScreenIdDoesNotExistException
     {
-        List<Screen> screens = screenDataManipulator.getAllScreens();
-        if (screens.stream().noneMatch(s -> s.getId() == id)) {
-            throw new ScreenIdDoesNotExistException("Screen with id (" + id
-                    + ") does not exist.");
-        }
+        // Throws ScreenIdDoesNotExistException if the screen was not found, thus validating the id.
+        screenDataManipulator.getScreenById(id);
 
         screenDataManipulator.updateScreening(id, movieTitle, ticketCost);
     }
@@ -135,24 +130,34 @@ public class TicketOffice
      */
     public void removeMovie(int id) throws ScreenIdDoesNotExistException
     {
-        List<Screen> screens = screenDataManipulator.getAllScreens();
-        if (screens.stream().noneMatch(s -> s.getId() == id)) {
-            throw new ScreenIdDoesNotExistException("Screen with id (" + id
-                    + ") does not exist.");
-        }
+        // Throws ScreenIdDoesNotExistException if the screen was not found, thus validating the id.
+        screenDataManipulator.getScreenById(id);
 
         screenDataManipulator.removeScreening(id);
     }
 
     /**
-     * Get the details of all the movies currently showing at the cinema, formatted as a String.
-     * @return The details of all movies, formatted as a String.
+     * Get the details of the screens currently showing movies at the cinema, as a String.
+     * @return The details of only the screens showing movies, as a String.
      */
     public String getAllMoviesDetails()
     {
         StringBuilder details = new StringBuilder();
         screenDataManipulator.getAllScreens().stream()
                 .filter(Screen::hasMovieScreening)
+                .map(Screen::getDetails)
+                .forEach(x -> details.append("\n").append(x));
+        return details.toString();
+    }
+
+    /**
+     * Get the details of all screens at the cinema, as a String.
+     * @return The details of all screens, as a String.
+     */
+    public String getAllScreenDetails()
+    {
+        StringBuilder details = new StringBuilder();
+        screenDataManipulator.getAllScreens().stream()
                 .map(Screen::getDetails)
                 .forEach(x -> details.append("\n").append(x));
         return details.toString();
