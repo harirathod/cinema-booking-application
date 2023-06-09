@@ -20,7 +20,7 @@ This is a cinema booking application that runs in the terminal.
 The project was created alongside my studies of Year 1 Computer Science.
 
 This project demonstrates my continued learning of programming principles, including:
-- MongoDB Atlas
+- JDBC (MongoDB Atlas)
 - Java Concurrency
 - File I/O
 - Exception Handling
