@@ -10,10 +10,12 @@
 - **[Room for Improvement](#room-for-improvement)**
 ## Overview
 
-This is a cinema booking application that runs in the terminal.
+This is a cinema booking application that runs in a Graphical User Interface or, optionally, in the terminal.
 
 ## Technologies Used
 - Java 18
+- MongoDB Atlas
+- JavaFX
 
 ## Purpose of Project
 
