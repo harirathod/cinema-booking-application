@@ -43,7 +43,8 @@ git clone https://github.com/harirathod/cinema-booking-application.git
 java -jar -Dpassword="<database-password>" -Dusername="<database-username>" cinema-booking-application/out/artifacts/cinema_jar/cinema.jar
 ```
 > **Note:** Please make sure you have the JDK (Java Development Kit) installed.
-> **Note 2:** As a database is used to store the movies, the user must provide the database password and username. Typically, the customer doesn't provide database credentials when booking movie tickets, but as this aspect was not a key focus of my application, hence I have intentionally simplified the process by requesting for credentials always.
+>  
+> **Note 2:** The user must provide the database password and username at the CLI. Typically, the customer doesn't provide database credentials when booking movie tickets, but this aspect was not a key focus of my application. Hence, I have intentionally simplified the process by requesting for credentials always.
 
 And you're done! You can now try out the cinema booking application via the terminal!
 
