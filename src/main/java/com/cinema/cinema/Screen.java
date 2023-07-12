@@ -139,7 +139,7 @@ public class Screen implements Serializable
     {
         String details = "";
         details += "Screen: " + id + "\n";
-        details += "Current Movie: '" + movieTitle + "'\n";
+        details += "Current Movie: '" + (movieTitle==null ? "No screening" : movieTitle) + "'\n";
         details += "Seat capacity: " + seats.length + " columns, by " + seats[0].length + " rows.\n";
         details += "Available Seat Capacity: " + getNumberOfAvailableSeats() + "\n";
         details += "Ticket Cost: £" + (ticketCost / 100 ) + "\n";

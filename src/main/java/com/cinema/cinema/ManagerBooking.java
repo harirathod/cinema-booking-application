@@ -73,7 +73,7 @@ public class ManagerBooking extends Booking {
      */
     private void add()
     {
-        getView().displayWithFormatting("Please specify the screen id of the screen that you want to add the movie to.");
+        getView().displayWithFormatting("Please specify the existing screen id of the screen that you want to add the movie to.");
         // Get the id from the user, and check that it is a parsable integer.
         String string = null;
         do {
@@ -180,5 +180,12 @@ public class ManagerBooking extends Booking {
         return inputRecorder;
     }
 
-
+    /**
+     * Gets the details of all screens in the cinema.
+     * @return All the screens' details.
+     */
+    @Override
+    protected String getScreenDetails() {
+        return getOffice().getAllScreenDetails();
+    }
 }

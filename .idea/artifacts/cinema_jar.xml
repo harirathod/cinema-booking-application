@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="cinema:jar">
+  <artifact type="jar" name="cinema:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/cinema_jar</output-path>
     <root id="archive" name="cinema.jar">
       <element id="module-output" name="cinema" />

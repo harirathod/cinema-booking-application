@@ -60,13 +60,21 @@ public abstract class Booking {
             getView().displayWithFormatting("Please do not enter any arguments after 'list'.");
             return;
         }
-        String detailsOfMovies = office.getAllMoviesDetails();
+        String detailsOfMovies = getScreenDetails();
         if (detailsOfMovies.isEmpty()) {
             getView().displayWithFormatting("No movies currently showing.");
         } else {
             getView().displayWithFormatting(detailsOfMovies);
         }
     }
+
+    /**
+     * Gets the details of all screens / movies in the cinema.
+     * The purpose of this abstract method is so CustomerBooking can display only the screens with movie screenings, and
+     * ManagerBooking can display all cinemas, even those without screenings.
+     * @return All of the movies' / screens' details.
+     */
+    protected abstract String getScreenDetails();
 
     /**
      * Display an error message, if the command is unrecognised.

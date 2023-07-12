@@ -153,6 +153,7 @@ public class TicketOffice
     /**
      * Get the details of all screens at the cinema, as a String.
      * @return The details of all screens, as a String.
+     * TODO: Do we need this method?
      */
     public String getAllScreenDetails()
     {
@@ -164,6 +165,7 @@ public class TicketOffice
     }
 
     /**
+     * TODO: We don't need this.
      * Book a random ticket for a movie.
      *
      * @param movieTitle The movie to book a random ticket for.

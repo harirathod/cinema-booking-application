@@ -1,3 +1,6 @@
+user_input_history.txt
+screens.ser
+manager_input.txt
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

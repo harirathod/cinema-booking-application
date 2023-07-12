@@ -221,4 +221,12 @@ public class CustomerBooking extends Booking {
         return inputRecorder;
     }
 
+    /**
+     * Gets the details of all movies being shown.
+     * @return All the movies' details.
+     */
+    @Override
+    protected String getScreenDetails() {
+        return getOffice().getAllMoviesDetails();
+    }
 }

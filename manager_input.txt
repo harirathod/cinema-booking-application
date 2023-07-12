@@ -1,3 +1,13 @@
-wow
-finishe
+list
+help
+remove
+list
+remove
+list
+help
+add
+add
+add
+list
+add
 finished
